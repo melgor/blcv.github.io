@@ -1,0 +1,469 @@
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Demystifying Face Recognition II: Baseline</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/styles.min.css?v=763e5612f8">
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/vendors.min.css?v=763e5612f8">
+
+    
+
+    
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,700,700i" rel="stylesheet">
+
+    <link rel="shortcut icon" href="../../../../favicon.png" type="image/png">
+    <link rel="canonical" href="index.html">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="amp/index.html">
+    
+    <meta property="og:site_name" content="BLCV - Bartosz Ludwiczuk Computer Vision">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Demystifying Face Recognition II: Baseline">
+    <meta property="og:description" content="Getting baseline for Face-Recognition ">
+    <meta property="og:url" content="http://localhost:2368/2017/11/08/demystifying-face-recognition-ii-baseline/">
+    <meta property="og:image" content="http://localhost:2368/content/images/2017/11/faceresnet.png">
+    <meta property="article:published_time" content="2017-11-08T19:16:59.000Z">
+    <meta property="article:modified_time" content="2017-11-10T12:10:51.000Z">
+    <meta property="article:tag" content="face-recogition">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Demystifying Face Recognition II: Baseline">
+    <meta name="twitter:description" content="Getting baseline for Face-Recognition ">
+    <meta name="twitter:url" content="http://localhost:2368/2017/11/08/demystifying-face-recognition-ii-baseline/">
+    <meta name="twitter:image" content="http://localhost:2368/content/images/2017/11/faceresnet.png">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Bartosz Ludwiczuk">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="face-recogition">
+    <meta property="og:image:width" content="689">
+    <meta property="og:image:height" content="93">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "BLCV - Bartosz Ludwiczuk Computer Vision",
+        "logo": "http://localhost:2368/content/images/2017/11/logo.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Bartosz Ludwiczuk",
+        "url": "http://localhost:2368/author/bartosz/",
+        "sameAs": []
+    },
+    "headline": "Demystifying Face Recognition II: Baseline",
+    "url": "http://localhost:2368/2017/11/08/demystifying-face-recognition-ii-baseline/",
+    "datePublished": "2017-11-08T19:16:59.000Z",
+    "dateModified": "2017-11-10T12:10:51.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:2368/content/images/2017/11/faceresnet.png",
+        "width": 689,
+        "height": 93
+    },
+    "keywords": "face-recogition",
+    "description": "Getting baseline for Face-Recognition ",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <script type="text/javascript" src="../../../../public/ghost-sdk.js?v=763e5612f8"></script>
+<script type="text/javascript">
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "5e332671e77e"
+});
+</script>
+    <meta name="generator" content="Ghost 1.15">
+    <link rel="alternate" type="application/rss+xml" title="BLCV - Bartosz Ludwiczuk Computer Vision" href="../../../../rss/index.html">
+</head>
+<body class="post-template tag-face-recogition nav-closed">
+
+    <div class="off-canvas position-right" id="offCanvas" data-off-canvas>
+    <!-- Close button -->
+    <button class="close-button" aria-label="Close menu" type="button" data-close>
+        <span aria-hidden="true"><i class="fa fa-times close-off-canvas" aria-hidden="true"></i></span>
+    </button>
+
+    <div class="off-canvas-ct">
+
+        <div class="off-canvas-widget">
+            <h4>Navigation</h4>
+            <nav class="off-canvas-navigation">
+                <ul class="menu vertical">
+                        <li class="nav-item nav-home" role="presentation">
+        <a class="nav-link" href="../../../../">Home</a>
+    </li>
+    <li class="nav-item nav-face-recognition" role="presentation">
+        <a class="nav-link" href="../../../../tag/face-recogition/">Face Recognition</a>
+    </li>
+    <li class="nav-item nav-about" role="presentation">
+        <a class="nav-link" href="../../../../about-blcv/">About</a>
+    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+        <div class="off-canvas-widget">
+            <div class="category-widget-section side-widget">
+                <ul class="vertical menu" data-accordion-menu>
+                    <li>
+                        <a href="index.html#" class="tags-widget"><h4>Tag list</h4></a>
+                        <ul class="menu vertical nested" id="tag-list-off"></ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+            <div class="off-canvas-widget">
+                <div class="off-subscribe-ct">
+                    <h4><i class="fa fa-rss-square" aria-hidden="true"></i> Subscribe</h4>
+                    <p>Get the latest posts delivered right to your inbox.</p>
+                    <form method="post" action="http://localhost:2368/subscribe/" class="subscribe-form">
+    <input class="confirm" type="hidden" name="confirm"><input class="location" type="hidden" name="location"><input class="referrer" type="hidden" name="referrer">
+
+    <div class="">
+        <input class="subscribe-email" type="email" name="email" placeholder="Your email address">
+        <button class="button expanded subscribe-btn" type="submit">Subscribe</button>
+    </div>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+
+                    <p>or subscribe <a href="http://cloud.feedly.com/#subscription/feed/blcv.github.io/rss/"> via RSS
+                    </a> with Feedly!</p>
+                </div>
+            </div>
+    </div>
+</div>
+    <div class="off-canvas-content" data-off-canvas-content>
+        <header id="header">
+    <div class="primary-header">
+        <div class="row">
+            <div class="columns">
+                <a id="blog-logo" href="../../../../">
+                        <img src="../../../../content/images/2017/11/logo.png" alt="BLCV - Bartosz Ludwiczuk Computer Vision" height="100">
+                </a>
+                <ul class="no-bullet social-media clearfix">
+                    <li class="nd-social-facebook">
+                        <a target="_blank" href="https://www.facebook.com/bartosz.ludwiczuk"><i class="fa fa-facebook fa-lg"></i></a>
+                    </li>
+                    <li class="nd-social-github">
+                        <a target="_blank" href="https://github.com/melgor"><i class="fa fa-github fa-lg"></i></a>
+                    </li>
+                    <li class="nd-social-linkedin">
+                        <a target="_blank" href="https://www.linkedin.com/in/bartosz-ludwiczuk-a677a760/?trk=nav_responsive_tab_profile"><i class="fa fa-linkedin fa-lg"></i></a>
+                    </li>
+                    <li class="nd-social-quora">
+                        <a target="_blank" href="https://www.quora.com/profile/Bartosz-Ludwiczuk"><i class="fa fa-quora fa-lg"></i></a>
+                    </li>
+                    
+                    <li class="nd-social-kaggle">
+                        <a target="_blank" href="https://www.kaggle.com/melgor"><i class="fa fa-kaggle fa-lg"></i></a>
+                    </li>
+                </ul>
+                <div class="header-search">
+                    <form method="get" class="search-form form-inline" action="index.html#">
+                        <div class="input-group">
+                            <input id="search-field" type="search" class="search-field input-group-field" placeholder="Search" value="" name="s" title="Search for:">
+                            <div class="input-group-button">
+                                <button class="button transparent search-submit-icon">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="main-container" id="main-container">
+            <div class="navigation-container clearfix">
+    <div class="row">
+        <div class="columns">
+            <nav class="header-navigation show-for-medium">
+                <ul class="menu align-center header-nav">
+                        <li class="nav-item nav-home" role="presentation">
+        <a class="nav-link" href="../../../../">Home</a>
+    </li>
+    <li class="nav-item nav-face-recognition" role="presentation">
+        <a class="nav-link" href="../../../../tag/face-recogition/">Face Recognition</a>
+    </li>
+    <li class="nav-item nav-about" role="presentation">
+        <a class="nav-link" href="../../../../about-blcv/">About</a>
+    </li>
+
+                </ul>
+            </nav>
+            <div class="top-bar-container" data-sticky-container>
+                <div class="show-off-canvas show-for-small-only sticky" data-sticky data-options="anchor: main-container; marginTop: 0; stickyOn: small;">
+                    <a data-toggle="offCanvas">Menu <i class="fa fa-bars" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <div class="container">
+                
+
+    <div class="row medium-unstack">
+        <main id="content" class="content medium-8 large-9 columns" role="main">
+            <article class="post tag-face-recogition featured">
+
+                <header class="post-header">
+                        <figure class="image-feature"><img src="../../../../content/images/2017/11/faceresnet.png"></figure>
+
+                    <div class="post-heading">
+                        <h1 class="post-title">Demystifying Face Recognition II: Baseline</h1>
+                        <section class="post-meta">
+                            <time class="post-date" datetime="2017-11-08">08 November 2017</time>  on <a href="../../../../tag/face-recogition/">face-recogition</a>
+                        </section>
+                    </div>
+                </header>
+
+                <section class="post-content">
+                    <div class="kg-card-markdown"><h2 id="testofdifferentnetworkarchitectures">Test of different network architectures</h2>
+<p>According to assumptions, the database is chosen (CASIA-WebFace), input image is preprocessed (112x96, MTCNN), only mirror used as Data Augmentation and for learning the CrossEntropy loss will be used. The last lacking element in the pipeline is network architecture. Last years was really abounded in many diverse ideas about creating the architectures like <strong>ResNet</strong>, <strong>Inception</strong> or <strong>DenseNet</strong>. Additional, the community of Face Recognition was also introducing their own architectures like <strong>FaceResNet</strong>, <strong>SphereNet</strong>, <strong>LightCNN</strong> or <strong>FudanNet</strong>. Currently we will look closer to the later one as we know their performance and low computation requirements.<br>
+We will also include some older architectures to see if it is really true then the new ones works much better than architectures from 2014 or earlier, we choose <strong>LeNet</strong>, <strong>DeepID</strong>,** DeepID2+** and <strong>CASIA</strong>.<br>
+This is not the final choice of the architecture, we just want to get a reasonable baseline, which will accompany us with all others test. There are so many test, because we want to make sure, that my current pipeline works well and if my implementation match results from papers.</p>
+<h2 id="descriptionofarchitectures">Description of Architectures</h2>
+<p><a href="http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf">LeNet</a> - the most popular convolutional architecture. Input image: 28x24.<br>
+​<br>
+<a href="http://mmlab.ie.cuhk.edu.hk/pdf/YiSun_CVPR14.pdf">DeepID</a> - One of the first specialized networks used for Face Recognition. Comparing to LeNet, it have more filters and final feature comes from merging data from two layers. Input image: 42x36.<br>
+​<br>
+<a href="https://arxiv.org/abs/1412.1265">DeepID2+</a> - Extension of <strong>DeepID</strong>, have much more number of filters and features size is now 512. Input image:56x48.<br>
+​<br>
+<a href="https://arxiv.org/abs/1411.7923">Casia-Net</a> - Architecture proposed after success of <strong>VGG</strong> and <strong>GoogLeNet</strong>. It use concept of kernel 3x3 and Average Pooling.<br>
+​<br>
+<a href="https://arxiv.org/abs/1511.02683">Light-CNN</a>- The author propose to use <code>MFM</code>as a activation function, which is extension of <code>MaxOut</code>. In his experiments it is better than <code>ReLU</code>, <code>ELU</code> or even <code>PReLU</code>.<br>
+​<br>
+<a href="https://arxiv.org/abs/1611.08976">FaceResNet</a> - Architecture proposed by author of CenterLoss and RangeLoss, which use residual connection, like in ResNet. But it does not use BatchNorm and replaces the <code>Relu</code> activation functions with the <code>PRELu</code> functions.<br>
+​<br>
+<a href="https://arxiv.org/abs/1704.08063">SphereFace</a> - New version of <strong>FaceResNet</strong> which mainly replace each <code>MaxPool</code> by <code>Convolution</code> with stride equal to 2.<br>
+​<br>
+<a href="http://www.yugangjiang.info/publication/icmr17-face.pdf">Fudan-Arch</a> -Idea of <strong>FaceResNet</strong> but with <code>Batchnorm</code>.</p>
+<p>Most of the above architecture have also <a href="https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf">DropOut</a> inside, other have own regularization method. If we just want to replicate the results as stated at paper, we would still not be able to compare such results to each other because of different settings. This is why we will completely ignore any special regularization method (like <a href="https://ydwen.github.io/papers/WenECCV16.pdf">CenterLoss</a>) and here will be two experiments for each architecture: with and without DropOut. This would also help to validate the current implementation with the results from papers.<br>
+To evaluate each network we will use its qualitative results (accuracy and loss value) and time-to-score. The model of each architect was chosen based on the model with the lowest validation loss, ie the result of the LFW did not affect the choice of the model, even though the models achieved better results in another epoch.</p>
+<h2 id="results">Results</h2>
+<p align="center"><b>CASIA Training and LFW</b></p>
+<p align="center">
+<iframe width="840" height="1020" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/92.embed"></iframe>
+</p>
+<iframe width="800" height="400" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/98.embed"></iframe>
+<iframe width="800" height="400" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/97.embed"></iframe>
+<p>First of all, let's look closer to architectures with DropOut. There is not clean winner here, <strong>Fudan-Full</strong>, <strong>SphereFace64</strong> and <strong>Light-CNN29</strong> are overall comparable, but each of them dominate at one of the given benchmark (validation loss, LFW, BLUFR). Very close to them in <strong>FaceResNet</strong>, which was training much faster. It is very interesting that many network achieve &gt; 97% at LFW, however BLUFR protocols show us the real difference in quality. For example, difference in 0.7% at LFW between <strong>CASIA</strong> and <strong>SphereFace64</strong> translate to 16% in BLUFR-FAR 1%.<br>
+What about architectures without any regularization? Here the clear winner is <strong>Fudan-Full</strong>, followed by <strong>SphereFace64</strong> and <strong>FaceResNet</strong>. From the intuition, it look like that <code>BatchNorm</code> at <strong>Fudan-Ful</strong>l helped at lot as it behaves like a regularizator. From such comparison we can also deduce which architecture is good for testing any new Data Augmentation technique or new loss, because it would show us even small gain. In our case it is <strong>Light-CNN29</strong> which overfit a lot.</p>
+<p>For detailed analyse we choose best models: <strong>FaceResNet</strong>, <strong>Light-CNN29</strong>, <strong>SphereFace64</strong> and <strong>FudanFull</strong>.</p>
+<p align="center"><b>IJB-A</b></p>
+<p align="center">
+<iframe width="800" height="260" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/106.embed"></iframe>
+ </p>
+<p>Overall here <strong>Light-CNN29</strong> is the winner, which lose at only Rank-1 benchmark. But <strong>SphereFace64</strong> is breathing down its neck by being just slightly worse. The results from <strong>FundanFull</strong> are really bad, not sure what is the reason for that.</p>
+<p align="center"><b>Mega Face</b></p>
+<p align="center">
+<iframe width="500" height="200" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/104.embed" align="center"></iframe>
+</p>
+<p>In MageFace, identification protocol is winner by <strong>FudanFull</strong> while verification protocol is taken by <strong>Light-CNN29</strong> (where <strong>FudanFull</strong> is again the weakest)</p>
+<h2 id="baselinemodel">Baseline Model</h2>
+<p>Summarizing, if we want to choose best architecture among tested, the <strong>Light-CNN29</strong> would be the best with <strong>Sphere64</strong> just right behind. <strong>FudanFull</strong> works nice, but in some scenario its accuracy is too low. This is our podium. Looking closer to the this architectures, the common thing is using residual connection. But they vary at activation function, using <code>Pool</code> vs <code>Convolution</code> with stride equal 2 and using <code>BatchNorm</code>. So maybe they are not best possible architectures? We will leave this question for future tests.</p>
+<p>When we compare the results from current implementation with the results from paper, most of them matched target accuracy. The only exception is <strong>SphereFace</strong>, which without DropOut overfit, although the original version does not have it.</p>
+<p>When we compare the time needed for getting best results, this is definitely the best place for FaceResNet, which is only slightly weaker than the best model, but it learned almost 3x shorter. This is why <strong>FaceResNet</strong> is chosen as baseline architecture. He will accompany us throughout the series named <strong>Face Recognition</strong>. Specifically, both <strong>FaceResNet</strong> will be used, depending of scenario: when we will be reducing overfiting by new technique, we will use raw architecture, in other case DropOut will be used.</p>
+<h2 id="whatnext">What next?</h2>
+<p>Looking into the results it look like that getting <strong>~98</strong>% on LFW using only basic technique for learning is easy. This results would be among the best 3 years ago, but currently it is ~1.5% behind state-of-the-art. In MegaFace in even worse, because our results is <strong>20%</strong> lower using same dataset.<br>
+How we can boost accuracy of our model? A lot of researcher propose their own technique, but will they work in our case? What boost can we gain? We will learn this in the next post, and in the near future we will look at the aspect of noise in the learning data.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf">Gradient-Based Learning Applied to Document Recognition</a></li>
+<li><a href="http://mmlab.ie.cuhk.edu.hk/pdf/YiSun_CVPR14.pdf">Deep Learning Face Representation from Predicting 10,000 Classes</a></li>
+<li><a href="https://arxiv.org/abs/1412.1265">Deeply learned face representations are sparse, selective, and robust</a></li>
+<li><a href="https://arxiv.org/abs/1411.7923">Learning Face Representation from Scratch</a></li>
+<li><a href="https://arxiv.org/abs/1511.02683">A Light CNN for Deep Face Representation with Noisy Labels</a></li>
+<li><a href="https://ydwen.github.io/papers/WenECCV16.pdf">A Discriminative Feature Learning Approach for Deep Face Recognition</a></li>
+<li><a href="https://arxiv.org/abs/1611.08976">Range Loss for Deep Face Recognition with Long-tail</a></li>
+<li><a href="https://arxiv.org/abs/1704.08063">SphereFace: Deep Hypersphere Embedding for Face Recognition</a></li>
+<li><a href="http://www.yugangjiang.info/publication/icmr17-face.pdf">Multi-task Deep Neural Network for Joint Face Recognition and Facial Aribute Prediction</a></li>
+<li><a href="https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf">Dropout: A Simple Way to Prevent Neural Networks from Overfitting</a></li>
+</ul>
+</div>
+                </section>
+
+                <footer class="post-footer">
+                    <section class="share">
+                        <p>Share this post: <br>
+                            <a class="share-icon icon-twitter" href="https://twitter.com/intent/tweet?text=Demystifying%20Face%20Recognition%20II%3A%20Baseline&amp;url=blcv.github.io/2017/11/08/demystifying-face-recognition-ii-baseline/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                            <a class="share-icon icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=blcv.github.io/2017/11/08/demystifying-face-recognition-ii-baseline/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                            <a class="share-icon icon-google-plus" href="https://plus.google.com/share?url=blcv.github.io/2017/11/08/demystifying-face-recognition-ii-baseline/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                                <i class="fa fa-google-plus"></i>
+                            </a>
+                            <a class="share-icon icon-reddit" href="https://www.reddit.com/submit?url=blcv.github.io/2017/11/08/demystifying-face-recognition-ii-baseline/" onclick="window.open(this.href, 'reddit-share', 'width=850,height=530');return false;">
+                                <i class="fa fa-reddit-alien"></i>
+                            </a>
+                        </p>
+                    </section>
+
+                </footer>
+
+            </article>
+
+
+            <aside class="read-next row medium-unstack align-right">
+
+                <div class="medium-6 columns text-left">
+                    <a class="read-prev-story" href="../../07/demystifying-face-recognition-i-introduction/">Demystifying Face Recognition I: Introduction</a>
+                    <a href="../../07/demystifying-face-recognition-i-introduction/"><span class="arrow arrow-left"><i class="fa fa-chevron-left" aria-hidden="true"></i></span></a>
+                </div>
+                <div class="medium-6 columns text-right">
+                    <a class="read-next-story" href="../../09/demystifying-face-recognition-iii-noise/">Demystifying Face Recognition III: Noise</a>
+                    <a href="../../09/demystifying-face-recognition-iii-noise/"><span class="arrow arrow-right"><i class="fa fa-chevron-right" aria-hidden="true"></i></span></a>
+                </div>
+
+             </aside>
+
+            <h3>Comments:</h3>
+
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://localhost:2368/2017/11/08/demystifying-face-recognition-ii-baseline/';  // Replace PAGE_URL with your page's canonical URL variable
+                    this.page.identifier = '5a0357fdd370791075dc45cc'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.async = true;
+                    s.src = 'https://blcv-github-io.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+        </main>
+
+        <aside class="sidebar medium-4 large-3 columns show-for-medium">
+            <div class="widget">
+    <h4 class="widget-title">Featured Posts</h4>
+    <div class="widget-content">
+            <ul id="featured-posts" class="no-bullet">
+        <li class="clearfix">
+            <div class="clearfix">
+                 <div class="featured-image">
+                     <a href="../../09/demystifying-face-recognition-iii-noise/" class="thumbnail"><img src="../../../../content/images/2017/11/logo-1.png?w=80&amp;q=50"></a>
+                 </div>
+                <div class="featured-title">
+                    <a href="../../09/demystifying-face-recognition-iii-noise/">Demystifying Face Recognition III: Noise</a>
+
+                    <div class="featured-meta">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <time class="featured-time" datetime="2017-11-09">November 09 2017</time>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="clearfix">
+            <div class="clearfix">
+                 <div class="featured-image">
+                     <a href="index.html" class="thumbnail"><img src="../../../../content/images/2017/11/faceresnet.png?w=80&amp;q=50"></a>
+                 </div>
+                <div class="featured-title">
+                    <a href="index.html">Demystifying Face Recognition II: Baseline</a>
+
+                    <div class="featured-meta">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <time class="featured-time" datetime="2017-11-08">November 08 2017</time>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="clearfix">
+            <div class="clearfix">
+                 <div class="featured-image">
+                     <a href="../../07/demystifying-face-recognition-i-introduction/" class="thumbnail"><img src="../../../../content/images/2017/11/Face-Recognition-Pipeline---Page-1--1.png?w=80&amp;q=50"></a>
+                 </div>
+                <div class="featured-title">
+                    <a href="../../07/demystifying-face-recognition-i-introduction/">Demystifying Face Recognition I: Introduction</a>
+
+                    <div class="featured-meta">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <time class="featured-time" datetime="2017-11-07">November 07 2017</time>
+                    </div>
+                </div>
+            </div>
+        </li>
+</ul>    </div>
+</div>
+
+<div class="widget">
+    <h4 class="widget-title">Tags</h4>
+    <div class="widget-content">
+        <ul class="menu" id="tag-list">
+                    <li><a class="tag" href="../../../../tag/face-recogition/">face-recogition</a></li>
+        </ul>
+    </div>
+</div>
+
+    <div class="widget">
+        <h4 class="widget-title">Subscribe</h4>
+        <div class="widget-content widget-subscribe">
+            <p>Get the latest posts delivered right to your inbox.</p>
+            <form method="post" action="http://localhost:2368/subscribe/" class="subscribe-form">
+    <input class="confirm" type="hidden" name="confirm"><input class="location" type="hidden" name="location"><input class="referrer" type="hidden" name="referrer">
+
+    <div class="">
+        <input class="subscribe-email" type="email" name="email" placeholder="Your email address">
+        <button class="button expanded subscribe-btn" type="submit">Subscribe</button>
+    </div>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+
+            <p>or subscribe <a href="http://cloud.feedly.com/#subscription/feed/blcv.github.io/rss/"> <strong>via RSS</strong>
+            </a> with Feedly!</p>
+        </div>
+    </div>
+        </aside>
+    </div>
+
+
+            </div>
+
+            <footer class="footer clearfix">
+    <section class="copyright"><a href="../../../../">BLCV - Bartosz Ludwiczuk Computer Vision</a> © 2017</section>
+    <section class="poweredby">Proudly published with <a href="https://ghost.org">Ghost</a></section>
+</footer>        </div>
+
+        
+    </div>
+
+    <div class="reveal" id="reveal-search">
+    <div id="results"></div>
+</div>
+    <script src="../../../../assets/js/vendors.min.js?v=763e5612f8"></script>
+    <script src="../../../../assets/js/main.min.js?v=763e5612f8"></script>
+
+        <script src="../../../../assets/js/prism.min.js?v=763e5612f8"></script>
+
+
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-108816291-1', 'auto');
+    ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+</body>

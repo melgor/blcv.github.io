@@ -1,0 +1,478 @@
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Demystifying Face Recognition III: Noise</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/styles.min.css?v=763e5612f8">
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/vendors.min.css?v=763e5612f8">
+
+    
+
+    
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,700,700i" rel="stylesheet">
+
+    <link rel="shortcut icon" href="../../../../favicon.png" type="image/png">
+    <link rel="canonical" href="index.html">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="amp/index.html">
+    
+    <meta property="og:site_name" content="BLCV - Bartosz Ludwiczuk Computer Vision">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Demystifying Face Recognition III: Noise">
+    <meta property="og:description" content="How noisy data impact final accuracy?">
+    <meta property="og:url" content="http://localhost:2368/2017/11/09/demystifying-face-recognition-iii-noise/">
+    <meta property="og:image" content="http://localhost:2368/content/images/2017/11/logo-1.png">
+    <meta property="article:published_time" content="2017-11-09T16:15:35.000Z">
+    <meta property="article:modified_time" content="2017-11-10T12:23:14.000Z">
+    <meta property="article:tag" content="face-recogition">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Demystifying Face Recognition III: Noise">
+    <meta name="twitter:description" content="How noisy data impact final accuracy?">
+    <meta name="twitter:url" content="http://localhost:2368/2017/11/09/demystifying-face-recognition-iii-noise/">
+    <meta name="twitter:image" content="http://localhost:2368/content/images/2017/11/logo-1.png">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Bartosz Ludwiczuk">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="face-recogition">
+    <meta property="og:image:width" content="1402">
+    <meta property="og:image:height" content="342">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "BLCV - Bartosz Ludwiczuk Computer Vision",
+        "logo": "http://localhost:2368/content/images/2017/11/logo.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Bartosz Ludwiczuk",
+        "url": "http://localhost:2368/author/bartosz/",
+        "sameAs": []
+    },
+    "headline": "Demystifying Face Recognition III: Noise",
+    "url": "http://localhost:2368/2017/11/09/demystifying-face-recognition-iii-noise/",
+    "datePublished": "2017-11-09T16:15:35.000Z",
+    "dateModified": "2017-11-10T12:23:14.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:2368/content/images/2017/11/logo-1.png",
+        "width": 1402,
+        "height": 342
+    },
+    "keywords": "face-recogition",
+    "description": "How noisy data impact final accuracy?",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <script type="text/javascript" src="../../../../public/ghost-sdk.js?v=763e5612f8"></script>
+<script type="text/javascript">
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "5e332671e77e"
+});
+</script>
+    <meta name="generator" content="Ghost 1.15">
+    <link rel="alternate" type="application/rss+xml" title="BLCV - Bartosz Ludwiczuk Computer Vision" href="../../../../rss/index.html">
+</head>
+<body class="post-template tag-face-recogition nav-closed">
+
+    <div class="off-canvas position-right" id="offCanvas" data-off-canvas>
+    <!-- Close button -->
+    <button class="close-button" aria-label="Close menu" type="button" data-close>
+        <span aria-hidden="true"><i class="fa fa-times close-off-canvas" aria-hidden="true"></i></span>
+    </button>
+
+    <div class="off-canvas-ct">
+
+        <div class="off-canvas-widget">
+            <h4>Navigation</h4>
+            <nav class="off-canvas-navigation">
+                <ul class="menu vertical">
+                        <li class="nav-item nav-home" role="presentation">
+        <a class="nav-link" href="../../../../">Home</a>
+    </li>
+    <li class="nav-item nav-face-recognition" role="presentation">
+        <a class="nav-link" href="../../../../tag/face-recogition/">Face Recognition</a>
+    </li>
+    <li class="nav-item nav-about" role="presentation">
+        <a class="nav-link" href="../../../../about-blcv/">About</a>
+    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+        <div class="off-canvas-widget">
+            <div class="category-widget-section side-widget">
+                <ul class="vertical menu" data-accordion-menu>
+                    <li>
+                        <a href="index.html#" class="tags-widget"><h4>Tag list</h4></a>
+                        <ul class="menu vertical nested" id="tag-list-off"></ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+            <div class="off-canvas-widget">
+                <div class="off-subscribe-ct">
+                    <h4><i class="fa fa-rss-square" aria-hidden="true"></i> Subscribe</h4>
+                    <p>Get the latest posts delivered right to your inbox.</p>
+                    <form method="post" action="http://localhost:2368/subscribe/" class="subscribe-form">
+    <input class="confirm" type="hidden" name="confirm"><input class="location" type="hidden" name="location"><input class="referrer" type="hidden" name="referrer">
+
+    <div class="">
+        <input class="subscribe-email" type="email" name="email" placeholder="Your email address">
+        <button class="button expanded subscribe-btn" type="submit">Subscribe</button>
+    </div>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+
+                    <p>or subscribe <a href="http://cloud.feedly.com/#subscription/feed/blcv.github.io/rss/"> via RSS
+                    </a> with Feedly!</p>
+                </div>
+            </div>
+    </div>
+</div>
+    <div class="off-canvas-content" data-off-canvas-content>
+        <header id="header">
+    <div class="primary-header">
+        <div class="row">
+            <div class="columns">
+                <a id="blog-logo" href="../../../../">
+                        <img src="../../../../content/images/2017/11/logo.png" alt="BLCV - Bartosz Ludwiczuk Computer Vision" height="100">
+                </a>
+                <ul class="no-bullet social-media clearfix">
+                    <li class="nd-social-facebook">
+                        <a target="_blank" href="https://www.facebook.com/bartosz.ludwiczuk"><i class="fa fa-facebook fa-lg"></i></a>
+                    </li>
+                    <li class="nd-social-github">
+                        <a target="_blank" href="https://github.com/melgor"><i class="fa fa-github fa-lg"></i></a>
+                    </li>
+                    <li class="nd-social-linkedin">
+                        <a target="_blank" href="https://www.linkedin.com/in/bartosz-ludwiczuk-a677a760/?trk=nav_responsive_tab_profile"><i class="fa fa-linkedin fa-lg"></i></a>
+                    </li>
+                    <li class="nd-social-quora">
+                        <a target="_blank" href="https://www.quora.com/profile/Bartosz-Ludwiczuk"><i class="fa fa-quora fa-lg"></i></a>
+                    </li>
+                    
+                    <li class="nd-social-kaggle">
+                        <a target="_blank" href="https://www.kaggle.com/melgor"><i class="fa fa-kaggle fa-lg"></i></a>
+                    </li>
+                </ul>
+                <div class="header-search">
+                    <form method="get" class="search-form form-inline" action="index.html#">
+                        <div class="input-group">
+                            <input id="search-field" type="search" class="search-field input-group-field" placeholder="Search" value="" name="s" title="Search for:">
+                            <div class="input-group-button">
+                                <button class="button transparent search-submit-icon">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="main-container" id="main-container">
+            <div class="navigation-container clearfix">
+    <div class="row">
+        <div class="columns">
+            <nav class="header-navigation show-for-medium">
+                <ul class="menu align-center header-nav">
+                        <li class="nav-item nav-home" role="presentation">
+        <a class="nav-link" href="../../../../">Home</a>
+    </li>
+    <li class="nav-item nav-face-recognition" role="presentation">
+        <a class="nav-link" href="../../../../tag/face-recogition/">Face Recognition</a>
+    </li>
+    <li class="nav-item nav-about" role="presentation">
+        <a class="nav-link" href="../../../../about-blcv/">About</a>
+    </li>
+
+                </ul>
+            </nav>
+            <div class="top-bar-container" data-sticky-container>
+                <div class="show-off-canvas show-for-small-only sticky" data-sticky data-options="anchor: main-container; marginTop: 0; stickyOn: small;">
+                    <a data-toggle="offCanvas">Menu <i class="fa fa-bars" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <div class="container">
+                
+
+    <div class="row medium-unstack">
+        <main id="content" class="content medium-8 large-9 columns" role="main">
+            <article class="post tag-face-recogition featured">
+
+                <header class="post-header">
+                        <figure class="image-feature"><img src="../../../../content/images/2017/11/logo-1.png"></figure>
+
+                    <div class="post-heading">
+                        <h1 class="post-title">Demystifying Face Recognition III: Noise</h1>
+                        <section class="post-meta">
+                            <time class="post-date" datetime="2017-11-09">09 November 2017</time>  on <a href="../../../../tag/face-recogition/">face-recogition</a>
+                        </section>
+                    </div>
+                </header>
+
+                <section class="post-content">
+                    <div class="kg-card-markdown"><p>In last years there were introduced many dataset for Face Recognition, named several:</p>
+<ul>
+<li><a href="http://www.cbsr.ia.ac.cn/english/CASIA-WebFace-Database.html">CASIA-WebFace</a>: 0.5M of images</li>
+<li><a href="http://vintage.winklerbros.net/facescrub.html">FaceScrub</a>: 0.1M of images</li>
+<li><a href="http://www.msceleb.org/celeb1m/dataset">MsCeleb</a>: 10M of images</li>
+<li><a href="http://www.umdfaces.io">UMD</a>: 0.38M of images</li>
+<li><a href="http://www.robots.ox.ac.uk/~vgg/data/vgg_face/">VGG</a>: 2.6M of images</li>
+</ul>
+<p>The main difference between them are the number of images and identities. But they're also different in sth like <code>signal-to-noise ratio</code>, where we mean that ratio between correctly labeled images to all collected images. We do not know such value for any provided database, but some researcher provided the clean-list which provided images which was verified to be correct (by human or face-recognition algorithm). For example <strong>CASIA-WebFace</strong> have 90% of correct images, in the other side <strong>VGG</strong> have only 38% (rest of images have noisy labels). But what does it mean relative to accuracy of Face Recognition model? Does noise really hurt the performance in verification/identification protocol?</p>
+<h2 id="noisydatabase">Noisy Database</h2>
+<p>First of all, let's make some literature review.<br>
+One of the publication which we know about noise in data for Deep Learning is <a href="https://arxiv.org/abs/1511.06789">The Unreasonable Effectiveness of Noisy Data for Fine-Grained Recognition</a>. The idea was simple: instead of marking pictures manually use information gathered in Web (metadata and search-engine). This enable to collect many more images than existed in current training dataset of several benchmarks. The results indicate that when training on original images and from web, the final accuracy is always higher (despite the fact, that the data in noisy).</p>
+<p>The first public face-recognition database with significant amount of noise was <a href="http://www.robots.ox.ac.uk/~vgg/publications/2015/Parkhi15/parkhi15.pdf">VGG</a>. We will describe their method in more details. They collected 5M images from both Google and Bing Image Search. Then using Machine Learning algorithm with Fisher Vector Faces descriptor, half of images was removed. The last stage was manually filtering, which take 10 days (really hard work), ending with ~1M of images. Additional the images before manually filtering were provided, what end up with 2.6M. In experiments, Oxford team was using both dataset (named full and curated). And the bigger one leads to better results at all of their experiments, although it contain more noisy images than right one. Before jumping to any conclusion, let's take a closer look into manually filtering process by reading the paper:</p>
+<blockquote>
+<p>The aim of this final stage is to increase the purity (precision) of the data using human annotations. However, in order to make the annotation task less burdensome and hence avoid high annotation costs, annotators are aided by using automatic ranking once more. This time, however, a multi-way CNN is trained to discriminate between the 2,622 face identities using the AlexNet architecture; then the softmax scores are used to rank images within each identity set by decreasing likelihood of being an inlier. In order to accelerate the work of the annotators, the ranked images of each identity are displayed in blocks of 200 and annotators are asked to validate blocks as a whole. In particular, a block is declared good if approximate purity is greater than 95%.</p>
+</blockquote>
+<p>So filtering was done using block of images, which were accepted or refused by looking into purity of it. It means that if there is even some noise in block (more than 5%), then block is removed. To sum up, in 1.6M of noisy images there could be even ~1.4 of good labels. The similar situation is at other dataset like <strong>CASIA</strong> or <strong>MsCeleb</strong>: we are not sure that noise is really a noise, because most of time manually annotators does not investigate each of image independently. But from both of them researchers provided list of clean images by removing the noise manually (CASIA) or in automatic way (MsCeleb).</p>
+<h2 id="experimentsoncasiawebface">Experiments on CASIA-WebFace</h2>
+<p>The first test will be based on <strong>UMD</strong> database (as very clean database) and different version of <strong>CASIA-WebFace</strong> database:</p>
+<ul>
+<li>full (0.5M of images)</li>
+<li>clean-v1 (0.47M, taken from <a href="https://github.com/happynear/FaceVerification">Happy-Near page</a>)</li>
+<li>clean-v2 (0.445M, taken from project <a href="http://zhengyingbin.cc/ActiveAnnotationLearning">Face Recognition via Active Annotation and Learning</a>)</li>
+</ul>
+<p>Idea behind using this database is testing algorithm on very clean database with smaller size (UMD) versus bigger and noisier database with some efforts of cleaning it.</p>
+<p>For training the network, we will be using the same setting like for baseline. Here are results.</p>
+<p align="center">
+<iframe width="620" height="300" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/108.embed"></iframe>
+</p>
+<p>There is no clean conclusion from this experiments. First of all, we can see that delivered clean-list for CASIA-WebFace really have lower noise, because network trained using them have lower loss and higher validation accuracy. But this is the main difference, all network achieve similar score at LFW and BLUFR benchmarks. The highest score achieve the cleanest one, <strong>clean-v2</strong>, but the difference is only ~1%. Maybe if dataset would contain more images, the bigger change would be noticed. <strong>UMD</strong> database despite of being very clean, achieve the lowest score.</p>
+<h2 id="experimentsonvggdatabase">Experiments on VGG-Database</h2>
+<p>As the first experiments does not make any clean conclusion, let's use <strong>VGG</strong> database. As the level of noisy labels in VGG can be much bigger, here will be conducted  experiments using different ratio of noise (exactly images labeled as noise to all images in training set). We hope that it will show how different amount of noise impact the final accuracy (remembering that the noise in case of VGG maybe not a real noise). For coherence of results, in each experiment same validation dataset is used.</p>
+<p align="center">
+<iframe width="750" height="400" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/112.embed"></iframe>
+</p>
+<p>Unfortunately, the results are again not conclusive. In contrast to earlier results, here more noise make result better. We think that it is because of noisy labels, which have a lot of true labels.</p>
+<h2 id="experimentsusingrealnoise">Experiments using Real Noise</h2>
+<p>In such situation, we decided to carry out last experiment. Using the cleanest version of CASIA-WebFace we will be injecting real noise to data. The noise will be formed from images taken from VGG database with random labels. As we would like to have a small amount of noise in base training data, we will use <strong>clean-v2</strong> list.</p>
+<p align="center">
+<iframe width="750" height="400" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/114.embed"></iframe>
+</p>
+<p>Finally, this experiments provide us clear conclusion. The real noise, even in small amout, hurt the final accuracy. Although the model with 10% of noise achieve better score at LFW, the BLUFR protocol show the real difference. So we can conclude that is nice to have less than 10% of noise. Also strange situation happened with noise ratio of 50%: the network diverge, so we should lower the learning-rate.</p>
+<p>In the other hard, it is really intriguing that having the 80% of noisy labels still network can learn anything useful. The similar result was achieved by researcher in paper <a href="https://arxiv.org/abs/1705.10694">Deep Learning is Robust to Massive Label Noise</a>, even that the experiments have 99% of noise. The researcher have very novel conclusions:</p>
+<ul>
+<li>Deep neural networks are able to learn from data that has been diluted by an arbitrary amount of noise.</li>
+<li>A sufficiently large training set is more important than a lower level of noise.</li>
+<li>Choosing good hyperparameters can allow conventional neural networks to operate in the regime of very high label noise.</li>
+</ul>
+<p>For sure Deep Learning is amazing in handling the noisy data, but we cannot agree with second conclusion, already owning ~0.5M of data example. Having 0.4M of images with clean labels is better than any database with larger amount of images but with noise. Other pros of having clean and small database is faster convergence (as there is less training examples). In the other hand, when we are collecting our own dataset it is inevitable to have noisy labels. Our experiments show that data should not have more than 10% of real noise.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Look like noisy labels impact the final accuracy of model, so it is not a good idea to artificially make dataset bigger by injecting of noise (like a data augmentation method). Also, the cleaner dataset with enough training examples the better. It is contradict to conclusion from paper <a href="https://arxiv.org/abs/1511.06789">The Unreasonable Effectiveness of Noisy Data for Fine-Grained Recognition</a>. It is because of different initial assumptions as their dataset have sizes: 6k, 10k, 20k, 50k. So each of them is much smaller that we used. In other hand, if our noisy dataset have sth like &gt;90% of good labels, it is recommended to use it at training as well.<br>
+In such situation we need to agree with conclusion from <a href="https://arxiv.org/abs/1705.10694">Deep Learning is Robust to Massive Label Noise</a>, with slight modification:</p>
+<blockquote>
+<p>A sufficiently large training set is more important than a lower level of noise only if your original dataset have not enough data (which number depend on task, ex. Face-Recognition is ~0.4M)</p>
+</blockquote>
+<p>Final conclusion:</p>
+<ol>
+<li>Cleaning the dataset can lead to better accuracy, but gain will be minimal if there were less than 10% of noise.</li>
+<li>If we have database which have only 5%-10% of noisy labels, it is advised to use it for training.</li>
+<li>Adding images with real noise is not beneficial.</li>
+</ol>
+<p>Ok, so test another aspect of preparing the dataset for Face-Recognition. The next question which will we ask about pipeline is:<br>
+<strong>How the input image should be aligned before feeding it to network?</strong></p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/1411.7923">Learning Face Representation from Scratch”</a></li>
+<li><a href="http://vintage.winklerbros.net/Publications/icip2014a.pdf">A data-driven approach to cleaning large face datasets.</a></li>
+<li><a href="https://arxiv.org/abs/1607.08221">MS-Celeb-1M: A Dataset and Benchmark for Large-Scale Face Recognition</a></li>
+<li><a href="https://arxiv.org/abs/1611.01484v2">UMDFaces: An Annotated Face Dataset for Training Deep Networks</a></li>
+<li><a href="http://www.robots.ox.ac.uk/~vgg/publications/2015/Parkhi15/parkhi15.pdf">VGG-Deep Face Recognition</a></li>
+<li><a href="https://arxiv.org/abs/1511.06789">The Unreasonable Effectiveness of Noisy Data for Fine-Grained Recognition</a></li>
+<li><a href="https://arxiv.org/abs/1705.10694">Deep Learning is Robust to Massive Label Noise</a></li>
+<li><a href="http://zhengyingbin.cc/ActiveAnnotationLearning">Face Recognition via Active Annotation and Learning</a></li>
+<li><a href="https://github.com/happynear/FaceVerification">Happy-Near page</a></li>
+</ul>
+</div>
+                </section>
+
+                <footer class="post-footer">
+                    <section class="share">
+                        <p>Share this post: <br>
+                            <a class="share-icon icon-twitter" href="https://twitter.com/intent/tweet?text=Demystifying%20Face%20Recognition%20III%3A%20Noise&amp;url=blcv.github.io/2017/11/09/demystifying-face-recognition-iii-noise/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                            <a class="share-icon icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=blcv.github.io/2017/11/09/demystifying-face-recognition-iii-noise/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                            <a class="share-icon icon-google-plus" href="https://plus.google.com/share?url=blcv.github.io/2017/11/09/demystifying-face-recognition-iii-noise/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                                <i class="fa fa-google-plus"></i>
+                            </a>
+                            <a class="share-icon icon-reddit" href="https://www.reddit.com/submit?url=blcv.github.io/2017/11/09/demystifying-face-recognition-iii-noise/" onclick="window.open(this.href, 'reddit-share', 'width=850,height=530');return false;">
+                                <i class="fa fa-reddit-alien"></i>
+                            </a>
+                        </p>
+                    </section>
+
+                </footer>
+
+            </article>
+
+
+            <aside class="read-next row">
+
+                <div class="medium-6 columns text-left">
+                    <a class="read-prev-story" href="../../08/demystifying-face-recognition-ii-baseline/">Demystifying Face Recognition II: Baseline</a>
+                    <a href="../../08/demystifying-face-recognition-ii-baseline/"><span class="arrow arrow-left"><i class="fa fa-chevron-left" aria-hidden="true"></i></span></a>
+                </div>
+
+             </aside>
+
+            <h3>Comments:</h3>
+
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://localhost:2368/2017/11/09/demystifying-face-recognition-iii-noise/';  // Replace PAGE_URL with your page's canonical URL variable
+                    this.page.identifier = '5a047a1a1eb5111c6fa985dc'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.async = true;
+                    s.src = 'https://blcv-github-io.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+        </main>
+
+        <aside class="sidebar medium-4 large-3 columns show-for-medium">
+            <div class="widget">
+    <h4 class="widget-title">Featured Posts</h4>
+    <div class="widget-content">
+            <ul id="featured-posts" class="no-bullet">
+        <li class="clearfix">
+            <div class="clearfix">
+                 <div class="featured-image">
+                     <a href="index.html" class="thumbnail"><img src="../../../../content/images/2017/11/logo-1.png?w=80&amp;q=50"></a>
+                 </div>
+                <div class="featured-title">
+                    <a href="index.html">Demystifying Face Recognition III: Noise</a>
+
+                    <div class="featured-meta">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <time class="featured-time" datetime="2017-11-09">November 09 2017</time>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="clearfix">
+            <div class="clearfix">
+                 <div class="featured-image">
+                     <a href="../../08/demystifying-face-recognition-ii-baseline/" class="thumbnail"><img src="../../../../content/images/2017/11/faceresnet.png?w=80&amp;q=50"></a>
+                 </div>
+                <div class="featured-title">
+                    <a href="../../08/demystifying-face-recognition-ii-baseline/">Demystifying Face Recognition II: Baseline</a>
+
+                    <div class="featured-meta">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <time class="featured-time" datetime="2017-11-08">November 08 2017</time>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="clearfix">
+            <div class="clearfix">
+                 <div class="featured-image">
+                     <a href="../../07/demystifying-face-recognition-i-introduction/" class="thumbnail"><img src="../../../../content/images/2017/11/Face-Recognition-Pipeline---Page-1--1.png?w=80&amp;q=50"></a>
+                 </div>
+                <div class="featured-title">
+                    <a href="../../07/demystifying-face-recognition-i-introduction/">Demystifying Face Recognition I: Introduction</a>
+
+                    <div class="featured-meta">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <time class="featured-time" datetime="2017-11-07">November 07 2017</time>
+                    </div>
+                </div>
+            </div>
+        </li>
+</ul>    </div>
+</div>
+
+<div class="widget">
+    <h4 class="widget-title">Tags</h4>
+    <div class="widget-content">
+        <ul class="menu" id="tag-list">
+                    <li><a class="tag" href="../../../../tag/face-recogition/">face-recogition</a></li>
+        </ul>
+    </div>
+</div>
+
+    <div class="widget">
+        <h4 class="widget-title">Subscribe</h4>
+        <div class="widget-content widget-subscribe">
+            <p>Get the latest posts delivered right to your inbox.</p>
+            <form method="post" action="http://localhost:2368/subscribe/" class="subscribe-form">
+    <input class="confirm" type="hidden" name="confirm"><input class="location" type="hidden" name="location"><input class="referrer" type="hidden" name="referrer">
+
+    <div class="">
+        <input class="subscribe-email" type="email" name="email" placeholder="Your email address">
+        <button class="button expanded subscribe-btn" type="submit">Subscribe</button>
+    </div>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+
+            <p>or subscribe <a href="http://cloud.feedly.com/#subscription/feed/blcv.github.io/rss/"> <strong>via RSS</strong>
+            </a> with Feedly!</p>
+        </div>
+    </div>
+        </aside>
+    </div>
+
+
+            </div>
+
+            <footer class="footer clearfix">
+    <section class="copyright"><a href="../../../../">BLCV - Bartosz Ludwiczuk Computer Vision</a> © 2017</section>
+    <section class="poweredby">Proudly published with <a href="https://ghost.org">Ghost</a></section>
+</footer>        </div>
+
+        
+    </div>
+
+    <div class="reveal" id="reveal-search">
+    <div id="results"></div>
+</div>
+    <script src="../../../../assets/js/vendors.min.js?v=763e5612f8"></script>
+    <script src="../../../../assets/js/main.min.js?v=763e5612f8"></script>
+
+        <script src="../../../../assets/js/prism.min.js?v=763e5612f8"></script>
+
+
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-108816291-1', 'auto');
+    ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+</body>

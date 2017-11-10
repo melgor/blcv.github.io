@@ -1,0 +1,215 @@
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Demystifying Face Recognition I: Introduction</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../../../favicon.png">
+
+    <link rel="shortcut icon" href="../../../../../favicon.png" type="image/png">
+    <link rel="canonical" href="../index.html">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta property="og:site_name" content="BLCV - Bartosz Ludwiczuk Computer Vision">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Demystifying Face Recognition I: Introduction">
+    <meta property="og:description" content="What is Face Recognition and this series about? ">
+    <meta property="og:url" content="http://localhost:2368/2017/11/07/demystifying-face-recognition-i-introduction/">
+    <meta property="og:image" content="http://localhost:2368/content/images/2017/11/Face-Recognition-Pipeline---Page-1--1.png">
+    <meta property="article:published_time" content="2017-11-07T20:20:59.000Z">
+    <meta property="article:modified_time" content="2017-11-10T12:13:28.000Z">
+    <meta property="article:tag" content="face-recogition">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Demystifying Face Recognition I: Introduction">
+    <meta name="twitter:description" content="What is Face Recognition and this series about? ">
+    <meta name="twitter:url" content="http://localhost:2368/2017/11/07/demystifying-face-recognition-i-introduction/">
+    <meta name="twitter:image" content="http://localhost:2368/content/images/2017/11/Face-Recognition-Pipeline---Page-1--1.png">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Bartosz Ludwiczuk">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="face-recogition">
+    <meta property="og:image:width" content="2509">
+    <meta property="og:image:height" content="689">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "BLCV - Bartosz Ludwiczuk Computer Vision",
+        "logo": "http://localhost:2368/content/images/2017/11/logo.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Bartosz Ludwiczuk",
+        "url": "http://localhost:2368/author/bartosz/",
+        "sameAs": []
+    },
+    "headline": "Demystifying Face Recognition I: Introduction",
+    "url": "http://localhost:2368/2017/11/07/demystifying-face-recognition-i-introduction/",
+    "datePublished": "2017-11-07T20:20:59.000Z",
+    "dateModified": "2017-11-10T12:13:28.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:2368/content/images/2017/11/Face-Recognition-Pipeline---Page-1--1.png",
+        "width": 2509,
+        "height": 689
+    },
+    "keywords": "face-recogition",
+    "description": "What is Face Recognition and this series about? ",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 1.15">
+    <link rel="alternate" type="application/rss+xml" title="BLCV - Bartosz Ludwiczuk Computer Vision" href="../../../../../rss/index.html">
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic%7COpen+Sans:700,600,400">
+    <style amp-custom>html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}h1{margin:0.67em 0;font-size:2em}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{position:relative;vertical-align:baseline;font-size:75%;line-height:0}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}amp-img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace, monospace;font-size:1em}button,input,optgroup,select,textarea{margin:0;color:inherit;font:inherit}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{cursor:pointer;-webkit-appearance:button}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-appearance:textfield}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}fieldset{margin:0 2px;padding:0.35em 0.625em 0.75em;border:1px solid #c0c0c0}legend{padding:0;border:0}textarea{overflow:auto}optgroup{font-weight:bold}table{border-spacing:0;border-collapse:collapse}td,th{padding:0}html{max-height:100%;height:100%;font-size:62.5%;-webkit-tap-highlight-color:rgba(0, 0, 0, 0)}body{max-height:100%;height:100%;color:#3a4145;background:#f4f8fb;letter-spacing:0.01rem;font-family:"Merriweather", serif;font-size:1.8rem;line-height:1.75em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"kern" 1;-moz-font-feature-settings:"kern" 1;-o-font-feature-settings:"kern" 1}::-moz-selection{background:#d6edff}::selection{background:#d6edff}h1,h2,h3,h4,h5,h6{margin:0 0 0.3em 0;color:#2e2e2e;font-family:"Open Sans", sans-serif;line-height:1.15em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-moz-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-o-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1}h1{text-indent:-2px;letter-spacing:-1px;font-size:2.6rem}h2{letter-spacing:0;font-size:2.4rem}h3{letter-spacing:-0.6px;font-size:2.1rem}h4{font-size:1.9rem}h5{font-size:1.8rem}h6{font-size:1.8rem}a{color:#4a4a4a}a:hover{color:#111}p,ul,ol,dl{margin:0 0 2.5rem 0;font-size:1.5rem;text-rendering:geometricPrecision;-webkit-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-moz-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-o-font-feature-settings:"liga" 1, "onum" 1, "kern" 1}ol,ul{padding-left:2em}ol ol,ul ul,ul ol,ol ul{margin:0 0 0.4em 0;padding-left:2em}dl dt{float:left;clear:left;overflow:hidden;margin-bottom:1em;width:180px;text-align:right;text-overflow:ellipsis;white-space:nowrap;font-weight:700}dl dd{margin-bottom:1em;margin-left:200px}li{margin:0.4em 0}li li{margin:0}hr{display:block;margin:1.75em 0;padding:0;height:1px;border:0;border-top:#efefef 1px solid}blockquote{box-sizing:border-box;margin:1.75em 0 1.75em 0;padding:0 0 0 1.75em;border-left:#4a4a4a 0.4em solid;-moz-box-sizing:border-box}blockquote p{margin:0.8em 0;font-style:italic}blockquote small{display:inline-block;margin:0.8em 0 0.8em 1.5em;color:#ccc;font-size:0.9em}blockquote small:before{content:"\2014 \00A0"}blockquote cite{font-weight:700}blockquote cite a{font-weight:normal}mark{background-color:#fdffb6}code,tt{padding:1px 3px;border:#e3edf3 1px solid;background:#f7fafb;border-radius:2px;white-space:pre-wrap;font-family:Inconsolata, monospace, sans-serif;font-size:0.85em;font-feature-settings:"liga" 0;-webkit-font-feature-settings:"liga" 0;-moz-font-feature-settings:"liga" 0}pre{overflow:auto;box-sizing:border-box;margin:0 0 1.75em 0;padding:10px;width:100%;border:#e3edf3 1px solid;background:#f7fafb;border-radius:3px;white-space:pre;font-family:Inconsolata, monospace, sans-serif;font-size:0.9em;-moz-box-sizing:border-box}pre code,pre tt{padding:0;border:none;background:transparent;white-space:pre-wrap;font-size:inherit}kbd{display:inline-block;margin-bottom:0.4em;padding:1px 8px;border:#ccc 1px solid;background:#f4f4f4;border-radius:4px;box-shadow:0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 #fff inset;color:#666;text-shadow:#fff 0 1px 0;font-size:0.9em;font-weight:700}table{box-sizing:border-box;margin:1.75em 0;max-width:100%;width:100%;background-color:transparent;-moz-box-sizing:border-box}table th,table td{padding:8px;border-top:#efefef 1px solid;vertical-align:top;text-align:left;line-height:20px}table th{color:#000}table caption + thead tr:first-child th,table caption + thead tr:first-child td,table colgroup + thead tr:first-child th,table colgroup + thead tr:first-child td,table thead:first-child tr:first-child th,table thead:first-child tr:first-child td{border-top:0}table tbody + tbody{border-top:#efefef 2px solid}table table table{background-color:#fff}table tbody > tr:nth-child(odd) > td,table tbody > tr:nth-child(odd) > th{background-color:#f6f6f6}table.plain tbody > tr:nth-child(odd) > td,table.plain tbody > tr:nth-child(odd) > th{background:transparent}iframe,amp-iframe,.fluid-width-video-wrapper{display:block;margin:1.75em 0}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper amp-iframe{margin:0}textarea,select,input{margin:0 0 5px 0;padding:6px 9px;width:260px;outline:0;border:#e7eef2 1px solid;background:#fff;border-radius:4px;box-shadow:none;font-family:"Open Sans", sans-serif;font-size:1.6rem;line-height:1.4em;font-weight:100;-webkit-appearance:none}textarea{min-width:250px;min-height:80px;max-width:340px;width:100%;height:auto}input[type="text"]:focus,input[type="email"]:focus,input[type="search"]:focus,input[type="tel"]:focus,input[type="url"]:focus,input[type="password"]:focus,input[type="number"]:focus,input[type="date"]:focus,input[type="month"]:focus,input[type="week"]:focus,input[type="time"]:focus,input[type="datetime"]:focus,input[type="datetime-local"]:focus,textarea:focus{outline:none;outline-width:0;border:#bbc7cc 1px solid;background:#fff}select{width:270px;height:30px;line-height:30px}.clearfix:before,.clearfix:after{content:" ";display:table}.clearfix:after{clear:both}.clearfix{zoom:1}.main-header{position:relative;display:table;overflow:hidden;box-sizing:border-box;width:100%;height:50px;background:#5ba4e5 no-repeat center center;background-size:cover;text-align:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box}.content{background:#fff;padding-top:15px}.blog-title,.content{margin:auto;max-width:600px}.blog-title a{display:block;padding-right:16px;padding-left:16px;height:50px;color:#fff;text-decoration:none;font-family:"Open Sans", sans-serif;font-size:16px;line-height:50px;font-weight:600}.post{position:relative;margin-top:0;margin-right:16px;margin-left:16px;padding-bottom:0;max-width:100%;border-bottom:#ebf2f6 1px solid;word-wrap:break-word;font-size:0.95em;line-height:1.65em}.post-header{margin-bottom:1rem}.post-title{margin-bottom:0}.post-title a{text-decoration:none}.post-meta{display:block;margin:3px 0 0 0;color:#9eabb3;font-family:"Open Sans", sans-serif;font-size:1.3rem;line-height:2.2rem}.post-meta a{color:#9eabb3;text-decoration:none}.post-meta a:hover{text-decoration:underline}.post-meta .author{margin:0;font-size:1.3rem;line-height:1.3em}.post-date{display:inline-block;text-transform:uppercase;white-space:nowrap;font-size:1.2rem;line-height:1.2em}.post-image{margin:0;padding-top:3rem;padding-bottom:30px;border-top:1px #E8E8E8 solid}.post-content amp-img,.post-content amp-anim{position:relative;left:50%;display:block;padding:0;min-width:0;max-width:112%;width:calc(100% + 32px);height:auto;transform:translateX(-50%);-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%)}.footnotes{font-size:1.3rem;line-height:1.6em;font-style:italic}.footnotes li{margin:0.6rem 0}.footnotes p{margin:0}.footnotes p a:last-child{text-decoration:none}.site-footer{position:relative;margin:0 auto 20px auto;padding:1rem 15px;max-width:600px;color:rgba(0,0,0,0.5);font-family:"Open Sans", sans-serif;font-size:1.1rem;line-height:1.75em}.site-footer a{color:rgba(0,0,0,0.5);text-decoration:none;font-weight:bold}.site-footer a:hover{border-bottom:#bbc7cc 1px solid}.poweredby{display:block;float:right;width:45%;text-align:right}.copyright{display:block;float:left;width:45%}</style>
+
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+
+    
+
+</head>
+
+<body class="amp-template">
+    <header class="main-header">
+        <nav class="blog-title">
+            <a href="../../../../../">BLCV - Bartosz Ludwiczuk Computer Vision</a>
+        </nav>
+    </header>
+
+    <main class="content" role="main">
+        <article class="post">
+
+            <header class="post-header">
+                <h1 class="post-title">Demystifying Face Recognition I: Introduction</h1>
+                <section class="post-meta">
+                    <p class="author">by <a href="../../../../../author/bartosz/">Bartosz Ludwiczuk</a></p>
+                    <time class="post-date" datetime="2017-11-07">2017-11-07</time>
+                </section>
+            </header>
+            <figure class="post-image">
+                <amp-img src="http://localhost:2368/content/images/2017/11/Face-Recognition-Pipeline---Page-1--1.png" width="600" height="400" layout="responsive"></amp-img>
+            </figure>
+            <section class="post-content">
+
+                <div class="kg-card-markdown"><p>In Web can be find many articles and research paper about Face Recognition (just look at <a href="https://scirate.com/search?utf8=%E2%9C%93&amp;q=Face+recognition">scirate</a>) . Most of them introduce or explain some new technique and compare it to baseline, without going into details about choosing elements of pipeline. There also exist some Open-Source, ready to use library for Face-Recognition, where some of them achieve state-of-the-art results. Nice examples are <a href="http://cmusatyalab.github.io/openface/">OpenFace</a>, <a href="http://blog.dlib.net/2017/02/high-quality-face-recognition-with-deep.html">DLib</a> or <a href="https://github.com/davidsandberg/facenet">FaceNet</a>. But what if it turns out that the algorithm does not meet our expectations, what are the method to boost it, what helpful method exist? And how to properly investigate the algorithm to get the answer, is the algorithm is certainly better than the previously used? There is not much systematized information about it, just many papers, each with different pipeline.</p>
+<p>In this series of blog-post, we would like to change it by investigating state-of-art technique available until 2017. We will show new method which enable to boost the performance, verify the researcher's proposals under controlled test conditions and answer some questions that may not only bother me (hopefully, it will sth like <code>Myth Buster</code> for Face Recognition). For last years there were many proposition targeted <strong>Face Recognition</strong>, which we want to test, like:</p>
+<ul>
+<li>TripletLoss</li>
+<li>CenterLoss</li>
+<li>LargeMarginSoftMax</li>
+<li>L2 normalization</li>
+<li>Cosine-Product vs Inner-Product</li>
+<li>Face Specific Augmentation</li>
+<li>Learning using 3D model</li>
+<li>Multi-Task Loss</li>
+</ul>
+<p>We hope that such evaluation would be even helpful for other tasks too, like Image Retrieval or One-Shot Classification as these topics are related to Face Recognition really closely. More about idea of this blog-series later, firstly let's look closer into benchmarks of Face Recognition. Thanks to them we can verify if new ideas can really boost the accuracy of overall system.</p>
+<h2 id="leadingtechniquestotestthequalityoffacialrecognitionalgorithms">Leading techniques to test the quality of facial recognition algorithms</h2>
+<p>Facial recognition has been present in machine learning for a long time, but only since 2008 the progress in quality systems is rapidly increasing. The cause of technology development was primarily the publication of a benchmark named <a href="http://">LFW</a> (Labeled Faces in the Wild), which was distinguished primarily by sharing photos taken under uncontrolled conditions. The main test is based on Pair-Matching that is to compare the photos of two people and to judge whether it is the same or another person. Nowadays many methods achieve result close to perfection, ~99.5%. However even such results does not guarantee high performance in other, production condition. This is why the extension of LFW was proposed, named <a href="http://">BLUFR</a>. It contains two protocols: verification at fixed FAR (False-Acceptance-Rate) with 50 mln pairs and identification protocol (which is more production-realistic case).</p>
+<p>In 2015 another benchmark was proposes, exactly <a href="http://">IARPA Janus Benchmark A</a>. In terms on benchmark protocol, there are the same like in BLUFR, but there are based on <code>template</code>. Each <code>template</code> is created based on several The main difference is in image quality and difficulty. Also, in test images are frames extracted from video, which have much lower quality than images from camera. The authors also proposed different idea of testing by creating the <code>template</code> for each person instead of testing similarity of each image of person independently. The creation of <code>template</code> lies in the user's gesture, who can choose its own method for feature merging (like min, max or mean of feature).</p>
+<p align="Template comparison at JANUS Benchmark">
+
+</p>
+<p>Additonal, in 2017 the extension of JANUS-A was introduced, <a href="http://">Janus Benchmark-B Face Dataset</a>. Despite of increasing number of test images, the new protocols was introduced, which have more test scenario in comparing images and video-frames and also new face clustering protocol.</p>
+<p>The last face benchmark is <a href="http://">MegaFace</a>. As name suggest, this is large scale benchmark of Face Recognition (like ImageNet for Image Classification), containing over 1M images (much bigger than LFW and JANUS benchmark). The main idea is having 3 different dataset, distractors as main gallery dataset, <code>FaceScrub</code> used for testing algorithm in normal condition and <code>FGNet</code> used for testing algorithm in age-invariant settings. Like other knows benchmarks, it contain two protocols: verification (over 4 bilion pairs) and identification. In case of <strong>Challenge 1</strong>, the researcher can choose from two variant based on data size set (Small, &lt; 0.5M, Large &gt; 0.5M of images). In <strong>Challenge 2</strong>, which was introduced in 2016, each of the competitor have the same training database, containing ~5M images. The aim of that idea is testing the network architectures and algorithm, not the training database (like in case of <strong>Challenge 1</strong> where everyone can use their own database).</p>
+<p>But how the results of benchmark compare to each other, does improvement in one test generalize to others? Very good compilation of results from many benchmark (not ony introduced above) is presented in paper <a href="https://arxiv.org/abs/1511.02683">A Light CNN for Deep Face Representation with Noisy Labels</a>. Authors include inter alia: <a href="https://www.cs.tau.ac.il/~wolf/ytfaces/">YTF</a>, <a href="http://ieeexplore.ieee.org/document/4587572/">YTC</a>, <a href="http://www.cs.cmu.edu/afs/cs/project/PIE/MultiPie/Multi-Pie/Home.html">Multi-PIE</a>, <a href="http://bcsiriuschen.github.io/CARC/">CACD-VS</a>, <a href="http://www.cbsr.ia.ac.cn/english/NIR-VIS-2.0-Database.html">CASIA 2.0 NIR-VIS</a>, <a href="http://ieeexplore.ieee.org/document/6805594/">Celebrity-1000 </a>). Analyzing the results, look like the improvement generalize over most of the benchmark. But some of them better show even small improvement of algorithms than others. For example, having better model for about 0.5% in LFW can give boost of even 20% in BLUFR. If we want to see any, even a little improvement in our model, we should choose harder benchmark, even BLUFR.</p>
+<h2 id="modernfacerecognitiontechnique">Modern Face Recognition Technique</h2>
+<p>The main method for Face Recognition are based on Deep Learning. The researchers are racing in ways to improve quality of system using bigger training sets, new architectures or changing a loss function. At present, the best face recognition technique is <a href="http://vocord.com/">Vocoord</a>, the winner of identification protocol in MegaFace and second best based on <a href="https://www.nist.gov/sites/default/files/documents/2017/08/25/frvt_report_2017_08_25.pdf">NIST</a>. Unfortunately we do not know any details about getting such high score.<br>
+But there are many researcher that unveil details of their method, some of them even get &gt; 99.5% on LFW. Some of them operate on database having ~ 2M images and multiple neural architectures. Others propose changing pipeline (ex. by data preparation) or adding new loss function (ex. CenterLoss). However, most of them show incremental increase of performance using their own pipeline, where each of them have different ways for ex. preprocessing. Such researches are hard to compare and does not bring us closer to achieving even better results in the future because we can not draw concrete conclusions about the learning process, for ex:</p>
+<ul>
+<li>how face should be preprocessed?</li>
+<li>which data augmentation technique helps?</li>
+<li>which additional features in architectures helps?</li>
+<li>which loss function are best?</li>
+</ul>
+<p>It is because every scientist uses his or her concept of improving the model, which not always aim to achieve best possible results (as it involve interaction with many variables like database or architecture) but to show the rightness of the thesis. This is obviously an understandable approach, because it is a science. However, practitioners would like to know the limits of current technology of Face Recognition by merging multiple ideas from researchers. It is worth to verify certain theses under controlled conditions so that all test algorithms have equal chances. Many private company have such knowledge, but they does not reveal such secrets.</p>
+<p>In order to get acquainted with the current results on the LFW and YTF benchmarks, the table from <a href="https://ydwen.github.io/papers/WenCVPR17.pdf">SphereFace</a> is presented. It is interesting to note that the size of the database used for learning and the number of neural networks used are also given.</p>
+<p align="center">
+
+</p>
+<p>These are not all available results, but they give us an overall view of the accuracy of the algorithms. Currently the best result on LFW is <strong>99.83%</strong>, obtained by company named <strong>Glasix</strong>. They provide following description of method:</p>
+<blockquote>
+<p>We followed the Unrestricted, Labeled Outside Data protocol. The ratio of White to Black to Asian is 1:1:1 in the train set, which contains 100,000 individuals and 2 million face images. We spent a week training the networks which contain a improved resnet34 layer and a improved triplet loss layer on a Dual Maxwell-Gtx titan x machine with a four-stage training method.</p>
+</blockquote>
+<p align="center">
+<amp-img alt="LFW Score plot" src="http://vis-www.cs.umass.edu/lfw/lfw_unrestricted_labeled_zm.png" width="480" height="480" layout="responsive"></amp-img>
+</p>
+<p>If you want to see more results from benchmark, look here:</p>
+<ul>
+<li><a href="http://vis-www.cs.umass.edu/lfw/results.html">LFW</a></li>
+<li><a href="http://megaface.cs.washington.edu/results/facescrub.html">MegaFace</a></li>
+</ul>
+<h2 id="aimofseries">Aim of series</h2>
+<p>The main aim of the series of post will be creating the full algorithm for Face Recognition, which will be having high results on public benchmarks (using Deep Learning). But the main target will be test on <a href="http://megaface.cs.washington.edu/participate/challenge.html">MegaFace Challange 1 - Small</a> and<a href="http://megaface.cs.washington.edu/participate/challenge2.html"> MegaFace Challange 2</a>.</p>
+<p>To achieve very competitive results, here following ideas will be tested:</p>
+<ul>
+<li>preprocessing of data</li>
+<li>data augmentation technique</li>
+<li>loss functions</li>
+<li>optimization algorithm</li>
+<li>choosing the NN architecture</li>
+</ul>
+<p>So, at the end of the day, we will learn what pipeline to build to maximize model quality in face recognition tasks. We think that this series will be pretty long as every month new paper come out or new ideas are appearing. The beginning of series will be rather checking well known ideas but the farther we go the more research we will see there. We will be also testing some recently released ideas about Face-Recognition.<br>
+In order to be able to draw conclusions from experiments, limitations and initial assumptions will be made to facilitate the analysis of the results.</p>
+<p>Limitations:</p>
+<ul>
+<li>algorithms will be working at <a href="http://www.cbsr.ia.ac.cn/english/CASIA-WebFace-Database.html">CASIA-WebFace</a> (0.5M images, 10k individuals)</li>
+<li>90% of database it used for training, 10% for validation</li>
+<li>while testing, only single features will be extracted from sinlge image( so there will be nothing like <a href="https://github.com/happynear/NormFace/blob/master/MirrorFace.md">mirror-trick</a>)</li>
+<li>only one instance of model will be used (so there will be no feature merging from multiple model)</li>
+<li>start Learning Rate will be chosen from set: <code>0.1, 0.04, 0.01, 0.001</code>.</li>
+<li>for reducing the LR, the detection of <code>Plateau</code> will be used</li>
+</ul>
+<p>Initial assumptions:</p>
+<ul>
+<li>architectures will be using CASIA database align using <a href="https://kpzhang93.github.io/papers/spl.pdf">MTCNN</a> algorithm</li>
+<li>basic Data Augmentation technique will be mirror</li>
+</ul>
+ <p align="center">
+
+</p>
+<p>The size of the database as well as the input images has been selected so as to enable high quality methods, while reducing the time it takes. The number of experiments needed to achieve the final result is enormous, and the computational power is limited.</p>
+<p>As a primary determinant of method quality, two results will be considered:<br>
+LFW, LFW-BLUFR (both of them share features from same images). Additionally for best models the more complicated tests will be conducted: on IARPA Janus Benchmark-A and MegaFace. The <code>template</code> at IJB-A will be created by taking the mean value.</p>
+<p>Each of the experiments will be compared to <strong>baseline</strong>, the selected method (data-&gt; architecture-&gt; loss), which achieved its result using quite simple methods. This will allow us to evaluate whether the new proposed technology affects the quality of the algorithm positively. However, such an approach is not perfect and sometimes it may happen that the combination of several techniques only reflects the real impact of each. Unfortunately, such results can be missed. So when all the experiments will be done, the large-scale experiment will be conducted (DA or different loss with different scales) to get the best possible result. But earlier we want to sift through these techniques (ex. loss functions, which dozens have been proposed recently), which do not affect the final result to a large extent. In addition, we would like to test our own ideas and see if they make sense.</p>
+<p>The posts of each type of experiment will be in the form of a report that will reveal and analyze the results. The length of each post will depend on the subject and the number of experiments needed to confirm or refute the thesis. We expect that, for example, for the purpose of loss functions there will be about 4-5 posts.</p>
+<p><br>
+We will start experiements from the begginig of all process, like in above picture. First post will be mainly about data and it preparation. Then we will take first try to get better accuracy by using more Data Augumentation technique. Next will be introducing some additional small changes in network architectures in idea of increasing capasity. After that we will examine many loss function, mainly based on single image (and maybe with pair and triple of image). After that we will be again ready for choosing the best architecture for our purpose, with all the knowledge gathered earlier. We hope to get better results than state-of-the-art.</p>
+<p>It's enough in the introduction, we hope everything is clear. In the next post we will look at the creation of <strong>baseline</strong>, a reference to further experiments.</p>
+<p>References</p>
+<ul>
+<li><a href="http://vis-www.cs.umass.edu/lfw/lfw_update.pdf">Labeled Faces in the Wild: Updates and New Reporting Procedures</a></li>
+<li><a href="http://www.cbsr.ia.ac.cn/users/scliao/papers/Liao-IJCB14-BLUFR.pdf">A Benchmark Study of Large-scale Unconstrained Face Recognition</a></li>
+<li><a href="https://pdfs.semanticscholar.org/140c/95e53c619eac594d70f6369f518adfea12ef.pdf">Pushing the Frontiers of Unconstrained Face Detection and Recognition: IARPA Janus Benchmark A</a></li>
+<li><a href="http://biometrics.cse.msu.edu/Publications/Face/Whitelametal_IARPAJanusBenchmark-BFaceDataset_CVPRW17.pdf">IARPA Janus Benchmark-B Face Dataset</a></li>
+<li><a href="http://megaface.cs.washington.edu/KemelmacherMegaFaceCVPR16.pdf">The MegaFace Benchmark: 1 Million Faces for Recognition at Scale</a></li>
+<li><a href="http://openaccess.thecvf.com/content_cvpr_2017/supplemental/Nech_Level_Playing_Field_2017_CVPR_supplemental.pdf">Level Playing Field for Million Scale Face Recognition</a></li>
+<li><a href="https://arxiv.org/pdf/1511.02683.pdf">A Light CNN for Deep Face Representation with Noisy Labels</a></li>
+<li><a href="https://www.nist.gov/sites/default/files/documents/2017/08/25/frvt_report_2017_08_25.pdf">Ongoing Face Recognition Vendor Test (FRVT) Part 1: Verification</a></li>
+<li><a href="https://ydwen.github.io/papers/WenCVPR17.pdf">SphereFace: Deep Hypersphere Embedding for Face Recognition</a></li>
+<li><a href="https://kpzhang93.github.io/papers/spl.pdf">Joint Face Detection and Alignment using Multi-task Cascaded Convolutional Networks</a></li>
+</ul>
+</div>
+
+            </section>
+
+        </article>
+    </main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="../../../../../">BLCV - Bartosz Ludwiczuk Computer Vision</a> © 2017</section>
+        <section class="poweredby">Proudly published with <a href="https://ghost.org">Ghost</a></section>
+    </footer>
+</body>
