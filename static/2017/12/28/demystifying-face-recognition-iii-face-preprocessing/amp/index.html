@@ -1,0 +1,398 @@
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Demystifying Face Recognition IV: Face-Aligment</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../../../favicon.png">
+
+    <meta name="description" content="How does Face Alignment effect the accuracy of Face Recognition algorithm?">
+    <link rel="shortcut icon" href="../../../../../favicon.png" type="image/png">
+    <link rel="canonical" href="../index.html">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta property="og:site_name" content="BLCV - Bartosz Ludwiczuk Computer Vision">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Demystifying Face Recognition IV: Face-Aligment">
+    <meta property="og:description" content="How does Face Alignment effect the accuracy of Face Recognition algorithm?">
+    <meta property="og:url" content="http://localhost:2368/2017/12/28/demystifying-face-recognition-iii-face-preprocessing/">
+    <meta property="og:image" content="http://localhost:2368/content/images/2017/11/deepface_logo-1.png">
+    <meta property="article:published_time" content="2017-12-28T09:55:00.000Z">
+    <meta property="article:modified_time" content="2017-12-28T15:27:13.000Z">
+    <meta property="article:tag" content="face-recogition">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Demystifying Face Recognition IV: Face-Aligment">
+    <meta name="twitter:description" content="How does Face Alignment effect the accuracy of Face Recognition algorithm?">
+    <meta name="twitter:url" content="http://localhost:2368/2017/12/28/demystifying-face-recognition-iii-face-preprocessing/">
+    <meta name="twitter:image" content="http://localhost:2368/content/images/2017/11/deepface_logo-1.png">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Bartosz Ludwiczuk">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="face-recogition">
+    <meta property="og:image:width" content="300">
+    <meta property="og:image:height" content="180">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "BLCV - Bartosz Ludwiczuk Computer Vision",
+        "logo": "http://localhost:2368/content/images/2017/11/logo.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Bartosz Ludwiczuk",
+        "url": "http://localhost:2368/author/bartosz/",
+        "sameAs": []
+    },
+    "headline": "Demystifying Face Recognition IV: Face-Aligment",
+    "url": "http://localhost:2368/2017/12/28/demystifying-face-recognition-iii-face-preprocessing/",
+    "datePublished": "2017-12-28T09:55:00.000Z",
+    "dateModified": "2017-12-28T15:27:13.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:2368/content/images/2017/11/deepface_logo-1.png",
+        "width": 300,
+        "height": 180
+    },
+    "keywords": "face-recogition",
+    "description": "How does Face Alignment effect the accuracy of Face Recognition algorithm?",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 1.15">
+    <link rel="alternate" type="application/rss+xml" title="BLCV - Bartosz Ludwiczuk Computer Vision" href="../../../../../rss/index.html">
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic%7COpen+Sans:700,600,400">
+    <style amp-custom>html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}h1{margin:0.67em 0;font-size:2em}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{position:relative;vertical-align:baseline;font-size:75%;line-height:0}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}amp-img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace, monospace;font-size:1em}button,input,optgroup,select,textarea{margin:0;color:inherit;font:inherit}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{cursor:pointer;-webkit-appearance:button}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-appearance:textfield}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}fieldset{margin:0 2px;padding:0.35em 0.625em 0.75em;border:1px solid #c0c0c0}legend{padding:0;border:0}textarea{overflow:auto}optgroup{font-weight:bold}table{border-spacing:0;border-collapse:collapse}td,th{padding:0}html{max-height:100%;height:100%;font-size:62.5%;-webkit-tap-highlight-color:rgba(0, 0, 0, 0)}body{max-height:100%;height:100%;color:#3a4145;background:#f4f8fb;letter-spacing:0.01rem;font-family:"Merriweather", serif;font-size:1.8rem;line-height:1.75em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"kern" 1;-moz-font-feature-settings:"kern" 1;-o-font-feature-settings:"kern" 1}::-moz-selection{background:#d6edff}::selection{background:#d6edff}h1,h2,h3,h4,h5,h6{margin:0 0 0.3em 0;color:#2e2e2e;font-family:"Open Sans", sans-serif;line-height:1.15em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-moz-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-o-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1}h1{text-indent:-2px;letter-spacing:-1px;font-size:2.6rem}h2{letter-spacing:0;font-size:2.4rem}h3{letter-spacing:-0.6px;font-size:2.1rem}h4{font-size:1.9rem}h5{font-size:1.8rem}h6{font-size:1.8rem}a{color:#4a4a4a}a:hover{color:#111}p,ul,ol,dl{margin:0 0 2.5rem 0;font-size:1.5rem;text-rendering:geometricPrecision;-webkit-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-moz-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-o-font-feature-settings:"liga" 1, "onum" 1, "kern" 1}ol,ul{padding-left:2em}ol ol,ul ul,ul ol,ol ul{margin:0 0 0.4em 0;padding-left:2em}dl dt{float:left;clear:left;overflow:hidden;margin-bottom:1em;width:180px;text-align:right;text-overflow:ellipsis;white-space:nowrap;font-weight:700}dl dd{margin-bottom:1em;margin-left:200px}li{margin:0.4em 0}li li{margin:0}hr{display:block;margin:1.75em 0;padding:0;height:1px;border:0;border-top:#efefef 1px solid}blockquote{box-sizing:border-box;margin:1.75em 0 1.75em 0;padding:0 0 0 1.75em;border-left:#4a4a4a 0.4em solid;-moz-box-sizing:border-box}blockquote p{margin:0.8em 0;font-style:italic}blockquote small{display:inline-block;margin:0.8em 0 0.8em 1.5em;color:#ccc;font-size:0.9em}blockquote small:before{content:"\2014 \00A0"}blockquote cite{font-weight:700}blockquote cite a{font-weight:normal}mark{background-color:#fdffb6}code,tt{padding:1px 3px;border:#e3edf3 1px solid;background:#f7fafb;border-radius:2px;white-space:pre-wrap;font-family:Inconsolata, monospace, sans-serif;font-size:0.85em;font-feature-settings:"liga" 0;-webkit-font-feature-settings:"liga" 0;-moz-font-feature-settings:"liga" 0}pre{overflow:auto;box-sizing:border-box;margin:0 0 1.75em 0;padding:10px;width:100%;border:#e3edf3 1px solid;background:#f7fafb;border-radius:3px;white-space:pre;font-family:Inconsolata, monospace, sans-serif;font-size:0.9em;-moz-box-sizing:border-box}pre code,pre tt{padding:0;border:none;background:transparent;white-space:pre-wrap;font-size:inherit}kbd{display:inline-block;margin-bottom:0.4em;padding:1px 8px;border:#ccc 1px solid;background:#f4f4f4;border-radius:4px;box-shadow:0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 #fff inset;color:#666;text-shadow:#fff 0 1px 0;font-size:0.9em;font-weight:700}table{box-sizing:border-box;margin:1.75em 0;max-width:100%;width:100%;background-color:transparent;-moz-box-sizing:border-box}table th,table td{padding:8px;border-top:#efefef 1px solid;vertical-align:top;text-align:left;line-height:20px}table th{color:#000}table caption + thead tr:first-child th,table caption + thead tr:first-child td,table colgroup + thead tr:first-child th,table colgroup + thead tr:first-child td,table thead:first-child tr:first-child th,table thead:first-child tr:first-child td{border-top:0}table tbody + tbody{border-top:#efefef 2px solid}table table table{background-color:#fff}table tbody > tr:nth-child(odd) > td,table tbody > tr:nth-child(odd) > th{background-color:#f6f6f6}table.plain tbody > tr:nth-child(odd) > td,table.plain tbody > tr:nth-child(odd) > th{background:transparent}iframe,amp-iframe,.fluid-width-video-wrapper{display:block;margin:1.75em 0}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper amp-iframe{margin:0}textarea,select,input{margin:0 0 5px 0;padding:6px 9px;width:260px;outline:0;border:#e7eef2 1px solid;background:#fff;border-radius:4px;box-shadow:none;font-family:"Open Sans", sans-serif;font-size:1.6rem;line-height:1.4em;font-weight:100;-webkit-appearance:none}textarea{min-width:250px;min-height:80px;max-width:340px;width:100%;height:auto}input[type="text"]:focus,input[type="email"]:focus,input[type="search"]:focus,input[type="tel"]:focus,input[type="url"]:focus,input[type="password"]:focus,input[type="number"]:focus,input[type="date"]:focus,input[type="month"]:focus,input[type="week"]:focus,input[type="time"]:focus,input[type="datetime"]:focus,input[type="datetime-local"]:focus,textarea:focus{outline:none;outline-width:0;border:#bbc7cc 1px solid;background:#fff}select{width:270px;height:30px;line-height:30px}.clearfix:before,.clearfix:after{content:" ";display:table}.clearfix:after{clear:both}.clearfix{zoom:1}.main-header{position:relative;display:table;overflow:hidden;box-sizing:border-box;width:100%;height:50px;background:#5ba4e5 no-repeat center center;background-size:cover;text-align:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box}.content{background:#fff;padding-top:15px}.blog-title,.content{margin:auto;max-width:600px}.blog-title a{display:block;padding-right:16px;padding-left:16px;height:50px;color:#fff;text-decoration:none;font-family:"Open Sans", sans-serif;font-size:16px;line-height:50px;font-weight:600}.post{position:relative;margin-top:0;margin-right:16px;margin-left:16px;padding-bottom:0;max-width:100%;border-bottom:#ebf2f6 1px solid;word-wrap:break-word;font-size:0.95em;line-height:1.65em}.post-header{margin-bottom:1rem}.post-title{margin-bottom:0}.post-title a{text-decoration:none}.post-meta{display:block;margin:3px 0 0 0;color:#9eabb3;font-family:"Open Sans", sans-serif;font-size:1.3rem;line-height:2.2rem}.post-meta a{color:#9eabb3;text-decoration:none}.post-meta a:hover{text-decoration:underline}.post-meta .author{margin:0;font-size:1.3rem;line-height:1.3em}.post-date{display:inline-block;text-transform:uppercase;white-space:nowrap;font-size:1.2rem;line-height:1.2em}.post-image{margin:0;padding-top:3rem;padding-bottom:30px;border-top:1px #E8E8E8 solid}.post-content amp-img,.post-content amp-anim{position:relative;left:50%;display:block;padding:0;min-width:0;max-width:112%;width:calc(100% + 32px);height:auto;transform:translateX(-50%);-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%)}.footnotes{font-size:1.3rem;line-height:1.6em;font-style:italic}.footnotes li{margin:0.6rem 0}.footnotes p{margin:0}.footnotes p a:last-child{text-decoration:none}.site-footer{position:relative;margin:0 auto 20px auto;padding:1rem 15px;max-width:600px;color:rgba(0,0,0,0.5);font-family:"Open Sans", sans-serif;font-size:1.1rem;line-height:1.75em}.site-footer a{color:rgba(0,0,0,0.5);text-decoration:none;font-weight:bold}.site-footer a:hover{border-bottom:#bbc7cc 1px solid}.poweredby{display:block;float:right;width:45%;text-align:right}.copyright{display:block;float:left;width:45%}</style>
+
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+
+    <script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>
+
+</head>
+
+<body class="amp-template">
+    <header class="main-header">
+        <nav class="blog-title">
+            <a href="../../../../../">BLCV - Bartosz Ludwiczuk Computer Vision</a>
+        </nav>
+    </header>
+
+    <main class="content" role="main">
+        <article class="post">
+
+            <header class="post-header">
+                <h1 class="post-title">Demystifying Face Recognition IV: Face-Aligment</h1>
+                <section class="post-meta">
+                    <p class="author">by <a href="../../../../../author/bartosz/">Bartosz Ludwiczuk</a></p>
+                    <time class="post-date" datetime="2017-12-28">2017-12-28</time>
+                </section>
+            </header>
+            <figure class="post-image">
+                <amp-img src="http://localhost:2368/content/images/2017/11/deepface_logo-1.png" width="600" height="400" layout="responsive"></amp-img>
+            </figure>
+            <section class="post-content">
+
+                <div class="kg-card-markdown"><p>One of the crucial steps before learning any Machine Learning model is data preprocessing. Most of the time we just center the data and set variance to 1 (as this make the optimalization process easier). In case of Face-Recognition, we need one-more step: Face-Alignment. What is this all about? In brief, we want to facilitate the task for out model by making the position of face constant (most of the time it means that eyes, nose and mouth are roughly at same position for every image). This is a pretty common step for all known Face-Recognition algorithm. Commonly to other posts, we will ask the beginning question:<br>
+<strong>Which preprocessing method for Face-Recognition is best?</strong></p>
+<p>Reading this post you will find:</p>
+<ol>
+<li><strong>Which Face-Alignment method is best? Should we even care about it?</strong></li>
+<li><strong>How many pad add around the face before feeding to image?</strong></li>
+<li><strong>Which Image transform should we use?</strong></li>
+<li><strong>Does quality of Facial Landmark really care?</strong></li>
+<li><strong>Does number and position of reference face landmark influence the accuracy?</strong></li>
+<li><strong>It is possible to learn a model for Face-Alignment?</strong></li>
+</ol>
+<h2 id="facealignmentmethod">Face-Alignment method</h2>
+<p>First of all, let's clarify what we need for preprocessing (most of the time):</p>
+<ol>
+<li>Detected face in image</li>
+<li>Face landmarks</li>
+<li>Reference landmarks points/pose of face</li>
+<li>Chosen type of transformation (ex. Similarity, Affine)</li>
+</ol>
+<p>Let's assume that we have image with detected face using any provided algorithm (it does not influence the final accuracy of model, it may just make dataset bigger/smaller depending on number of detected faces in image, we use <a href="https://arxiv.org/abs/1604.02878">MTCNN</a>). Then, we must decide if we want to make use of 2D alignment (most popular one) or 3D.</p>
+<h3 id="2dalignment">2D Alignment</h3>
+<p>At first, we will go step-by-step in 2D case. Firstly we need a face landmarks. There are many available algorithm for that task, which may return different number of such points, depending on training data annotations (there are even competiton for this task: <a href="https://pdfs.semanticscholar.org/657a/58a220b1e69d14ef7a88be859d2f8d75e6a1.pdf">Menpo Benchmark</a>). The most popular numbers are <code>68</code> or <code>5</code>. Why we may want to choose one set of points vs another? I all just depend on our reference points, which are the points of our base face position (so position of eyes,mouth etc.). We will try to make landmarks of each face as close to them as possible. How we can obtain/calculate such reference points? It is good question. We found a three ways of obtaining them:</p>
+<ol>
+<li>taking already known points, ex. from <a href="https://github.com/wy1iu/sphereface/blob/master/preprocess/code/face_align_demo.m#L22">SphereFace</a> paper</li>
+<li>find one base image with frontal face and take points from it</li>
+<li>calculate mean position of each point</li>
+</ol>
+<p>Having reference points, next step is choosing the padding of of face, where we mean that there can be a tight or loosely crop of face (ex. containing hair, ears). Just look at example images and see that having the same reference point and different value of padding can result in different image. Also, you could have different value of padding in height and width direction (as most of faces are oval)</p>
+<p align="center">
+
+</p>
+<p>After this step, we have the last one: choosing the way of calculating transformation which will make landmarks from test images the most similar to reference points. Here we have 4 possible ways of doing it:</p>
+<ul>
+<li>Euclidean Transformation</li>
+<li>Similarity Transformation</li>
+<li>Affine Transformation</li>
+<li>Projective Transformation</li>
+</ul>
+<p>The very good lecture about this transformation is from <a href="https://ags.cs.uni-kl.de/fileadmin/inf_ags/3dcv-ws11-12/3DCV_WS11-12_lec04.pdf">Augmented Vision Lab from University of Kaiserslautern</a>. Let's also quickly clarify it here.</p>
+<h4 id="euclideantransformation">Euclidean Transformation</h4>
+<p>It is rigid transformation which preserve distance between each pair of points. The Euclidean transformations include rotations and translations (3DoF).</p>
+<h4 id="similaritytransformation">Similarity Transformation</h4>
+<p>In contrast to Euclidean, this transformation also include scaling, so it can make images smaller/bigger (so does not preserve distances between points, 4Dof)</p>
+<h4 id="affinetransformation">Affine Transformation</h4>
+<p>Transformation which preserves points, straight lines and planes. Examples of affine transformations include translation, rotation, scaling, changing aspect ratio and shear mapping (6DoF).</p>
+<h4 id="projectivetransformation">Projective Transformation</h4>
+<p>It is the most advanced transformation, which in contrast to Affine does not preserve parallelism of lines. In contrast to other transformation, it create vanishing points and horizonts. As we look into transformation matrix we can notice that each parameter is independent (8DoF).</p>
+<p align="center">
+
+</p>
+<p>What is the visual difference between this transformation? Let's look into images. If we consider just MSE between reference points and projected points, the more degree of freedom we have then projection error is lower. In the other hand, the more degree of freedom we have, the more unnatural images look like. What is the more important, low MSE error or natural looking faces?</p>
+<p align="center">
+
+</p>    
+<h3 id="3dalignment">3D Alignment</h3>
+<p>So there are the steps for alignment of faces in 2D. 3D case in much less popular, but it was used one of the breakthourgh paper in Face Recognition, <a href="https://research.fb.com/publications/deepface-closing-the-gap-to-human-level-performance-in-face-verification/">Deep Face</a>. How the basic pipeline look here? In fact it depend on the algorithm because each of them have different pipeline. We are not the specialist at 3D Alignment as most of case it does not work better that 2D, most of time because of higher level of interpolation (like piecewise-affine transformation). Below images represent different approaches to 3D transformation.</p>
+<p align="center">
+
+</p>
+ 
+<p align="center">
+
+</p>
+<h2 id="experimentbasedon2dalignment">Experiment based on 2D Alignment</h2>
+<p><strong>Note</strong>: Compared to earlier experiments, we would have different the <strong>Baseline</strong> model, exactly we will replace linear layer after last module with <a href="https://arxiv.org/abs/1406.4729">Spatial Pooling</a> (which is invariant to input size, always output the same size of features). We propose such idea because in next experiments we will have different input size (96x112 and 112x112). We could just increase the number of parameters in model but this could cause also increased overfitting then experiments would not be comparable. Worth noting that this model achieve slightly higher results at <code>LFW</code> but much lower at <code>BLUFR</code> protocol.</p>
+<p>In first experiment we will compare multiple method of 2D alignment which differ with reference points and padding around the face. All method are open-source and used by Face-Recognition project which can be find at GitHub. Here are the tested methods:</p>
+<ol>
+<li>Basic: using MTCNN for points and <a href="https://github.com/wy1iu/sphereface/blob/master/preprocess/code/face_align_demo.m">SphereFace</a> reference points. Use Similarity transformation.</li>
+<li>Crop: method taken from <a href="https://github.com/davidsandberg/facenet">Facenet</a> by David Sandberg, it just crop image with padding</li>
+<li>Dlib: using <a href="http://blog.dlib.net/2017/02/high-quality-face-recognition-with-deep.html">dlib</a> method for Face-Aligment (get_face_chips) with 112 image size and 25% of padding (default value). This method use image-pyramid to make downsampling higher quality and 5 points (but different than SphereFace). Use Affine transformation.</li>
+<li>OpenFace-3points:using original <a href="https://github.com/cmusatyalab/openface">OpenFace</a> method for Face Alignment, which use 3 point as a reference. Use Affine transformation.</li>
+</ol>
+<p align="center">
+
+</p>
+<p align="center">
+
+</p>
+<p align="center">
+<amp-iframe width="800" height="250" frameborder="0" src="https://plot.ly/~melgor89/119.embed" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe></p>
+<p>Look like the SpherFace method is best (we think it is one of the reason of high performance of their algorithm). But surprisingly the second one is just raw face-crop without any alignment. It is pretty intriguing that is worth to mention that <a href="https://arxiv.org/abs/1503.03832">FaceNet</a> network from Google was also learn using raw images. Also recently there were several paper which claim that face-alignment is even harmful:</p>
+<ol>
+<li><a href="http://openaccess.thecvf.com/content_cvpr_2017_workshops/w6/papers/Ferrari_Investigating_Nuisance_Factors_CVPR_2017_paper.pdf">Investigating Nuisance Factors in Face Recognition with DCNN Representation</a></li>
+<li><a href="https://arxiv.org/abs/1610.04823">To Frontalize or Not To Frontalize: A Study of Face Pre-Processing Techniques and Their Impact on Recognition</a></li>
+</ol>
+<p>We will look closer this statement, but compared to cited paper we will be comparing best Face-Alignment method vs Raw-Image.</p>
+<p>Continuing the analysis of basic Face-Alignment method, we are not sure why <code>Dlib</code> method achieved so low results, maybe because of not including the upper part of head? The algorithm proposed in <code>OpenFace</code> is the weakest, it just contain to less details of face (as of the the creator of <code>OpenFace</code> code, we are really disappointed about that, in the other hand now we know what was one of the reason of poor performance).</p>
+<p>As we analyse some basic method of Face-Alignment, now let's make more in-depth analysis of each component.</p>
+<h2 id="whichkindofimagetransformationshouldwechoose">Which kind of Image Transformation should we choose?</h2>
+<p>Let's make a quick experiment of comparing the image transformation. We will exclude the Euclidean transform as without scaling we should have scale invariant reference points and we don't. In this experiment we will be using baseline reference points (from <code>SphereFace</code> project).</p>
+<p align="center">
+<amp-iframe width="800" height="200" frameborder="0" src="https://plot.ly/~melgor89/117.embed" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe></p>
+<p align="center">
+
+</p>  
+<p>Look like that more natural images are better than fitting the reference points better. Even adding changing aspect ratio and shear make error slightly worse.</p>
+<h2 id="doesnumberofreferencepointsmatters">Does number of reference points matters?</h2>
+<p>As <code>OpenFace</code> provide 68 reference landmarks, we will use their software to make such test and check if more mean better. Also maybe some location of points are better than other. For testing is we choose following cases:</p>
+<ul>
+<li>3 points: eyes + nose</li>
+<li>3 points: eyes + center of mouth</li>
+<li>7 points: eyes + nose + 2 points from mouth</li>
+<li>68 points: all points detected in face</li>
+</ul>
+<p>First two are defined at OpenFace. 7 points case was added as more complicated version, our imagination which points should be used (points are similar to references in SphereFace). The last case is just using all points. For each case we use Similarity Transformation.</p>
+<p align="center">
+
+</p>  
+<p align="center">
+<amp-iframe width="800" height="250" frameborder="0" src="https://plot.ly/~melgor89/123.embed" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe>
+</p> 
+<p>The results are not surprise for us, but maybe there are for you? So, look like 7 points and 68 points case works best, overall much better than basic setting for OpenFace. Why? Look like when choosing the reference points there should be suitable variety of points location, in the other hand the transformation would be not consistent/incorrect for many faces. Just look at results of <code>openface-3points-lip</code>, which point have not usual location. In such case the transformation in calculated using only small region of image, what could cause calculating transformation which we are not wanting too. It's also interesting that having 7 or 68 points create similar results, we supposed that 68 should be worse as face-edge points are not always visible what should cause undefined behaviour. But look like Similarity transform works nice with both cases. However, we would choose 7-points case which should generalize better. In summary, the number of reference points may be not as crucial, even 7 (or 5 like in our basic method) works nice. The most important thing is using points which extend over a large face area.</p>
+<h2 id="howaccuracyoffacelandmarklocationaffectthemodel">How accuracy of face landmark location affect the model?</h2>
+<p><code>MTCNN</code> algorithm was developed for Face-Detection and for Face-Landmark detection. As you may known, there also exist specialized method for just landmarks, which achieve higher accuracy. How does the more accurate landmark position affect final model? For this experiemnt we will use one of state-of-the-art models, <a href="https://github.com/MarekKowalski/DeepAlignmentNetwork">DeepAlignmentNetwork</a> created by <a href="http://home.elka.pw.edu.pl/~mkowals6/doku.php">Marek Kowalski</a>. The idea behind their algorithm is much more complicated than <code>MTCNN</code>.</p>
+<p align="center">
+
+</p>  
+<blockquote>
+<p>DAN is a multi-stage convolutional neural network for face alignment, where each stage analyzes the entire face image. This is facilitated thanks to the use of landmark heatmaps and feature images which transfers the information about the landmarks between stages. The use of an entire face image makes DAN very robust, which leads to state of the art accuracy on the most difficult datasets, including 72% reduction of failure rate on the 300W public test set.</p>
+</blockquote>
+<p>Also <code>DAN</code> detect 68 points and unfortunately they don't overlap with <code>MTCNN</code> points. To be able to use same reference points, we estimate the position of needed points (center of eyes, nose and center of month) using other detected points. The final points look good at pictures, but we must be aware of the possibility of a mistake already at the beginning of our experiment. Here are the results.</p>
+<p align="center">
+<amp-iframe width="800" height="150" frameborder="0" src="https://plot.ly/~melgor89/124.embed" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe>
+</p> 
+<p>Look like the <code>DAN</code> algorithm does not influence of the final performance of model, the both result look really similar (and difference maybe not statistically significant, we could check it by doing several experiments, not once). Even our estimation of points does not hurt the performance. Maybe we don't need these points at all and using just raw image? Let's discuss it next.</p>
+<h2 id="isreallyfacealignmentworthdoing">Is really Face-Alignment worth doing?</h2>
+<p>As stated in <a href="http://openaccess.thecvf.com/content_cvpr_2017_workshops/w6/papers/Ferrari_Investigating_Nuisance_Factors_CVPR_2017_paper.pdf">Investigating Nuisance Factors in Face Recognition with DCNN Representation</a>, Face Recogniton may not need Face-Aligment at all. In this section I would like to repeat their experiments but using our network architecture and <code>LFW/BLUFR</code> for testing. The intuition tells us that this situation seems impossible. If it would, why so much effort would was put in to find a good method for Face-Alignment.<br>
+Our test will be very similar to presented is paper and  basic alignment method would be presented by <code>SphereFace</code>. We will be testing different value of bounding-boxes around the face (parameterized by padding), like presented below. The size of input image from cropped faces is always 112x112. For aligned faces the longer side have value 112. Worth noting that mentioned paper used images 224x224.</p>
+<p align="center">
+
+</p>  
+<p>Here are results from both experiments.</p>
+<p align="center">
+<amp-iframe width="800" height="300" frameborder="0" src="https://plot.ly/~melgor89/121.embed" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe>
+</p> 
+<p align="center">
+<amp-iframe width="800" height="300" frameborder="0" src="https://plot.ly/~melgor89/120.embed" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe>
+</p> 
+<p>In contrast to cited paper, our experiments show the clear advantage of learning using faces after alignment in contrast to use raw faces. The different is &gt;5%, so we think that Alignment is it worth doing.<br>
+Some paper like <a href="https://arxiv.org/abs/1503.03832">FaceNet</a> or <a href="http://www.robots.ox.ac.uk/~vgg/publications/2015/Parkhi15/parkhi15.pdf">VGGFaceNet</a> claim that when training with just cropped images, it is good idea to just align it for testing. But we are not sure how this image should look like as we do not have any reference points. We tried running <code>SphereFace</code> and <code>Dlib</code> alignment with different padding with no success. Our last try was just rotating the face so that eyes would be at one level without making any significant translation. However the results are not better than baseline. So we were not able to confirm that using aligned images for model learned on cropped faces boost the accuracy.<br>
+However, for us this is kind of phenomena that cropping is working so well, but why? Our first intuition is that could be treated as Data Augmentation technique, because the faces are rotated relative to the center of the picture with different values. We will add <code>rotation</code> to our sets of Data Augmentation technique, which will be tested in next post.</p>
+<p>We would like also discuss a additional phenomena: both 3 middle experiments  in their group achieve similar accuracy despite having different padding value. It just only show that network can distinguish between useful (foreground) and superfluous (background) information, what create some kind of attention, nice! Let's make the test by taking the feature map from one of convolutional module and visualize it. Our visualization will be not as nice as others because most of blogs/paper use last layer to show per class attention. We are just want to show the focus of entire  network before making any classification (so in fact where the features which describe the person come from). The displayed value is exactly mean absolute value. Let's hope they would look nice! Many test with different  configuration of padding will be taken. Enough talking, network, show what you have inside! (As you may notice, the more <code>pink</code> the color is, the higher value of features is)</p>
+<p align="center">
+
+</p> 
+<p align="center">
+
+</p> 
+<p>Above images look intriguing, don't they? Look like some of network have higher values in face-region, other not. Also network learned with aligned faces have overall more <code>pinky</code> images. But whether it adds anything to interpretation of network? Our answer is clear: besides it is nice, nothing special. As we are visualizing only just intermediate features, this state where network focus their attention. But you must be aware that this values are not normalized, so visualization show only peak values, in fact the attention map could be much bigger. Also why the <code>Attention Map</code> from some network with very high score doesn't look great? If you want to get better intuition about <code>visualizing the feature maps</code> we advice lecture from <a href="http://course.fast.ai/">fast.ai</a>  part 1: <a href="http://course.fast.ai/lessons/lesson7.html">7—EXOTIC CNN ARCHITECTURES; RNN FROM SCRATCH</a>.</p>
+<h2 id="howaboutlettingthenetworktoaligntheimage">How about letting the network to align the image?</h2>
+<p>As we let the network to learn which features are crucial for Face-Recognition, maybe we also let it to preprocess the images? Sound great, but how come? Just use <a href="https://arxiv.org/abs/1506.02025">Spatial Transformer Layer</a>! It enable to apply the image transformation based on features extracted from image, so no need for face landmarks.</p>
+<p align="center">
+<amp-img alt="Spatial Transformer Layer" src="https://raw.githubusercontent.com/moodstocks/gtsrb.torch/master/resources/spatial-transformer-structure.png" height="172" width="408" layout="responsive"></amp-img>
+</p> 
+<p>As presented at above images, it contain:</p>
+<ol>
+<li>Localication network: used for generating 6 parameters needed for image transformation</li>
+<li>Grid generator: use provided 6 parameters to generate transformation grid</li>
+<li>Sampler: used input image and grid output modified image</li>
+</ol>
+<p>If you would like to get more intuition about <code>STN</code>, read a introduction blog about it from <a href="https://kevinzakka.github.io/2017/01/10/stn-part1/">kevinzakk</a>, we really recommed it!.</p>
+<p>This approach is not novel at Face-Recognition community, we know 3 papers already use this approach:</p>
+<ol>
+<li><a href="https://arxiv.org/abs/1605.07270">Learning a Metric Embedding for Face Recognition using the Multibatch Method</a></li>
+<li><a href="https://arxiv.org/abs/1701.07174">Towards End-to-End Face Recognition through Alignment Learning</a></li>
+<li><a href="https://arxiv.org/abs/1703.10818">End-To-End Face Detection and Recognition</a></li>
+</ol>
+<p>Each of mentioned paper use <code>STN</code> in different way. The first paper use similarity transform and pretrain the model using landmark annotationthen it is finetuned with recognition part. The second one want to compare different type of transformation (like we did earlier in the post) but using learnable <code>STN</code>. The last one use <code>STN</code> also face-detector.</p>
+<p>Our approach would be the most similar to the paper <a href="https://arxiv.org/abs/1701.07174">Towards End-to-End Face Recognition through Alignment Learning</a> (despite using <a href="http://ydwen.github.io/papers/WenECCV16.pdf">CenterLoss</a>), but we will also try pretraining <code>STN</code> model.<br>
+Out input data is cropped images with some of the paddding with final size <code>150x150</code>. The network architecture is 3 layer Convolutional with Pooling as a first component (which behave as a downsampler here). The input size to network is <code>112x96</code> (like in baseline experiment). This is all we need here, let's make experiments!</p>
+<h4 id="pretrainedstn">Pretrained STN</h4>
+<p>First experiments will just show if <code>STN</code> are able to learn transformation similar to our <code>baseline</code> and if we could easily boost accuracy by finetunning it.</p>
+<p align="center">
+<amp-iframe width="800" height="300" frameborder="0" src="https://plot.ly/~melgor89/122.embed" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe>
+</p> 
+<p>From all <code>pretraining</code> experiments the best results achieved method, where <code>STN</code> is pretrained  and then frozen during training connected with the <code>baseline FaceResNet</code> model. The results as against <code>baseline</code> are comparable beyond the <code>validation loss</code>  and <code>validation accuracy</code>, where STN model archive much higher values. In other cases when <code>STN</code> model is finetuned or even <code>FaceResNet</code> is learned from scratch, the results are much lower than the <code>baseline</code>. Concluding this part, it is not worth to use pretrained <code>STN</code> model in any configuration as final result in best case are same like the <code>baseline</code>.</p>
+<h4 id="typesoftransformationinstn">Types of transformation in STN</h4>
+<p align="center">
+<amp-iframe width="800" height="200" frameborder="0" src="https://plot.ly/~melgor89/125.embed" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe>
+</p> 
+<p>These experiments were testing basic type of transformation which can be learned using <code>STN</code>. What are the results? The best method (<code>affine transformation</code>) does achieve similar performance like the best current method taken from <code>SpherFace</code> paper. We were really surprised by this results! This indicate that <code>STN</code> really can learn useful transformation. Let's also look at how this image transformation look like, how different they are compared to <code>baseline</code>.</p>
+<p align="center">
+
+</p> 
+<p><code>STN</code> transformation are similar to each other and different from presented in <code>SphereFace</code> paper. This indicate that there are many ways of Face-Alignment to get high accuracy of model.</p>
+<h4 id="morestnexperiments">More STN experiments</h4>
+<p>Intrigued by high performance of <code>STN</code> we conduct some more experiments. We were adding more parameters  or <code>DropOut</code> to <code>Localization Network</code>. Also original <code>baseline FaceResNet</code> (without <code>AvgPool</code> model was tested).</p>
+<p align="center">
+<amp-iframe width="800" height="500" frameborder="0" src="https://plot.ly/~melgor89/126.embed" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe>
+</p> 
+<p>It look like that adding more parameters to model make <code>STN</code> better in context of <code>Validation Loss</code>. However <code>LFW</code> and <code>BLUFR</code> are going in opposite direction because the results are getting worse. Also the original <code>baseline FaceResNet</code> model does not get any boost of performance in <code>LFW</code> and <code>BLUFR</code> despite having the competitive <code>Validation Loss</code>.</p>
+<p>In summary, look like <code>STN</code> can provide very competitive results, especially with data distribution seen during training. Notwithstanding it is not clear why the same improvement is not seen at <code>LFW</code> and <code>BLUFR</code> benchmarks (for example models with same <code>Validation Loss</code> like <code>STN</code> model get much better results). Our intuition say that it may be caused by overfitting <code>STN</code> model to some <code>face distribution</code> then applying same transform for different distribution does not provide as huge boost. If this would be true, when more model regularization method should be used (<a href="https://arxiv.org/abs/1701.07174">Towards End-to-End Face Recognition through Alignment Learning</a> use <code>CenterLoss</code> as a additional regularization, maybe this is a clue for a better performance?).</p>
+<h2 id="3dfacealignment">3D Face Alignment</h2>
+<p>In the last experiments we would like to conduct experiments with the most advanced technique for Face Alignment, 3D models. However, we were not able to dispel our doubts about the pipeline the state-of-the-art method of 3D face modeling, <a href="https://arxiv.org/abs/1708.07517">FacePoseNet: Making a Case for Landmark-Free Face Alignment</a> as we could not get in touch with the authors. Here are the questions:</p>
+<ol>
+<li>When you where training model, you directly feed 224x224 image to network, right? No tight crop around head?</li>
+<li>How does align image of IJBA look like? Did you render pose at 0 angle? Or maybe just render at detected pose? Or maybe you use 2D warping? I was trying to render images at 0 angle but it does not look great.</li>
+<li>Could you clarify training process, if it look like that:
+<ol>
+<li>Get training images</li>
+<li>Run algorithm to estimate 6Dof (FacePoseNet or landmark detection)</li>
+<li>Render one of the pose</li>
+<li>Feed new render to Face Recognition model</li>
+</ol>
+</li>
+<li>How this process would look like if there was no Data-Augmentation?</li>
+</ol>
+<p>However, we run just experiments with different method of 3D modeling, descibed in <a href="https://www.openu.ac.il/home/hassner/projects/frontalize/">Effective Face Frontalization in Unconstrained Images</a>. The results does not convince us to make any further efforts in this direction as many of images doesn't work well (especially with rotated faces).</p>
+<p align="center">
+<amp-iframe width="800" height="100" frameborder="0" src="https://plot.ly/~melgor89/118.embed" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe>
+</p> 
+<h2 id="conclusion">Conclusion</h2>
+<p>It this post we have analysed a lot of ways of preparing <code>Face</code> image before using any Deep Learning model. Unfortunately none of method was able to detronize method proposed in <code>SphereFace</code>. Let's first answer our question asked at the beginning:</p>
+<ol>
+<li><strong>Which Face-Alignment method is best? Should we even care about it?</strong>
+<ul>
+<li>the best method is proposed by creators of <code>SphereFace</code> (<a href="https://github.com/wy1iu/sphereface/blob/master/preprocess/code/face_align_demo.m">code example</a>)</li>
+</ul>
+</li>
+<li><strong>How many pad add around the face before feeding to image?</strong>
+<ul>
+<li>in case of <code>SphereFace</code> method, between 0 and 20</li>
+</ul>
+</li>
+<li><strong>Which Image transform should we use?</strong>
+<ul>
+<li><code>Similarity Transformation</code> provide best results</li>
+</ul>
+</li>
+<li><strong>Does quality of Facial Landmark really care?</strong>
+<ul>
+<li>when you have only use <code>5</code> of them, it does not significantly influence the final results</li>
+</ul>
+</li>
+<li><strong>Does number and position of reference face landmark influence the accuracy?</strong>
+<ul>
+<li>choosing the both number and position of reference points is crucial for model accuracy</li>
+</ul>
+</li>
+<li><strong>It is possible to learn a model for Face-Alignment?</strong>
+<ul>
+<li><code>STN</code> show that it is possible with results only worse that <code>SphereFace</code></li>
+</ul>
+</li>
+</ol>
+<p>There are also some extra positives sides of experiments as we can now give some recommendation for others researcher:</p>
+<ol>
+<li>When you are trying to create own <code>Face Alignment</code> algorithm always make sure that is surpass single image cropping (which is surprisingly hard baseline to beat).</li>
+<li>The position of reference <code>Face Landmark</code> and amount of <code>padding</code> around the face is crucial for <code>Face Alignment</code> task.</li>
+</ol>
+<p>That is all in this post, we hope that there were interesting experiments for you. Next time we will test a <code>Data Augmentation</code> technique and their relation to <code>Face Recognition</code> task.</p>
+<h2 id="references">References</h2>
+<h3 id="papers">Papers</h3>
+<ul>
+<li><a href="https://arxiv.org/pdf/1704.08063.pdf">SphereFace : Deep Hypersphere Embedding for Face Recognition</a></li>
+<li><a href="https://arxiv.org/abs/1604.02878">Joint Face Detection and Alignment using Multi-task Cascaded Convolutional Networks</a></li>
+<li><a href="https://pdfs.semanticscholar.org/657a/58a220b1e69d14ef7a88be859d2f8d75e6a1.pdf">Menpo Benchmark</a></li>
+<li><a href="https://research.fb.com/publications/deepface-closing-the-gap-to-human-level-performance-in-face-verification/">DeepFace: Closing the Gap to Human-Level Performance in Face Verification</a></li>
+<li><a href="https://arxiv.org/abs/1503.03832">FaceNet</a></li>
+<li><a href="https://arxiv.org/abs/1406.4729">Spatial Pooling</a></li>
+<li><a href="http://openaccess.thecvf.com/content_cvpr_2017_workshops/w6/papers/Ferrari_Investigating_Nuisance_Factors_CVPR_2017_paper.pdf">Investigating Nuisance Factors in Face Recognition with DCNN Representation</a></li>
+<li><a href="https://arxiv.org/abs/1610.04823">To Frontalize or Not To Frontalize: A Study of Face Pre-Processing Techniques and Their Impact on Recognition</a></li>
+<li><a href="https://arxiv.org/abs/1706.01789">Deep Alignment Network: A convolutional neural network for robust face alignment</a></li>
+<li><a href="http://www.robots.ox.ac.uk/~vgg/publications/2015/Parkhi15/parkhi15.pdf">Deep Face Recognition</a></li>
+<li><a href="https://arxiv.org/abs/1506.02025">Spatial Transformer Layer</a></li>
+<li><a href="https://arxiv.org/abs/1605.07270">Learning a Metric Embedding for Face Recognition using the Multibatch Method</a></li>
+<li><a href="https://arxiv.org/abs/1701.07174">Towards End-to-End Face Recognition through Alignment Learning</a></li>
+<li><a href="https://arxiv.org/abs/1703.10818">End-To-End Face Detection and Recognition</a></li>
+<li><a href="https://arxiv.org/abs/1708.07517">FacePoseNet: Making a Case for Landmark-Free Face Alignment</a></li>
+<li><a href="https://www.openu.ac.il/home/hassner/projects/frontalize/">Effective Face Frontalization in Unconstrained Images</a></li>
+</ul>
+<h3 id="projectsblogstutorials">Projects, blogs, tutorials</h3>
+<ul>
+<li><a href="https://github.com/davidsandberg/facenet">Facenet</a></li>
+<li><a href="http://blog.dlib.net/2017/02/high-quality-face-recognition-with-deep.html">dlib</a></li>
+<li><a href="https://github.com/cmusatyalab/openface">OpenFace</a></li>
+<li><a href="http://course.fast.ai/">fast.ai</a></li>
+<li><a href="https://kevinzakka.github.io/2017/01/10/stn-part1/">Deep Learning Paper Implementations: Spatial Transformer Networks - Part I</a></li>
+<li><a href="https://ags.cs.uni-kl.de/fileadmin/inf_ags/3dcv-ws11-12/3DCV_WS11-12_lec04.pdf">Augmented Vision Lab from University of Kaiserslautern</a></li>
+</ul>
+</div>
+
+            </section>
+
+        </article>
+    </main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="../../../../../">BLCV - Bartosz Ludwiczuk Computer Vision</a> © 2017</section>
+        <section class="poweredby">Proudly published with <a href="https://ghost.org">Ghost</a></section>
+    </footer>
+</body>
