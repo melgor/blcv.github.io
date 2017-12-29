@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>Demystifying Face Recognition IV: Face-Aligment</title>
+    <title>Demystifying Face Recognition IV: Face-Alignment</title>
 
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
@@ -16,16 +16,16 @@
     
     <meta property="og:site_name" content="BLCV - Bartosz Ludwiczuk Computer Vision">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Demystifying Face Recognition IV: Face-Aligment">
+    <meta property="og:title" content="Demystifying Face Recognition IV: Face-Alignment">
     <meta property="og:description" content="How does Face Alignment effect the accuracy of Face Recognition algorithm?">
     <meta property="og:url" content="http://localhost:2368/2017/12/28/demystifying-face-recognition-iii-face-preprocessing/">
     <meta property="og:image" content="http://localhost:2368/content/images/2017/11/deepface_logo-1.png">
     <meta property="article:published_time" content="2017-12-28T09:55:00.000Z">
-    <meta property="article:modified_time" content="2017-12-28T15:27:13.000Z">
+    <meta property="article:modified_time" content="2017-12-29T07:26:23.000Z">
     <meta property="article:tag" content="face-recogition">
     
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Demystifying Face Recognition IV: Face-Aligment">
+    <meta name="twitter:title" content="Demystifying Face Recognition IV: Face-Alignment">
     <meta name="twitter:description" content="How does Face Alignment effect the accuracy of Face Recognition algorithm?">
     <meta name="twitter:url" content="http://localhost:2368/2017/12/28/demystifying-face-recognition-iii-face-preprocessing/">
     <meta name="twitter:image" content="http://localhost:2368/content/images/2017/11/deepface_logo-1.png">
@@ -51,10 +51,10 @@
         "url": "http://localhost:2368/author/bartosz/",
         "sameAs": []
     },
-    "headline": "Demystifying Face Recognition IV: Face-Aligment",
+    "headline": "Demystifying Face Recognition IV: Face-Alignment",
     "url": "http://localhost:2368/2017/12/28/demystifying-face-recognition-iii-face-preprocessing/",
     "datePublished": "2017-12-28T09:55:00.000Z",
-    "dateModified": "2017-12-28T15:27:13.000Z",
+    "dateModified": "2017-12-29T07:26:23.000Z",
     "image": {
         "@type": "ImageObject",
         "url": "http://localhost:2368/content/images/2017/11/deepface_logo-1.png",
@@ -94,7 +94,7 @@
         <article class="post">
 
             <header class="post-header">
-                <h1 class="post-title">Demystifying Face Recognition IV: Face-Aligment</h1>
+                <h1 class="post-title">Demystifying Face Recognition IV: Face-Alignment</h1>
                 <section class="post-meta">
                     <p class="author">by <a href="../../../../../author/bartosz/">Bartosz Ludwiczuk</a></p>
                     <time class="post-date" datetime="2017-12-28">2017-12-28</time>
@@ -296,7 +296,7 @@ Out input data is cropped images with some of the paddding with final size <code
 <amp-iframe width="800" height="500" frameborder="0" src="https://plot.ly/~melgor89/126.embed" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe>
 </p> 
 <p>It look like that adding more parameters to model make <code>STN</code> better in context of <code>Validation Loss</code>. However <code>LFW</code> and <code>BLUFR</code> are going in opposite direction because the results are getting worse. Also the original <code>baseline FaceResNet</code> model does not get any boost of performance in <code>LFW</code> and <code>BLUFR</code> despite having the competitive <code>Validation Loss</code>.</p>
-<p>In summary, look like <code>STN</code> can provide very competitive results, especially with data distribution seen during training. Notwithstanding it is not clear why the same improvement is not seen at <code>LFW</code> and <code>BLUFR</code> benchmarks (for example models with same <code>Validation Loss</code> like <code>STN</code> model get much better results). Our intuition say that it may be caused by overfitting <code>STN</code> model to some <code>face distribution</code> then applying same transform for different distribution does not provide as huge boost. If this would be true, when more model regularization method should be used (<a href="https://arxiv.org/abs/1701.07174">Towards End-to-End Face Recognition through Alignment Learning</a> use <code>CenterLoss</code> as a additional regularization, maybe this is a clue for a better performance?).</p>
+<p>In summary, look like <code>STN</code> can provide very competitive results, especially with data distribution seen during training. Notwithstanding it is not clear why the same improvement is not seen at <code>LFW</code> and <code>BLUFR</code> benchmarks (for example models with same <code>Validation Loss</code> like <code>STN</code> model get much better results). Our intuition say that it may be caused by overfitting <code>STN</code> model to some <code>face distribution</code> then applying same transform for different distribution does not provide as huge boost. If this would be true, when more model regularization method should be used (<a href="https://arxiv.org/abs/1701.07174">Towards End-to-End Face Recognition through Alignment Learning</a> use <code>CenterLoss</code> as a additional regularization, maybe this is a clue for a better performance?). We will for sure get back to this method.</p>
 <h2 id="3dfacealignment">3D Face Alignment</h2>
 <p>In the last experiments we would like to conduct experiments with the most advanced technique for Face Alignment, 3D models. However, we were not able to dispel our doubts about the pipeline the state-of-the-art method of 3D face modeling, <a href="https://arxiv.org/abs/1708.07517">FacePoseNet: Making a Case for Landmark-Free Face Alignment</a> as we could not get in touch with the authors. Here are the questions:</p>
 <ol>
