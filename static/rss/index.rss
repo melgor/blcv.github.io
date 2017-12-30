@@ -1,4 +1,4 @@
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>BLCV - Bartosz Ludwiczuk Computer Vision</title><description>Computer Vision Blog and Consulting</description><link>http://localhost:2368/</link><image><url>http://localhost:2368/favicon.png</url><title>BLCV - Bartosz Ludwiczuk Computer Vision</title><link>http://localhost:2368/</link></image><generator>Ghost 1.15</generator><lastBuildDate>Fri, 29 Dec 2017 07:26:57 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Demystifying Face Recognition IV: Face-Alignment</title><description>How does Face Alignment effect the accuracy of Face Recognition algorithm?</description><link>http://localhost:2368/2017/12/28/demystifying-face-recognition-iii-face-preprocessing/</link><guid isPermaLink="false">5a0fe47acf6e101744f5960a</guid><category>face-recogition</category><dc:creator>Bartosz Ludwiczuk</dc:creator><pubDate>Thu, 28 Dec 2017 09:55:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/11/deepface_logo-1.png" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/11/deepface_logo-1.png" alt="Demystifying Face Recognition IV: Face-Alignment"&gt;&lt;p&gt;One of the crucial steps before learning any Machine Learning model is data preprocessing. Most of the time we just center the data and set variance to 1 (as this make the optimalization process easier). In case of Face-Recognition, we need one-more step: Face-Alignment. What is this all about? In brief, we want to facilitate the task for out model by making the position of face constant (most of the time it means that eyes, nose and mouth are roughly at same position for every image). This is a pretty common step for all known Face-Recognition algorithm. Commonly to other posts, we will ask the beginning question:&lt;br&gt;
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>BLCV - Bartosz Ludwiczuk Computer Vision</title><description>Computer Vision Blog and Consulting</description><link>http://localhost:2368/</link><image><url>http://localhost:2368/favicon.png</url><title>BLCV - Bartosz Ludwiczuk Computer Vision</title><link>http://localhost:2368/</link></image><generator>Ghost 1.15</generator><lastBuildDate>Sat, 30 Dec 2017 11:00:27 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Demystifying Face Recognition IV: Face-Alignment</title><description>How does Face Alignment effect the accuracy of Face Recognition algorithm?</description><link>http://localhost:2368/2017/12/28/demystifying-face-recognition-iii-face-preprocessing/</link><guid isPermaLink="false">5a0fe47acf6e101744f5960a</guid><category>face-recogition</category><dc:creator>Bartosz Ludwiczuk</dc:creator><pubDate>Thu, 28 Dec 2017 09:55:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/11/deepface_logo-1.png" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/11/deepface_logo-1.png" alt="Demystifying Face Recognition IV: Face-Alignment"&gt;&lt;p&gt;One of the crucial steps before learning any Machine Learning model is data preprocessing. Most of the time we just center the data and set variance to 1 (as this make the optimalization process easier). In case of Face-Recognition, we need one-more step: Face-Alignment. What is this all about? In brief, we want to facilitate the task for out model by making the position of face constant (most of the time it means that eyes, nose and mouth are roughly at same position for every image). This is a pretty common step for all known Face-Recognition algorithm. Commonly to other posts, we will ask the beginning question:&lt;br&gt;
 &lt;strong&gt;Which preprocessing method for Face-Recognition is best?&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Reading this post you will find:&lt;/p&gt;
 &lt;ol&gt;
@@ -77,7 +77,8 @@
 &lt;img alt="Demystifying Face Recognition IV: Face-Alignment" src="http://localhost:2368/content/images/2017/11/compare_org-1.png"&gt;
 &lt;/p&gt;
 &lt;p align="center"&gt;
-&lt;iframe width="800" height="250" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/119.embed"&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;img alt="Demystifying Face Recognition IV: Face-Alignment" src="http://localhost:2368/content/images/2017/12/119_basic_exp.png" height="155" width="1140"&gt;
+&lt;/p&gt; 
 &lt;p&gt;Look like the SpherFace method is best (we think it is one of the reason of high performance of their algorithm). But surprisingly the second one is just raw face-crop without any alignment. It is pretty intriguing that is worth to mention that &lt;a href="https://arxiv.org/abs/1503.03832"&gt;FaceNet&lt;/a&gt; network from Google was also learn using raw images. Also recently there were several paper which claim that face-alignment is even harmful:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="http://openaccess.thecvf.com/content_cvpr_2017_workshops/w6/papers/Ferrari_Investigating_Nuisance_Factors_CVPR_2017_paper.pdf"&gt;Investigating Nuisance Factors in Face Recognition with DCNN Representation&lt;/a&gt;&lt;/li&gt;
@@ -89,7 +90,8 @@
 &lt;h2 id="whichkindofimagetransformationshouldwechoose"&gt;Which kind of Image Transformation should we choose?&lt;/h2&gt;
 &lt;p&gt;Let's make a quick experiment of comparing the image transformation. We will exclude the Euclidean transform as without scaling we should have scale invariant reference points and we don't. In this experiment we will be using baseline reference points (from &lt;code&gt;SphereFace&lt;/code&gt; project).&lt;/p&gt;
 &lt;p align="center"&gt;
-&lt;iframe width="800" height="200" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/117.embed"&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;img alt="Demystifying Face Recognition IV: Face-Alignment" src="http://localhost:2368/content/images/2017/12/117_image_trans.png" height="123" width="1138"&gt;
+&lt;/p&gt; 
 &lt;p align="center"&gt;
 &lt;img alt="Demystifying Face Recognition IV: Face-Alignment" src="http://localhost:2368/content/images/2017/11/compare_transform-1.png" height="300" width="300"&gt;
 &lt;/p&gt;  
@@ -107,7 +109,7 @@
 &lt;img alt="Demystifying Face Recognition IV: Face-Alignment" src="http://localhost:2368/content/images/2017/12/openface-points-1.png" height="400" width="400"&gt;
 &lt;/p&gt;  
 &lt;p align="center"&gt;
-&lt;iframe width="800" height="250" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/123.embed"&gt;&lt;/iframe&gt;
+&lt;img alt="Demystifying Face Recognition IV: Face-Alignment" src="http://localhost:2368/content/images/2017/12/123_points_matters.png" height="156" width="1138"&gt;
 &lt;/p&gt; 
 &lt;p&gt;The results are not surprise for us, but maybe there are for you? So, look like 7 points and 68 points case works best, overall much better than basic setting for OpenFace. Why? Look like when choosing the reference points there should be suitable variety of points location, in the other hand the transformation would be not consistent/incorrect for many faces. Just look at results of &lt;code&gt;openface-3points-lip&lt;/code&gt;, which point have not usual location. In such case the transformation in calculated using only small region of image, what could cause calculating transformation which we are not wanting too. It's also interesting that having 7 or 68 points create similar results, we supposed that 68 should be worse as face-edge points are not always visible what should cause undefined behaviour. But look like Similarity transform works nice with both cases. However, we would choose 7-points case which should generalize better. In summary, the number of reference points may be not as crucial, even 7 (or 5 like in our basic method) works nice. The most important thing is using points which extend over a large face area.&lt;/p&gt;
 &lt;h2 id="howaccuracyoffacelandmarklocationaffectthemodel"&gt;How accuracy of face landmark location affect the model?&lt;/h2&gt;
@@ -120,7 +122,7 @@
 &lt;/blockquote&gt;
 &lt;p&gt;Also &lt;code&gt;DAN&lt;/code&gt; detect 68 points and unfortunately they don't overlap with &lt;code&gt;MTCNN&lt;/code&gt; points. To be able to use same reference points, we estimate the position of needed points (center of eyes, nose and center of month) using other detected points. The final points look good at pictures, but we must be aware of the possibility of a mistake already at the beginning of our experiment. Here are the results.&lt;/p&gt;
 &lt;p align="center"&gt;
-&lt;iframe width="800" height="150" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/124.embed"&gt;&lt;/iframe&gt;
+&lt;img alt="Demystifying Face Recognition IV: Face-Alignment" src="http://localhost:2368/content/images/2017/12/124_kowalski.png" height="91" width="1138"&gt;
 &lt;/p&gt; 
 &lt;p&gt;Look like the &lt;code&gt;DAN&lt;/code&gt; algorithm does not influence of the final performance of model, the both result look really similar (and difference maybe not statistically significant, we could check it by doing several experiments, not once). Even our estimation of points does not hurt the performance. Maybe we don't need these points at all and using just raw image? Let's discuss it next.&lt;/p&gt;
 &lt;h2 id="isreallyfacealignmentworthdoing"&gt;Is really Face-Alignment worth doing?&lt;/h2&gt;
@@ -131,10 +133,10 @@ Our test will be very similar to presented is paper and  basic alignment method 
 &lt;/p&gt;  
 &lt;p&gt;Here are results from both experiments.&lt;/p&gt;
 &lt;p align="center"&gt;
-&lt;iframe width="800" height="300" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/121.embed"&gt;&lt;/iframe&gt;
+&lt;img alt="Demystifying Face Recognition IV: Face-Alignment" src="http://localhost:2368/content/images/2017/12/121_crop_pad.png" height="189" width="1138"&gt;
 &lt;/p&gt; 
 &lt;p align="center"&gt;
-&lt;iframe width="800" height="300" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/120.embed"&gt;&lt;/iframe&gt;
+&lt;img alt="Demystifying Face Recognition IV: Face-Alignment" src="http://localhost:2368/content/images/2017/12/120_mtcnn_pad.png" height="183" width="1138"&gt;
 &lt;/p&gt; 
 &lt;p&gt;In contrast to cited paper, our experiments show the clear advantage of learning using faces after alignment in contrast to use raw faces. The different is &amp;gt;5%, so we think that Alignment is it worth doing.&lt;br&gt;
 Some paper like &lt;a href="https://arxiv.org/abs/1503.03832"&gt;FaceNet&lt;/a&gt; or &lt;a href="http://www.robots.ox.ac.uk/~vgg/publications/2015/Parkhi15/parkhi15.pdf"&gt;VGGFaceNet&lt;/a&gt; claim that when training with just cropped images, it is good idea to just align it for testing. But we are not sure how this image should look like as we do not have any reference points. We tried running &lt;code&gt;SphereFace&lt;/code&gt; and &lt;code&gt;Dlib&lt;/code&gt; alignment with different padding with no success. Our last try was just rotating the face so that eyes would be at one level without making any significant translation. However the results are not better than baseline. So we were not able to confirm that using aligned images for model learned on cropped faces boost the accuracy.&lt;br&gt;
@@ -171,12 +173,12 @@ Out input data is cropped images with some of the paddding with final size &lt;c
 &lt;h4 id="pretrainedstn"&gt;Pretrained STN&lt;/h4&gt;
 &lt;p&gt;First experiments will just show if &lt;code&gt;STN&lt;/code&gt; are able to learn transformation similar to our &lt;code&gt;baseline&lt;/code&gt; and if we could easily boost accuracy by finetunning it.&lt;/p&gt;
 &lt;p align="center"&gt;
-&lt;iframe width="800" height="300" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/122.embed"&gt;&lt;/iframe&gt;
+&lt;img alt="Demystifying Face Recognition IV: Face-Alignment" src="http://localhost:2368/content/images/2017/12/122_st_finetine.png" height="157" width="1138"&gt;
 &lt;/p&gt; 
 &lt;p&gt;From all &lt;code&gt;pretraining&lt;/code&gt; experiments the best results achieved method, where &lt;code&gt;STN&lt;/code&gt; is pretrained  and then frozen during training connected with the &lt;code&gt;baseline FaceResNet&lt;/code&gt; model. The results as against &lt;code&gt;baseline&lt;/code&gt; are comparable beyond the &lt;code&gt;validation loss&lt;/code&gt;  and &lt;code&gt;validation accuracy&lt;/code&gt;, where STN model archive much higher values. In other cases when &lt;code&gt;STN&lt;/code&gt; model is finetuned or even &lt;code&gt;FaceResNet&lt;/code&gt; is learned from scratch, the results are much lower than the &lt;code&gt;baseline&lt;/code&gt;. Concluding this part, it is not worth to use pretrained &lt;code&gt;STN&lt;/code&gt; model in any configuration as final result in best case are same like the &lt;code&gt;baseline&lt;/code&gt;.&lt;/p&gt;
 &lt;h4 id="typesoftransformationinstn"&gt;Types of transformation in STN&lt;/h4&gt;
 &lt;p align="center"&gt;
-&lt;iframe width="800" height="200" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/125.embed"&gt;&lt;/iframe&gt;
+&lt;img alt="Demystifying Face Recognition IV: Face-Alignment" src="http://localhost:2368/content/images/2017/12/125_st_tranforamation.png" height="122" width="1138"&gt;
 &lt;/p&gt; 
 &lt;p&gt;These experiments were testing basic type of transformation which can be learned using &lt;code&gt;STN&lt;/code&gt;. What are the results? The best method (&lt;code&gt;affine transformation&lt;/code&gt;) does achieve similar performance like the best current method taken from &lt;code&gt;SpherFace&lt;/code&gt; paper. We were really surprised by this results! This indicate that &lt;code&gt;STN&lt;/code&gt; really can learn useful transformation. Let's also look at how this image transformation look like, how different they are compared to &lt;code&gt;baseline&lt;/code&gt;.&lt;/p&gt;
 &lt;p align="center"&gt;
@@ -186,7 +188,7 @@ Out input data is cropped images with some of the paddding with final size &lt;c
 &lt;h4 id="morestnexperiments"&gt;More STN experiments&lt;/h4&gt;
 &lt;p&gt;Intrigued by high performance of &lt;code&gt;STN&lt;/code&gt; we conduct some more experiments. We were adding more parameters  or &lt;code&gt;DropOut&lt;/code&gt; to &lt;code&gt;Localization Network&lt;/code&gt;. Also original &lt;code&gt;baseline FaceResNet&lt;/code&gt; (without &lt;code&gt;AvgPool&lt;/code&gt; model was tested).&lt;/p&gt;
 &lt;p align="center"&gt;
-&lt;iframe width="800" height="500" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/126.embed"&gt;&lt;/iframe&gt;
+&lt;img alt="Demystifying Face Recognition IV: Face-Alignment" src="http://localhost:2368/content/images/2017/12/126_st_more_exp.png" height="360" width="1138"&gt;
 &lt;/p&gt; 
 &lt;p&gt;It look like that adding more parameters to model make &lt;code&gt;STN&lt;/code&gt; better in context of &lt;code&gt;Validation Loss&lt;/code&gt;. However &lt;code&gt;LFW&lt;/code&gt; and &lt;code&gt;BLUFR&lt;/code&gt; are going in opposite direction because the results are getting worse. Also the original &lt;code&gt;baseline FaceResNet&lt;/code&gt; model does not get any boost of performance in &lt;code&gt;LFW&lt;/code&gt; and &lt;code&gt;BLUFR&lt;/code&gt; despite having the competitive &lt;code&gt;Validation Loss&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;In summary, look like &lt;code&gt;STN&lt;/code&gt; can provide very competitive results, especially with data distribution seen during training. Notwithstanding it is not clear why the same improvement is not seen at &lt;code&gt;LFW&lt;/code&gt; and &lt;code&gt;BLUFR&lt;/code&gt; benchmarks (for example models with same &lt;code&gt;Validation Loss&lt;/code&gt; like &lt;code&gt;STN&lt;/code&gt; model get much better results). Our intuition say that it may be caused by overfitting &lt;code&gt;STN&lt;/code&gt; model to some &lt;code&gt;face distribution&lt;/code&gt; then applying same transform for different distribution does not provide as huge boost. If this would be true, when more model regularization method should be used (&lt;a href="https://arxiv.org/abs/1701.07174"&gt;Towards End-to-End Face Recognition through Alignment Learning&lt;/a&gt; use &lt;code&gt;CenterLoss&lt;/code&gt; as a additional regularization, maybe this is a clue for a better performance?). We will for sure get back to this method.&lt;/p&gt;
@@ -207,7 +209,7 @@ Out input data is cropped images with some of the paddding with final size &lt;c
 &lt;/ol&gt;
 &lt;p&gt;However, we run just experiments with different method of 3D modeling, descibed in &lt;a href="https://www.openu.ac.il/home/hassner/projects/frontalize/"&gt;Effective Face Frontalization in Unconstrained Images&lt;/a&gt;. The results does not convince us to make any further efforts in this direction as many of images doesn't work well (especially with rotated faces).&lt;/p&gt;
 &lt;p align="center"&gt;
-&lt;iframe width="800" height="100" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/118.embed"&gt;&lt;/iframe&gt;
+&lt;img alt="Demystifying Face Recognition IV: Face-Alignment" src="http://localhost:2368/content/images/2017/12/118_3d.png" height="65" width="1138"&gt;
 &lt;/p&gt; 
 &lt;h2 id="conclusion"&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;It this post we have analysed a lot of ways of preparing &lt;code&gt;Face&lt;/code&gt; image before using any Deep Learning model. Unfortunately none of method was able to detronize method proposed in &lt;code&gt;SphereFace&lt;/code&gt;. Let's first answer our question asked at the beginning:&lt;/p&gt;

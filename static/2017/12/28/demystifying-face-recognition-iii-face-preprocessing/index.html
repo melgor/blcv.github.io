@@ -7,8 +7,8 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" type="text/css" href="../../../../assets/css/styles.min.css?v=b6563528b1">
-    <link rel="stylesheet" type="text/css" href="../../../../assets/css/vendors.min.css?v=b6563528b1">
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/styles.min.css?v=2bdefd119d">
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/vendors.min.css?v=2bdefd119d">
 
     
 
@@ -29,7 +29,7 @@
     <meta property="og:url" content="http://localhost:2368/2017/12/28/demystifying-face-recognition-iii-face-preprocessing/">
     <meta property="og:image" content="http://localhost:2368/content/images/2017/11/deepface_logo-1.png">
     <meta property="article:published_time" content="2017-12-28T09:55:00.000Z">
-    <meta property="article:modified_time" content="2017-12-29T07:26:23.000Z">
+    <meta property="article:modified_time" content="2017-12-30T10:59:27.000Z">
     <meta property="article:tag" content="face-recogition">
     
     <meta name="twitter:card" content="summary_large_image">
@@ -62,7 +62,7 @@
     "headline": "Demystifying Face Recognition IV: Face-Alignment",
     "url": "http://localhost:2368/2017/12/28/demystifying-face-recognition-iii-face-preprocessing/",
     "datePublished": "2017-12-28T09:55:00.000Z",
-    "dateModified": "2017-12-29T07:26:23.000Z",
+    "dateModified": "2017-12-30T10:59:27.000Z",
     "image": {
         "@type": "ImageObject",
         "url": "http://localhost:2368/content/images/2017/11/deepface_logo-1.png",
@@ -78,7 +78,7 @@
 }
     </script>
 
-    <script type="text/javascript" src="../../../../public/ghost-sdk.js?v=b6563528b1"></script>
+    <script type="text/javascript" src="../../../../public/ghost-sdk.js?v=2bdefd119d"></script>
 <script type="text/javascript">
 ghost.init({
 	clientId: "ghost-frontend",
@@ -314,7 +314,8 @@ ghost.init({
 <img alt="Example images of each method" src="../../../../content/images/2017/11/compare_org-1.png">
 </p>
 <p align="center">
-<iframe width="800" height="250" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/119.embed"></iframe></p>
+<img alt="Basic Face Alignment experiment" src="../../../../content/images/2017/12/119_basic_exp.png" height="155" width="1140">
+</p> 
 <p>Look like the SpherFace method is best (we think it is one of the reason of high performance of their algorithm). But surprisingly the second one is just raw face-crop without any alignment. It is pretty intriguing that is worth to mention that <a href="https://arxiv.org/abs/1503.03832">FaceNet</a> network from Google was also learn using raw images. Also recently there were several paper which claim that face-alignment is even harmful:</p>
 <ol>
 <li><a href="http://openaccess.thecvf.com/content_cvpr_2017_workshops/w6/papers/Ferrari_Investigating_Nuisance_Factors_CVPR_2017_paper.pdf">Investigating Nuisance Factors in Face Recognition with DCNN Representation</a></li>
@@ -326,7 +327,8 @@ ghost.init({
 <h2 id="whichkindofimagetransformationshouldwechoose">Which kind of Image Transformation should we choose?</h2>
 <p>Let's make a quick experiment of comparing the image transformation. We will exclude the Euclidean transform as without scaling we should have scale invariant reference points and we don't. In this experiment we will be using baseline reference points (from <code>SphereFace</code> project).</p>
 <p align="center">
-<iframe width="800" height="200" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/117.embed"></iframe></p>
+<img alt="Image Transformation experiment" src="../../../../content/images/2017/12/117_image_trans.png" height="123" width="1138">
+</p> 
 <p align="center">
 <img alt="Example of different image transformation" src="../../../../content/images/2017/11/compare_transform-1.png" height="300" width="300">
 </p>  
@@ -344,7 +346,7 @@ ghost.init({
 <img alt="Face Align using different face points" src="../../../../content/images/2017/12/openface-points-1.png" height="400" width="400">
 </p>  
 <p align="center">
-<iframe width="800" height="250" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/123.embed"></iframe>
+<img alt="Reference Points experiment" src="../../../../content/images/2017/12/123_points_matters.png" height="156" width="1138">
 </p> 
 <p>The results are not surprise for us, but maybe there are for you? So, look like 7 points and 68 points case works best, overall much better than basic setting for OpenFace. Why? Look like when choosing the reference points there should be suitable variety of points location, in the other hand the transformation would be not consistent/incorrect for many faces. Just look at results of <code>openface-3points-lip</code>, which point have not usual location. In such case the transformation in calculated using only small region of image, what could cause calculating transformation which we are not wanting too. It's also interesting that having 7 or 68 points create similar results, we supposed that 68 should be worse as face-edge points are not always visible what should cause undefined behaviour. But look like Similarity transform works nice with both cases. However, we would choose 7-points case which should generalize better. In summary, the number of reference points may be not as crucial, even 7 (or 5 like in our basic method) works nice. The most important thing is using points which extend over a large face area.</p>
 <h2 id="howaccuracyoffacelandmarklocationaffectthemodel">How accuracy of face landmark location affect the model?</h2>
@@ -357,7 +359,7 @@ ghost.init({
 </blockquote>
 <p>Also <code>DAN</code> detect 68 points and unfortunately they don't overlap with <code>MTCNN</code> points. To be able to use same reference points, we estimate the position of needed points (center of eyes, nose and center of month) using other detected points. The final points look good at pictures, but we must be aware of the possibility of a mistake already at the beginning of our experiment. Here are the results.</p>
 <p align="center">
-<iframe width="800" height="150" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/124.embed"></iframe>
+<img alt="Reference Points experiment" src="../../../../content/images/2017/12/124_kowalski.png" height="91" width="1138">
 </p> 
 <p>Look like the <code>DAN</code> algorithm does not influence of the final performance of model, the both result look really similar (and difference maybe not statistically significant, we could check it by doing several experiments, not once). Even our estimation of points does not hurt the performance. Maybe we don't need these points at all and using just raw image? Let's discuss it next.</p>
 <h2 id="isreallyfacealignmentworthdoing">Is really Face-Alignment worth doing?</h2>
@@ -368,10 +370,10 @@ Our test will be very similar to presented is paper and  basic alignment method 
 </p>  
 <p>Here are results from both experiments.</p>
 <p align="center">
-<iframe width="800" height="300" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/121.embed"></iframe>
+<img alt="Crop + Pad experiment" src="../../../../content/images/2017/12/121_crop_pad.png" height="189" width="1138">
 </p> 
 <p align="center">
-<iframe width="800" height="300" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/120.embed"></iframe>
+<img alt="Face Alignment + Pad experiment" src="../../../../content/images/2017/12/120_mtcnn_pad.png" height="183" width="1138">
 </p> 
 <p>In contrast to cited paper, our experiments show the clear advantage of learning using faces after alignment in contrast to use raw faces. The different is &gt;5%, so we think that Alignment is it worth doing.<br>
 Some paper like <a href="https://arxiv.org/abs/1503.03832">FaceNet</a> or <a href="http://www.robots.ox.ac.uk/~vgg/publications/2015/Parkhi15/parkhi15.pdf">VGGFaceNet</a> claim that when training with just cropped images, it is good idea to just align it for testing. But we are not sure how this image should look like as we do not have any reference points. We tried running <code>SphereFace</code> and <code>Dlib</code> alignment with different padding with no success. Our last try was just rotating the face so that eyes would be at one level without making any significant translation. However the results are not better than baseline. So we were not able to confirm that using aligned images for model learned on cropped faces boost the accuracy.<br>
@@ -408,12 +410,12 @@ Out input data is cropped images with some of the paddding with final size <code
 <h4 id="pretrainedstn">Pretrained STN</h4>
 <p>First experiments will just show if <code>STN</code> are able to learn transformation similar to our <code>baseline</code> and if we could easily boost accuracy by finetunning it.</p>
 <p align="center">
-<iframe width="800" height="300" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/122.embed"></iframe>
+<img alt="Pretrained STN experiment" src="../../../../content/images/2017/12/122_st_finetine.png" height="157" width="1138">
 </p> 
 <p>From all <code>pretraining</code> experiments the best results achieved method, where <code>STN</code> is pretrained  and then frozen during training connected with the <code>baseline FaceResNet</code> model. The results as against <code>baseline</code> are comparable beyond the <code>validation loss</code>  and <code>validation accuracy</code>, where STN model archive much higher values. In other cases when <code>STN</code> model is finetuned or even <code>FaceResNet</code> is learned from scratch, the results are much lower than the <code>baseline</code>. Concluding this part, it is not worth to use pretrained <code>STN</code> model in any configuration as final result in best case are same like the <code>baseline</code>.</p>
 <h4 id="typesoftransformationinstn">Types of transformation in STN</h4>
 <p align="center">
-<iframe width="800" height="200" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/125.embed"></iframe>
+<img alt="STN transformation experiment" src="../../../../content/images/2017/12/125_st_tranforamation.png" height="122" width="1138">
 </p> 
 <p>These experiments were testing basic type of transformation which can be learned using <code>STN</code>. What are the results? The best method (<code>affine transformation</code>) does achieve similar performance like the best current method taken from <code>SpherFace</code> paper. We were really surprised by this results! This indicate that <code>STN</code> really can learn useful transformation. Let's also look at how this image transformation look like, how different they are compared to <code>baseline</code>.</p>
 <p align="center">
@@ -423,7 +425,7 @@ Out input data is cropped images with some of the paddding with final size <code
 <h4 id="morestnexperiments">More STN experiments</h4>
 <p>Intrigued by high performance of <code>STN</code> we conduct some more experiments. We were adding more parameters  or <code>DropOut</code> to <code>Localization Network</code>. Also original <code>baseline FaceResNet</code> (without <code>AvgPool</code> model was tested).</p>
 <p align="center">
-<iframe width="800" height="500" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/126.embed"></iframe>
+<img alt="More STN experiment" src="../../../../content/images/2017/12/126_st_more_exp.png" height="360" width="1138">
 </p> 
 <p>It look like that adding more parameters to model make <code>STN</code> better in context of <code>Validation Loss</code>. However <code>LFW</code> and <code>BLUFR</code> are going in opposite direction because the results are getting worse. Also the original <code>baseline FaceResNet</code> model does not get any boost of performance in <code>LFW</code> and <code>BLUFR</code> despite having the competitive <code>Validation Loss</code>.</p>
 <p>In summary, look like <code>STN</code> can provide very competitive results, especially with data distribution seen during training. Notwithstanding it is not clear why the same improvement is not seen at <code>LFW</code> and <code>BLUFR</code> benchmarks (for example models with same <code>Validation Loss</code> like <code>STN</code> model get much better results). Our intuition say that it may be caused by overfitting <code>STN</code> model to some <code>face distribution</code> then applying same transform for different distribution does not provide as huge boost. If this would be true, when more model regularization method should be used (<a href="https://arxiv.org/abs/1701.07174">Towards End-to-End Face Recognition through Alignment Learning</a> use <code>CenterLoss</code> as a additional regularization, maybe this is a clue for a better performance?). We will for sure get back to this method.</p>
@@ -444,7 +446,7 @@ Out input data is cropped images with some of the paddding with final size <code
 </ol>
 <p>However, we run just experiments with different method of 3D modeling, descibed in <a href="https://www.openu.ac.il/home/hassner/projects/frontalize/">Effective Face Frontalization in Unconstrained Images</a>. The results does not convince us to make any further efforts in this direction as many of images doesn't work well (especially with rotated faces).</p>
 <p align="center">
-<iframe width="800" height="100" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/118.embed"></iframe>
+<img alt="3D experiment" src="../../../../content/images/2017/12/118_3d.png" height="65" width="1138">
 </p> 
 <h2 id="conclusion">Conclusion</h2>
 <p>It this post we have analysed a lot of ways of preparing <code>Face</code> image before using any Deep Learning model. Unfortunately none of method was able to detronize method proposed in <code>SphereFace</code>. Let's first answer our question asked at the beginning:</p>
@@ -654,10 +656,10 @@ Out input data is cropped images with some of the paddding with final size <code
     <div class="reveal" id="reveal-search">
     <div id="results"></div>
 </div>
-    <script src="../../../../assets/js/vendors.min.js?v=b6563528b1"></script>
-    <script src="../../../../assets/js/main.min.js?v=b6563528b1"></script>
+    <script src="../../../../assets/js/vendors.min.js?v=2bdefd119d"></script>
+    <script src="../../../../assets/js/main.min.js?v=2bdefd119d"></script>
 
-        <script src="../../../../assets/js/prism.min.js?v=b6563528b1"></script>
+        <script src="../../../../assets/js/prism.min.js?v=2bdefd119d"></script>
 
 
     <script>
