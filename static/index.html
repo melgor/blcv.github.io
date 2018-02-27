@@ -7,8 +7,8 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" type="text/css" href="assets/css/styles.min.css?v=dbb78caff2">
-    <link rel="stylesheet" type="text/css" href="assets/css/vendors.min.css?v=dbb78caff2">
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.min.css?v=48a2bf87a9">
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors.min.css?v=48a2bf87a9">
 
     
 
@@ -49,7 +49,7 @@
 }
     </script>
 
-    <script type="text/javascript" src="public/ghost-sdk.js?v=dbb78caff2"></script>
+    <script type="text/javascript" src="public/ghost-sdk.js?v=48a2bf87a9"></script>
 <script type="text/javascript">
 ghost.init({
 	clientId: "ghost-frontend",
@@ -58,6 +58,40 @@ ghost.init({
 </script>
     <meta name="generator" content="Ghost 1.15">
     <link rel="alternate" type="application/rss+xml" title="BLCV - Bartosz Ludwiczuk Computer Vision" href="rss/index.html">
+    <style>
+.customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.customers td, .customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+tr {
+    text-align: center;
+    vertical-align: middle;
+}
+    
+td {
+    text-align: center;
+    vertical-align: middle;
+}
+.customers tr:nth-child(even){background-color: #f2f2f2;}
+
+.customers tr:hover {background-color: #ddd;}
+
+.customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4c94af;
+    color: white;
+}
+</style>
+<script src="https://www.w3schools.com/lib/w3.js"></script>
 </head>
 <body class="home-template nav-closed">
 
@@ -193,6 +227,41 @@ ghost.init({
     <main id="content" class="content medium-8 large-9 columns" role="main">
         
 <div class="grid clearfix" id="grid">
+    <article class="grid-item">
+            <div class="cover-image">
+                <a href="2018/02/27/demystifying-face-recognition-v-data-augmentation/">
+                    <figure class="cover-image-container">
+                        <img src="content/images/2018/02/blog_5_mixup-1.jpg?w=450&amp;q=60">
+                    </figure>
+                </a>
+            </div>
+        <div class="post-content-body">
+            <header class="post-header">
+                    <div class="post-tags clearfix">
+                        <i class="fa fa-tags"></i> <a href="tag/face-recogition/">face-recogition</a>
+                    </div>
+                <h3 class="post-title"><a href="2018/02/27/demystifying-face-recognition-v-data-augmentation/">Demystifying Face Recognition V: Data Augmentation</a></h3>
+            </header>
+            <section class="post-excerpt">
+                <p>Data Augmentation for Face Recognition <a class="read-more" href="2018/02/27/demystifying-face-recognition-v-data-augmentation/">»</a></p>
+            </section>
+            <footer class="post-meta clearfix">
+                <span class="author">
+                    <i class="fa fa-user" aria-hidden="true"></i> <a href="author/bartosz/">Bartosz Ludwiczuk</a>
+                </span>
+                <span class="date">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    <time class="post-date" datetime="2018-02-27">
+                        27 February 2018
+                    </time>
+                </span>
+                <span class="comments">
+                    <i class="fa fa-comments" aria-hidden="true"></i>
+                    <a href="2018/02/27/demystifying-face-recognition-v-data-augmentation/index.html#disqus_thread" data-disqus-identifier="">Comments</a>
+                </span>
+            </footer>
+        </div>
+    </article>
     <article class="grid-item">
             <div class="cover-image">
                 <a href="2017/12/28/demystifying-face-recognition-iii-face-preprocessing/">
@@ -358,6 +427,21 @@ ghost.init({
         <li class="clearfix">
             <div class="clearfix">
                  <div class="featured-image">
+                     <a href="2018/02/27/demystifying-face-recognition-v-data-augmentation/" class="thumbnail"><img src="content/images/2018/02/blog_5_mixup-1.jpg?w=80&amp;q=50"></a>
+                 </div>
+                <div class="featured-title">
+                    <a href="2018/02/27/demystifying-face-recognition-v-data-augmentation/">Demystifying Face Recognition V: Data Augmentation</a>
+
+                    <div class="featured-meta">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <time class="featured-time" datetime="2018-02-27">February 27 2018</time>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="clearfix">
+            <div class="clearfix">
+                 <div class="featured-image">
                      <a href="2017/12/28/demystifying-face-recognition-iii-face-preprocessing/" class="thumbnail"><img src="content/images/2017/11/deepface_logo-1.png?w=80&amp;q=50"></a>
                  </div>
                 <div class="featured-title">
@@ -366,21 +450,6 @@ ghost.init({
                     <div class="featured-meta">
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
                         <time class="featured-time" datetime="2017-12-28">December 28 2017</time>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <li class="clearfix">
-            <div class="clearfix">
-                 <div class="featured-image">
-                     <a href="2017/11/08/demystifying-face-recognition-ii-baseline/" class="thumbnail"><img src="content/images/2017/11/faceresnet.png?w=80&amp;q=50"></a>
-                 </div>
-                <div class="featured-title">
-                    <a href="2017/11/08/demystifying-face-recognition-ii-baseline/">Demystifying Face Recognition II: Baseline</a>
-
-                    <div class="featured-meta">
-                        <i class="fa fa-clock-o" aria-hidden="true"></i>
-                        <time class="featured-time" datetime="2017-11-08">November 08 2017</time>
                     </div>
                 </div>
             </div>
@@ -431,8 +500,8 @@ ghost.init({
     <div class="reveal" id="reveal-search">
     <div id="results"></div>
 </div>
-    <script src="assets/js/vendors.min.js?v=dbb78caff2"></script>
-    <script src="assets/js/main.min.js?v=dbb78caff2"></script>
+    <script src="assets/js/vendors.min.js?v=48a2bf87a9"></script>
+    <script src="assets/js/main.min.js?v=48a2bf87a9"></script>
 
         <script id="dsq-count-scr" src="http://blcv-github-io.disqus.com/count.js" async></script>
 

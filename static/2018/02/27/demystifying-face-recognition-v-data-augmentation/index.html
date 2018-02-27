@@ -1,0 +1,793 @@
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Demystifying Face Recognition V: Data Augmentation</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/styles.min.css?v=48a2bf87a9">
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/vendors.min.css?v=48a2bf87a9">
+
+    
+
+    
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,700,700i" rel="stylesheet">
+
+    <meta name="description" content="What are best Data-Augmentation technique which can be used for Face-Recognition?">
+    <link rel="shortcut icon" href="../../../../favicon.png" type="image/png">
+    <link rel="canonical" href="index.html">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="amp/index.html">
+    
+    <meta property="og:site_name" content="BLCV - Bartosz Ludwiczuk Computer Vision">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Demystifying Face Recognition V: Data Augmentation">
+    <meta property="og:description" content="What are best Data-Augmentation technique which can be used for Face-Recognition?">
+    <meta property="og:url" content="http://localhost:2368/2018/02/27/demystifying-face-recognition-v-data-augmentation/">
+    <meta property="og:image" content="http://localhost:2368/content/images/2018/02/baidu-1.png">
+    <meta property="article:published_time" content="2018-02-27T16:56:00.000Z">
+    <meta property="article:modified_time" content="2018-02-27T18:31:34.000Z">
+    <meta property="article:tag" content="face-recogition">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Demystifying Face Recognition V: Data Augmentation">
+    <meta name="twitter:description" content="What are best Data-Augmentation technique which can be used for Face-Recognition?">
+    <meta name="twitter:url" content="http://localhost:2368/2018/02/27/demystifying-face-recognition-v-data-augmentation/">
+    <meta name="twitter:image" content="http://localhost:2368/content/images/2018/02/blog_5_mixup-1.jpg">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Bartosz Ludwiczuk">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="face-recogition">
+    <meta property="og:image:width" content="686">
+    <meta property="og:image:height" content="872">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "BLCV - Bartosz Ludwiczuk Computer Vision",
+        "logo": "http://localhost:2368/content/images/2017/11/logo.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Bartosz Ludwiczuk",
+        "url": "http://localhost:2368/author/bartosz/",
+        "sameAs": []
+    },
+    "headline": "Demystifying Face Recognition V: Data Augmentation",
+    "url": "http://localhost:2368/2018/02/27/demystifying-face-recognition-v-data-augmentation/",
+    "datePublished": "2018-02-27T16:56:00.000Z",
+    "dateModified": "2018-02-27T18:31:34.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:2368/content/images/2018/02/blog_5_mixup-1.jpg",
+        "width": 895,
+        "height": 659
+    },
+    "keywords": "face-recogition",
+    "description": "Data Augmentation for Face Recognition",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <script type="text/javascript" src="../../../../public/ghost-sdk.js?v=48a2bf87a9"></script>
+<script type="text/javascript">
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "5e332671e77e"
+});
+</script>
+    <meta name="generator" content="Ghost 1.15">
+    <link rel="alternate" type="application/rss+xml" title="BLCV - Bartosz Ludwiczuk Computer Vision" href="../../../../rss/index.html">
+    <style>
+.customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.customers td, .customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+tr {
+    text-align: center;
+    vertical-align: middle;
+}
+    
+td {
+    text-align: center;
+    vertical-align: middle;
+}
+.customers tr:nth-child(even){background-color: #f2f2f2;}
+
+.customers tr:hover {background-color: #ddd;}
+
+.customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4c94af;
+    color: white;
+}
+</style>
+<script src="https://www.w3schools.com/lib/w3.js"></script>
+</head>
+<body class="post-template tag-face-recogition nav-closed">
+
+    <div class="off-canvas position-right" id="offCanvas" data-off-canvas>
+    <!-- Close button -->
+    <button class="close-button" aria-label="Close menu" type="button" data-close>
+        <span aria-hidden="true"><i class="fa fa-times close-off-canvas" aria-hidden="true"></i></span>
+    </button>
+
+    <div class="off-canvas-ct">
+
+        <div class="off-canvas-widget">
+            <h4>Navigation</h4>
+            <nav class="off-canvas-navigation">
+                <ul class="menu vertical">
+                        <li class="nav-item nav-home" role="presentation">
+        <a class="nav-link" href="../../../../">Home</a>
+    </li>
+    <li class="nav-item nav-face-recognition" role="presentation">
+        <a class="nav-link" href="../../../../tag/face-recogition/">Face Recognition</a>
+    </li>
+    <li class="nav-item nav-about" role="presentation">
+        <a class="nav-link" href="../../../../about-blcv/">About</a>
+    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+        <div class="off-canvas-widget">
+            <div class="category-widget-section side-widget">
+                <ul class="vertical menu" data-accordion-menu>
+                    <li>
+                        <a href="index.html#" class="tags-widget"><h4>Tag list</h4></a>
+                        <ul class="menu vertical nested" id="tag-list-off"></ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+            <div class="off-canvas-widget">
+                <div class="off-subscribe-ct">
+                    <h4><i class="fa fa-rss-square" aria-hidden="true"></i> Subscribe</h4>
+                    <p>Get the latest posts delivered right to your inbox.</p>
+                    <form method="post" action="http://localhost:2368/subscribe/" class="subscribe-form">
+    <input class="confirm" type="hidden" name="confirm"><input class="location" type="hidden" name="location"><input class="referrer" type="hidden" name="referrer">
+
+    <div class="">
+        <input class="subscribe-email" type="email" name="email" placeholder="Your email address">
+        <button class="button expanded subscribe-btn" type="submit">Subscribe</button>
+    </div>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+
+                    <p>or subscribe <a href="http://cloud.feedly.com/#subscription/feed/blcv.pl/static//rss/"> via RSS
+                    </a> with Feedly!</p>
+                </div>
+            </div>
+    </div>
+</div>
+    <div class="off-canvas-content" data-off-canvas-content>
+        <header id="header">
+    <div class="primary-header">
+        <div class="row">
+            <div class="columns">
+                <a id="blog-logo" href="../../../../">
+                        <img src="../../../../content/images/2017/11/logo.png" alt="BLCV - Bartosz Ludwiczuk Computer Vision" height="100">
+                </a>
+                <ul class="no-bullet social-media clearfix">
+                    <li class="nd-social-facebook">
+                        <a target="_blank" href="https://www.facebook.com/bartosz.ludwiczuk"><i class="fa fa-facebook fa-lg"></i></a>
+                    </li>
+                    <li class="nd-social-github">
+                        <a target="_blank" href="https://github.com/melgor"><i class="fa fa-github fa-lg"></i></a>
+                    </li>
+                    <li class="nd-social-linkedin">
+                        <a target="_blank" href="https://www.linkedin.com/in/bartosz-ludwiczuk-a677a760/?trk=nav_responsive_tab_profile"><i class="fa fa-linkedin fa-lg"></i></a>
+                    </li>
+                    <li class="nd-social-quora">
+                        <a target="_blank" href="https://www.quora.com/profile/Bartosz-Ludwiczuk"><i class="fa fa-quora fa-lg"></i></a>
+                    </li>
+                    
+                    <li class="nd-social-kaggle">
+                        <a target="_blank" href="https://www.kaggle.com/melgor"><i class="fa fa-kaggle fa-lg"></i></a>
+                    </li>
+                </ul>
+                <div class="header-search">
+                    <form method="get" class="search-form form-inline" action="index.html#">
+                        <div class="input-group">
+                            <input id="search-field" type="search" class="search-field input-group-field" placeholder="Search" value="" name="s" title="Search for:">
+                            <div class="input-group-button">
+                                <button class="button transparent search-submit-icon">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="main-container" id="main-container">
+            <div class="navigation-container clearfix">
+    <div class="row">
+        <div class="columns">
+            <nav class="header-navigation show-for-medium">
+                <ul class="menu align-center header-nav">
+                        <li class="nav-item nav-home" role="presentation">
+        <a class="nav-link" href="../../../../">Home</a>
+    </li>
+    <li class="nav-item nav-face-recognition" role="presentation">
+        <a class="nav-link" href="../../../../tag/face-recogition/">Face Recognition</a>
+    </li>
+    <li class="nav-item nav-about" role="presentation">
+        <a class="nav-link" href="../../../../about-blcv/">About</a>
+    </li>
+
+                </ul>
+            </nav>
+            <div class="top-bar-container" data-sticky-container>
+                <div class="show-off-canvas show-for-small-only sticky" data-sticky data-options="anchor: main-container; marginTop: 0; stickyOn: small;">
+                    <a data-toggle="offCanvas">Menu <i class="fa fa-bars" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <div class="container">
+                
+
+    <div class="row medium-unstack">
+        <main id="content" class="content medium-8 large-9 columns" role="main">
+            <article class="post tag-face-recogition featured">
+
+                <header class="post-header">
+                        <figure class="image-feature"><img src="../../../../content/images/2018/02/blog_5_mixup-1.jpg"></figure>
+
+                    <div class="post-heading">
+                        <h1 class="post-title">Demystifying Face Recognition V: Data Augmentation</h1>
+                        <section class="post-meta">
+                            <time class="post-date" datetime="2018-02-27">27 February 2018</time>  on <a href="../../../../tag/face-recogition/">face-recogition</a>
+                        </section>
+                    </div>
+                </header>
+
+                <section class="post-content">
+                    <div class="kg-card-markdown"><p>From the beginning of creation of Neural Network, one of the biggest problem was overfitting, what means weak generalization in dataset not seen during draining (it is often named as <code>Generalization Gap</code>). Mainly it was caused by many parameters (ex. AlexNet have 60M, VGG-Net have 230M). In Machine Learning there exist a theorem that the number of parameters should be lower than number of training example, what is normally not the case when using Deep Learning. So what are the main method which enable Deep Learning achieve superior results? By using different technique to reduce overfitting, where 3 of them have the biggest impact:</p>
+<ul>
+<li>Weight-decay: preventing weight from achieving very high values, what can cause remembering training examples</li>
+<li>DropOut: preventing co-adaptation of features by randomly removing them</li>
+<li>Data Augmentation: technique for generating new training examples by sampling original images with modification</li>
+</ul>
+<p>If you want to know more about first two, I advice to watch this video from <a href="https://www.youtube.com/playlist?list=PLC1qU-LWwrF64f4QKQT-Vg5Wr4qEE1Zxk">Stanford University</a>, they should clarify you how and why they can work. In this blog-post we will focus of the third one. But firstly some of the historical information. As most of you know, the real breakthrough in Computer Vision was caused by winning entry from Geoffrey Hinton team in ImageNet, which learn Deep Convolutional Network having 60M parameters. How they manage to do so? By preventing overfitting using DropOut and Data Augmentation. Exactly, they use Random-Crop (very powerful technique  according to many papers),  flipping image Right-Left and Random Lighting Perturbation (changing the intensities of images).  So what they do exactly? In fact, they make their dataset many times bigger what cause that network does not see same image many times. Also, it was in line with beliefs Hinton about <code>How does the brain works?</code>, as he believed that brain are making image transformation. Referring to statement <code>Father of Deep Learning</code>, did you see fanny video which animate his story (it was presented at NIPS conference)? If not, it is worth watching:</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/mlXzufEk-2E?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<br>
+<p>In next year’s the more powerful networks was designed, which also need a more powerful technique for preventing overfitting. <a href="https://arxiv.org/abs/1409.4842">GoogLeNet</a> does exactly that by adding Random-Scale-Crop technique (it does scale image by making it smaller or bigger with changed aspect ratio followed by Random-Crop).  As you can suppose, this is not end as researcher found this as a easy and fulfilling expectations method for getting better model. A very extreme way of checking it was done by researcher from <a href="https://arxiv.org/abs/1501.02876">Baidu</a>, which make use from a  large number of Data-Augmentation technique achieving best results of that time. Most of their technique include extending image perturbation by changing intensities values, but they not settle down in Deep Learning community.</p>
+<p align="center">
+<img alt="Baidu Transformation, Deep Image: Scaling up Image Recognition" src="../../../../content/images/2018/02/baidu.png">
+</p>
+<p>In summary, the following general Image Transformation was introduced:</p>
+<ul>
+<li>Random-Crop</li>
+<li>Random-Flipping</li>
+<li>Random-Scale</li>
+<li>Random-Perspective-Transformation</li>
+<li>Random-Image-Lighting-Perturbation</li>
+<li>Random-Image-Color-Perturbation</li>
+</ul>
+<p>There are some papers/blogs which benchmark this technique on general Image problem, like</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1708.06020v1">Improving Deep Learning using Generic Data Augmentation</a></li>
+<li><a href="https://gombru.github.io/2017/09/14/data_augmentation/">Data augmentation benchmarking on CNN training</a></li>
+</ul>
+<p>We said, that there are so many advantages of Data Augmentation technique. Are there any <code>Dark Side</code> of them? It’s said that there are two of them. First disadvantage is possibility of model underfitting to data because of too heavy regularization method (ex. When we use weight-decay, DropOut and several DA technique). Then  we have two options: making regularization less aggravating or trying the bigger model. At a research stage we recommend taking the first option and then gradually adding another regularization method. The second disadvantage is difference between distribution of training set and test set. Using Data-Augmentation make images look much different from their original counterpart then our network may not work nice at test set, so generalization gap may be bigger than we except. For such situation many researcher propose to learn the network without any DA technique for couple of epoch after out network does not improve. We think that there could be the third disadvantage also, we will explain it later.</p>
+<p>But what about the Face Recognition? Here story is different as the aim is different. First of all, in contrast to general image problem, object (exactly face) which need to be recognized is already detected. Also, most of time the face is aligned to have always the same position to make learning easier. This is why most of the time Face-Recognition are using just Random-Horizontal-Flipping (as it does not change the position of face). Rarely Random-Crop is used, but it look like it also may work. There is one nice paper which already benchmarked many available technique, I advice to go through it, <a href="https://www.sciencedirect.com/science/article/pii/S0925231216315016">Data Augmentation for Face Recognition</a>. Also there are several new Data Augmentation technique which are not widely tested, maybe they will we working for our case? So, our questions which we will asking and trying to answer will be:</p>
+<ol>
+<li><strong>What are best Data-Augmentation technique which can be used for Face-Recognition?</strong></li>
+<li><strong>What combination of Technique Works best?</strong></li>
+<li><strong>Can we beat model with DropOut</strong></li>
+</ol>
+<br>
+<h2 id="baseexperiments">Base Experiments</h2>
+<p>So what exactly technique we will be using? Here is the image with all base technique which we will be using. Most of them are basic one, but we also include many technique from fantastic Image-Augmentation library <a href="http://imgaug.readthedocs.io/en/latest/#">imgaug</a>. If you want to read more about them, look <a href="http://imgaug.readthedocs.io/en/latest/source/augmenters.html">here</a> . Other are just base technique from <a href="http://pytorch.org/">PyTorch</a> (library we used for experiments). Also I have used some open-source implementation, which we found at GitHub.<br>
+Enough of introduction, let’s make experiments to check the influence of each model. As stated at <a href="http://blcv.pl/static/2017/11/08/demystifying-face-recognition-ii-baseline/">blog-post-1</a>, here we will be using <code>Baseline</code> model without <code>DropOut</code>, because we want to see even small difference in performance. Also, for <code>Random-Crop</code> and <code>Random-Sized-Crop</code> we will be using 3-different input image size with different value of padding (the bigger padding the bigger input samples space). Here are the results, where the first part of table is Affine transformation and second one Color/Lighting.</p>
+<p align="center">
+<img alt="Base Data Augmentation Technique" height="460" width="210" src="../../../../content/images/2018/02/data_aug_base.jpg">
+</p>
+
+
+<script>
+var simple= {"simple_data":[{"Idx": "00", "LFW Blufr1-Rank1": "46.39%", "LFW Blufr2-FAR 0.1%": "72.95%", "Val Acc": "78.56%", "LFW": "95.71%", "Method": "No Data Aug", "Val Loss": "1.668"}, {"Idx": "01", "LFW Blufr1-Rank1": "52.94%", "LFW Blufr2-FAR 0.1%": "80.11%", "Val Acc": "81.70%", "LFW": "96.76%", "Method": "Flip", "Val Loss": "1.34"}, {"Idx": "02", "LFW Blufr1-Rank1": "49.75%", "LFW Blufr2-FAR 0.1%": "76.55%", "Val Acc": "81.71%", "LFW": "96.16%", "Method": "Random-Crop with Pad = 10", "Val Loss": "1.3827"}, {"Idx": "03", "LFW Blufr1-Rank1": "50.86%", "LFW Blufr2-FAR 0.1%": "81.45%", "Val Acc": "83.17%", "LFW": "96.71%", "Method": "Random-Crop with Pad = 20", "Val Loss": "1.226"}, {"Idx": "04", "LFW Blufr1-Rank1": "51.99%", "LFW Blufr2-FAR 0.1%": "81.43%", "Val Acc": "84.13%", "LFW": "96.73%", "Method": "Random-Crop with Pad = 30", "Val Loss": "1.2083"}, {"Idx": "05", "LFW Blufr1-Rank1": "51.29%", "LFW Blufr2-FAR 0.1%": "80.39%", "Val Acc": "83.20%", "LFW": "96.65%", "Method": "Random-Resized-Crop with Pad 10, min_scale = 0.7", "Val Loss": "1.2657"}, {"Idx": "06", "LFW Blufr1-Rank1": "49.84%", "LFW Blufr2-FAR 0.1%": "79.82%", "Val Acc": "82.89%", "LFW": "96.61%", "Method": "Random-Resized-Crop with Pad 20, min_scale = 0.7", "Val Loss": "1.2818"}, {"Idx": "07", "LFW Blufr1-Rank1": "46.51%", "LFW Blufr2-FAR 0.1%": "76.05%", "Val Acc": "80.82%", "LFW": "96.06%", "Method": "Random-Resized-Crop with Pad 30, min_scale = 0.7", "Val Loss": "1.3865"}, {"Idx": "08", "LFW Blufr1-Rank1": "55.23%", "LFW Blufr2-FAR 0.1%": "81.50%", "Val Acc": "84.56%", "LFW": "97.05%", "Method": "Random-Resized-Crop with Pad 10, min_scale = 0.5", "Val Loss": "1.1677"}, {"Idx": "09", "LFW Blufr1-Rank1": "50.82%", "LFW Blufr2-FAR 0.1%": "78.04%", "Val Acc": "80.77%", "LFW": "96.46%", "Method": "Random-Resized-Crop with Pad 10, min_scale = 0.9", "Val Loss": "1.4766"}, {"Idx": "10", "LFW Blufr1-Rank1": "51.29%", "LFW Blufr2-FAR 0.1%": "78.66%", "Val Acc": "81.43%", "LFW": "96.39%", "Method": "Random-Rotation with Pad 10, degree = 10", "Val Loss": "1.4128"}, {"Idx": "11", "LFW Blufr1-Rank1": "51.06%", "LFW Blufr2-FAR 0.1%": "78.80%", "Val Acc": "81.60%", "LFW": "96.08%", "Method": "Random-Rotation with Pad 20, degree = 10", "Val Loss": "1.403"}, {"Idx": "12", "LFW Blufr1-Rank1": "50.59%", "LFW Blufr2-FAR 0.1%": "78.12%", "Val Acc": "81.34%", "LFW": "96.31%", "Method": "Random-Rotation with Pad 0, degree = 10", "Val Loss": "1.3815"}, {"Idx": "13", "LFW Blufr1-Rank1": "49.30%", "LFW Blufr2-FAR 0.1%": "77.04%", "Val Acc": "81.56%", "LFW": "96.28%", "Method": "Random-Rotation with Pad 0, degree = 15", "Val Loss": "1.3413"}, {"Idx": "14", "LFW Blufr1-Rank1": "47.69%", "LFW Blufr2-FAR 0.1%": "75.26%", "Val Acc": "78.84%", "LFW": "95.78%", "Method": "Contrast", "Val Loss": "1.7478"}, {"Idx": "15", "LFW Blufr1-Rank1": "46.40%", "LFW Blufr2-FAR 0.1%": "73.89%", "Val Acc": "78.40%", "LFW": "96.01%", "Method": "Contrast per Channel", "Val Loss": "1.7549"}, {"Idx": "16", "LFW Blufr1-Rank1": "45.45%", "LFW Blufr2-FAR 0.1%": "71.89%", "Val Acc": "78.70%", "LFW": "95.18%", "Method": "Gaussian Noise", "Val Loss": "1.6374"}, {"Idx": "17", "LFW Blufr1-Rank1": "46.02%", "LFW Blufr2-FAR 0.1%": "73.03%", "Val Acc": "78.71%", "LFW": "95.43%", "Method": "Gaussian Noise per Channel", "Val Loss": "1.6151"}, {"Idx": "18", "LFW Blufr1-Rank1": "46.53%", "LFW Blufr2-FAR 0.1%": "74.15%", "Val Acc": "78.92%", "LFW": "95.98%", "Method": "Multiply", "Val Loss": "1.6664"}, {"Idx": "19", "LFW Blufr1-Rank1": "44.85%", "LFW Blufr2-FAR 0.1%": "73.49%", "Val Acc": "78.45%", "LFW": "95.76%", "Method": "Multiply per Channel", "Val Loss": "1.6858"}, {"Idx": "20", "LFW Blufr1-Rank1": "48.87%", "LFW Blufr2-FAR 0.1%": "73.95%", "Val Acc": "78.43%", "LFW": "95.59%", "Method": "Hue and Saturation", "Val Loss": "1.7521"}, {"Idx": "21", "LFW Blufr1-Rank1": "46.88%", "LFW Blufr2-FAR 0.1%": "74.40%", "Val Acc": "78.62%", "LFW": "95.76%", "Method": "Add", "Val Loss": "1.67"}, {"Idx": "22", "LFW Blufr1-Rank1": "45.00%", "LFW Blufr2-FAR 0.1%": "74.03%", "Val Acc": "78.54%", "LFW": "96.03%", "Method": "Add per Channel", "Val Loss": "1.6968"}, {"Idx": "23", "LFW Blufr1-Rank1": "46.97%", "LFW Blufr2-FAR 0.1%": "74.57%", "Val Acc": "78.53%", "LFW": "95.78%", "Method": "Lighting", "Val Loss": "1.76"}, {"Idx": "24", "LFW Blufr1-Rank1": "51.87%", "LFW Blufr2-FAR 0.1%": "78.28%", "Val Acc": "80.22%", "LFW": "96.44%", "Method": "Gray-Scale", "Val Loss": "1.4913"}]
+};
+</script>
+
+<table id="simple" class="customers">
+  <caption> General DA technique Results</caption>
+  <tr>
+    <th onclick="w3.sortHTML('#simple', '.item', 'td:nth-child(1)')" style="cursor:pointer">Idx</th>
+    <th onclick="w3.sortHTML('#simple', '.item', 'td:nth-child(2)')" style="cursor:pointer">Method</th>
+    <th onclick="w3.sortHTML('#simple', '.item', 'td:nth-child(3)')" style="cursor:pointer">Val Loss</th>
+    <th onclick="w3.sortHTML('#simple', '.item', 'td:nth-child(4)')" style="cursor:pointer">Val Acc</th>
+    <th onclick="w3.sortHTML('#simple', '.item', 'td:nth-child(5)')" style="cursor:pointer">LFW</th>
+    <th onclick="w3.sortHTML('#simple', '.item', 'td:nth-child(6)')" style="cursor:pointer">LFW Blufr1-Rank1</th>
+    <th onclick="w3.sortHTML('#simple', '.item', 'td:nth-child(7)')" style="cursor:pointer">LFW Blufr2-FAR 0.1%</th>
+  </tr>
+   <tr w3-repeat="simple_data" class="item">
+    <td>{{Idx}}</td>
+    <td>{{Method}}</td>
+    <td>{{Val Loss}}</td>
+    <td>{{Val Acc}}</td>
+    <td>{{LFW}}</td>
+    <td>{{LFW Blufr1-Rank1}}</td>
+    <td>{{LFW Blufr2-FAR 0.1%}}</td>
+  </tr>
+</table>
+<script>
+    w3.displayObject("simple", simple);
+</script>
+
+
+<iframe width="860" height="532" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQQZNy4_JojNRXGknOCpT6EUHW3LQ8DJXW-unlhYzY1NM9gJvbXImRN5_gPMlwWaJ1SMi8eIcfatn-a/pubchart?oid=798449295&amp;format=interactive"></iframe>
+<br>
+<p>The above results are pretty intriguing. Firstly let's talk about <code>Affine Transformation</code>. Look like using any of them provide better results than doing nothing (so good news, DA doesn't hurt model). However looks like there are very sensitive to hyperparameters (like Padding or MinScale). If we would just take random parameters, we could even get worse model than our baseline. It is also worth mentioning that simple <code>Horizontal-Flip</code> is really powerful technique, we didn't expect that! The best <code>Affine model</code> is <code>Random-Resized-Crop</code> with Pad = 10 and MinScale = 0.5.<br>
+The story about <code>Color Perturbation</code> is completely different. Here hardly any technique get much better results than <code>No Data Augmentation</code>. The only one is <code>Grayscale</code>. We are not sure if our test are correctly carried out, however even some hyper-parameter search doesn't improve performance.</p>
+<br>
+<h2 id="recentlyintroducetechnique">Recently Introduce Technique</h2>
+<p>In 2017 the two new data-based regularization technique was introduced:</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1708.04552">RandomErasing</a> or <a href="https://arxiv.org/abs/1708.04552">CutOut</a>: removing the random rectangular area from image</li>
+<li><a href="https://arxiv.org/abs/1710.09412">MixUp</a> or <a href="https://arxiv.org/abs/1801.02929">Image-Pairing</a>: mixing values two images (and targets in MixUp) with each other</li>
+</ul>
+<br>
+Removing the values from input image was a popular method in the begging of Deep Learning, it was done by using DropOut as a first layer (it was introduced at Denoising AutoEncoder). But when using convolution layers, it does not work well. It is believed that it is because of Kernel-Idea in CNN, so removing the single values of area does not make a big impact of the final output. When removing the bigger area than kernels then it would make a much bigger influence in final model. This is exact idea behind `RandomErasing`. We also included technique from imgaug library, `DropOut` and `CorseDropOut` (which is sth like `Random Erasing`) with Channel-dependent and independent version.
+<p align="center">
+<img alt="Denoising AutoEncoders (Ref: https://www.doc.ic.ac.uk/~js4416/163/website/autoencoders/denoising.html)" height="460" width="210" src="https://www.doc.ic.ac.uk/~js4416/163/website/img/autoencoders/denoising-example.png">
+</p>
+<p>In the other hand, <code>Mixup</code> is  novel idea in which many researcher does not believe it would work. How does mixing the image intensities and target can regularize the model? How does model can learn that this image is 80% of Leonardo DiCaprio and 20% Tom Hanks? For us it is really intriguing, but it may be connected with prediction distribution, act like a regulizer. Just look at the example images from ImageNet created using this technique, could you classify them correctly.</p>
+<blockquote class="twitter-tweet" data-lang="pl"><p lang="en" dir="ltr">Here are a couple of Imagenet photos with different blending ratios. They are harder to categorize but it is not impossible! cc <a href="https://twitter.com/ogrisel?ref_src=twsrc%5Etfw">@ogrisel</a> <a href="https://t.co/cqqBVUC0qG">pic.twitter.com/cqqBVUC0qG</a></p>— Xavier Gastaldi (@xavier_gastaldi) <a href="https://twitter.com/xavier_gastaldi/status/925952887016099840?ref_src=twsrc%5Etfw">2 listopada 2017</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>This idea remind us two technique which was developed to make labels noise: Label-Smoothing (<a href="https://arxiv.org/abs/1512.00567">Rethinking the Inception Architecture for Computer Vision</a>) and Label-corruption. Also blending the data is not a new idea, <a href="https://www.jair.org/media/953/live-953-2037-jair.pdf">SMOTE</a>  algorithm was doing exactly the same situation, but it was rather designed for oversampling the minority classes, so was just merging examples (even more than 2) of the same class (what based on the author of mixup paper, does not work well). It look like that mixup is sth like creating Multi-class SMOTE with Label Smoothing. Image-Pairing, in contrast to MixUp, does not merge labels information, just image intensities. In this technique is single hyper-parameter, alpha, which is float number in range &lt;0,1&gt; indicating proportion of intersities taken from both images. If you would like to understand deeper this technique, we recommend great blog by <a href="http://www.inference.vc/mixup-data-dependent-data-augmentation/">inFERENCe</a>. How it works with Faces?</p>
+<p align="center">
+<img alt="SMOTE algorithm (Ref: https://www.researchgate.net/figure/The-schematic-of-NRSBoundary-SMOTE-algorithm_fig1_287601878)" height="500" width="500" src="https://www.researchgate.net/publication/287601878/figure/fig1/AS:316826589384744@1452548753581/The-schematic-of-NRSBoundary-SMOTE-algorithm.png">
+</p>
+<p align="center">
+<img alt="Dropping input data" height="600" width="480" src="../../../../content/images/2018/02/data_aug_erase.jpg">
+</p>
+<p align="center">
+<img alt="MixUp/Image-Paring example" height="600" width="480" src="../../../../content/images/2018/02/blog_5_mixup.jpg">
+</p>
+<p>Before making the experiments, sets clarify hyper-parameters of methods. In case of <code>RandomErasing</code>, we will be make several experiments making probability of using it different and also choosing the maximum size of removed area. Using <code>Mixup</code> only just need to set a range of ratio between two training examples. Here are results.</p>
+
+
+<script>
+var mix= {"mix_data":[{"Idx": "00", "LFW Blufr1-Rank1": "47.55%", "LFW Blufr2-FAR 0.1%": "74.38%", "Val Acc": "80.07%", "LFW": "96.08%", "Method": "image-pairing α = 0.2", "Val Loss": "1.4646"}, {"Idx": "01", "LFW Blufr1-Rank1": "48.05%", "LFW Blufr2-FAR 0.1%": "75.29%", "Val Acc": "79.86%", "LFW": "96.08%", "Method": "mixup α = 0.05", "Val Loss": "1.49"}, {"Idx": "02", "LFW Blufr1-Rank1": "49.26%", "LFW Blufr2-FAR 0.1%": "74.82%", "Val Acc": "80.59%", "LFW": "96.05%", "Method": "mixup α = 0.1", "Val Loss": "1.43"}, {"Idx": "03", "LFW Blufr1-Rank1": "48.13%", "LFW Blufr2-FAR 0.1%": "74.77%", "Val Acc": "80.38%", "LFW": "96.34%", "Method": "mixup α = 0.2", "Val Loss": "1.44"}, {"Idx": "04", "LFW Blufr1-Rank1": "48.68%", "LFW Blufr2-FAR 0.1%": "76.12%", "Val Acc": "80.65%", "LFW": "96.08%", "Method": "mixup α = 0.4", "Val Loss": "1.43"}, {"Idx": "05", "LFW Blufr1-Rank1": "48.11%", "LFW Blufr2-FAR 0.1%": "75.88%", "Val Acc": "80.22%", "LFW": "95.98%", "Method": "mixup α = 0.7", "Val Loss": "1.47"}, {"Idx": "06", "LFW Blufr1-Rank1": "45.41%", "LFW Blufr2-FAR 0.1%": "73.85%", "Val Acc": "80.91%", "LFW": "95.83%", "Method": "Random-Erasing with p = 0.8, imagenet", "Val Loss": "1.4095"}, {"Idx": "07", "LFW Blufr1-Rank1": "49.79%", "LFW Blufr2-FAR 0.1%": "76.17%", "Val Acc": "81.20%", "LFW": "96.23%", "Method": "Random-Erasing with p = 0.5", "Val Loss": "1.3407"}, {"Idx": "08", "LFW Blufr1-Rank1": "49.28%", "LFW Blufr2-FAR 0.1%": "75.82%", "Val Acc": "82.27%", "LFW": "96.49%", "Method": "Random-Erasing with p = 0.8", "Val Loss": "1.3014"}, {"Idx": "09", "LFW Blufr1-Rank1": "50.39%", "LFW Blufr2-FAR 0.1%": "76.57%", "Val Acc": "82.39%", "LFW": "96.25%", "Method": "Random-Erasing with p = 1.0", "Val Loss": "1.3172"}, {"Idx": "10", "LFW Blufr1-Rank1": "48.02%", "LFW Blufr2-FAR 0.1%": "75.35%", "Val Acc": "79.15%", "LFW": "95.36%", "Method": "Dropout", "Val Loss": "1.4825"}, {"Idx": "11", "LFW Blufr1-Rank1": "46.95%", "LFW Blufr2-FAR 0.1%": "74.61%", "Val Acc": "79.57%", "LFW": "95.85%", "Method": "Dropout per Channel", "Val Loss": "1.4653"}, {"Idx": "12", "LFW Blufr1-Rank1": "49.39%", "LFW Blufr2-FAR 0.1%": "75.89%", "Val Acc": "80.97%", "LFW": "95.85%", "Method": "Coarse Dropout", "Val Loss": "1.3796"}, {"Idx": "13", "LFW Blufr1-Rank1": "48.13%", "LFW Blufr2-FAR 0.1%": "74.05%", "Val Acc": "79.98%", "LFW": "96.03%", "Method": "Coarse Dropout per Channel", "Val Loss": "1.4614"}]
+};
+</script>
+
+<table id="mix" class="customers">
+   <caption> Mixing/Dropping technique Results</caption>
+  <tr>
+    <th onclick="w3.sortHTML('#mix', '.item', 'td:nth-child(1)')" style="cursor:pointer">Idx</th>
+    <th onclick="w3.sortHTML('#mix', '.item', 'td:nth-child(2)')" style="cursor:pointer">Method</th>
+    <th onclick="w3.sortHTML('#mix', '.item', 'td:nth-child(3)')" style="cursor:pointer">Val Loss</th>
+    <th onclick="w3.sortHTML('#mix', '.item', 'td:nth-child(4)')" style="cursor:pointer">Val Acc</th>
+    <th onclick="w3.sortHTML('#mix', '.item', 'td:nth-child(5)')" style="cursor:pointer">LFW</th>
+    <th onclick="w3.sortHTML('#mix', '.item', 'td:nth-child(6)')" style="cursor:pointer">LFW Blufr1-Rank1</th>
+    <th onclick="w3.sortHTML('#mix', '.item', 'td:nth-child(7)')" style="cursor:pointer">LFW Blufr2-FAR 0.1%</th>
+  </tr>
+   <tr w3-repeat="mix_data" class="item">
+    <td>{{Idx}}</td>
+    <td>{{Method}}</td>
+    <td>{{Val Loss}}</td>
+    <td>{{Val Acc}}</td>
+    <td>{{LFW}}</td>
+    <td>{{LFW Blufr1-Rank1}}</td>
+    <td>{{LFW Blufr2-FAR 0.1%}}</td>
+  </tr>
+</table>
+<script>
+    w3.displayObject("mix", mix);
+</script>
+
+
+<iframe width="789.5" height="488.1741666666667" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQQZNy4_JojNRXGknOCpT6EUHW3LQ8DJXW-unlhYzY1NM9gJvbXImRN5_gPMlwWaJ1SMi8eIcfatn-a/pubchart?oid=824193697&amp;format=interactive"></iframe>
+<p>Before making any summary about results, we would like to point out our problems during making the experiments of <code>Image Pairing</code> idea. According to their paper and <code>inFERENCe</code> blog post, there is no need of smoothing the labels, input data is enough. According to some theoretical analyse, it is true. But our finding are different when the training procedure is exactly the same for <code>MixUp</code> and <code>Image-Pairing</code>. The main difference in training procedure in <code>Image-Pairing</code> is turning on/off it during training (ex. first 3 epoch off, then 5 on, 3 off etc.). With such setting is converge to similar results like <code>MixUp</code>, but without such methodology it diverge. So we advice to use <code>MixUp</code> in any time you want check this kind of technique.</p>
+<p>Ok, but how good are this technique in Face-Recognition? Many of them works really well compared to baseline model. They even achieve better validation score than <code>Random-Flip</code>. However, the situation at <code>LFW-BLUFR</code> test is different. Their results are much lower even they obtain lower <code>Validation Loss</code> (<code>Random-Erasing with p = 1.0</code> vs <code>Random-Erasing with p = 1.0</code>). What does it mean? Look like features representation from network learned with <code>missing data</code> are not so good (or maybe it is wrong conclusion?). This is one of the problem of Face-Recognition, measure for <code>quality of features</code> different than just accuracy in some benchmarks (we will talk about this later).</p>
+<h2 id="facespecificdataaugmentationtechnique">Face-Specific Data-Augmentation technique</h2>
+<p>Look like that we are able to get a nice boost using general Data Augmentation technique. But this is not the end. In many years of developing Face-Recognition technique, there are also proposed Face-Specific method, which could work only with them. We know two of them:</p>
+<ul>
+<li>Landmark perturbation: this cause that image alignment is not perfect</li>
+<li>Face-Rendering: rendering the novel views of Face with different Pose</li>
+</ul>
+<p>First of all, our earlier experiment in <a href="http://blcv.pl/static/2017/11/08/demystifying-face-recognition-ii-baseline/">Face-Align</a>, show that accuracy of landmark location didn’t influence the final accuracy. But what if Face Alignment would be not perfect/different every time the model see the image? Having such technique would be equivalent to rotation-resizing-cropping at once, but with much smaller range of values. Just look into below images.</p>
+<p align="center">
+<img alt="Face Landmark perturbation example" height="600" width="480" src="../../../../content/images/2018/02/blog5-land.jpg">
+</p>
+<p>Face-Rendering is much harder topic. In it connected with estimating the 3D-pose of head and generating the new views of face. Based on paper <a href="https://arxiv.org/abs/1708.07517">FacePoseNet</a>, it works really well, when 3D pose is estimated very well (using landmarks provide much lower accuracy). However, we have issues with this technique, so we would not conduct extensive experiments using it now (planed it future).</p>
+
+
+<script>
+var land= {"land_data":[{"Idx": "00", "LFW Blufr1-Rank1": "54.22%", "LFW Blufr2-FAR 0.1%": "79.99%", "Val Acc": "82.35%", "LFW": "96.85%", "Method": "Landmark-Perturbation σ = 3", "Val Loss": "1.383"}, {"Idx": "01", "LFW Blufr1-Rank1": "54.90%", "LFW Blufr2-FAR 0.1%": "81.34%", "Val Acc": "83.54%", "LFW": "97.10%", "Method": "Landmark-Perturbation σ = 5", "Val Loss": "1.2692"}, {"Idx": "02", "LFW Blufr1-Rank1": "54.70%", "LFW Blufr2-FAR 0.1%": "80.66%", "Val Acc": "84.03%", "LFW": "97.01%", "Method": "Landmark-Perturbation σ = 7", "Val Loss": "1.2"}]
+};
+</script>
+
+<table id="land" class="customers">
+   <caption> Landmark-Perturbation technique Results</caption> 
+  <tr>
+    <th onclick="w3.sortHTML('#land', '.item', 'td:nth-child(1)')" style="cursor:pointer">Idx</th>
+    <th onclick="w3.sortHTML('#land', '.item', 'td:nth-child(2)')" style="cursor:pointer">Method</th>
+    <th onclick="w3.sortHTML('#land', '.item', 'td:nth-child(3)')" style="cursor:pointer">Val Loss</th>
+    <th onclick="w3.sortHTML('#land', '.item', 'td:nth-child(4)')" style="cursor:pointer">Val Acc</th>
+    <th onclick="w3.sortHTML('#land', '.item', 'td:nth-child(5)')" style="cursor:pointer">LFW</th>
+    <th onclick="w3.sortHTML('#land', '.item', 'td:nth-child(6)')" style="cursor:pointer">LFW Blufr1-Rank1</th>
+    <th onclick="w3.sortHTML('#land', '.item', 'td:nth-child(7)')" style="cursor:pointer">LFW Blufr2-FAR 0.1%</th>
+  </tr>
+   <tr w3-repeat="land_data" class="item">
+    <td>{{Idx}}</td>
+    <td>{{Method}}</td>
+    <td>{{Val Loss}}</td>
+    <td>{{Val Acc}}</td>
+    <td>{{LFW}}</td>
+    <td>{{LFW Blufr1-Rank1}}</td>
+    <td>{{LFW Blufr2-FAR 0.1%}}</td>
+  </tr>
+</table>
+<script>
+    w3.displayObject("land", land);
+</script>
+
+
+<iframe width="799.5" height="494.3575000000001" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQQZNy4_JojNRXGknOCpT6EUHW3LQ8DJXW-unlhYzY1NM9gJvbXImRN5_gPMlwWaJ1SMi8eIcfatn-a/pubchart?oid=1918168880&amp;format=interactive"></iframe>
+<p>Really nice results! There are comparable to best <code>Affine</code> technique already tested.</p>
+<h2 id="combinationoftechnique">Combination of technique</h2>
+<p>As we know how each single technique works, let's now combine them into more complicated form. The chosen hyperparameter (like type of combination) are just our intuition, there are maybe not best choose. However we wanted to test wide-range of possibilities, where our main aim was creating the best possible model.</p>
+
+
+<script>
+var merge_da= {"customers_data":[{"Idx": "00", "LFW Blufr1-Rank1": "50.59%", "LFW Blufr2-FAR 0.1%": "78.43%", "Val Acc": "83.86%", "LFW": "96.26%", "Method": "flip-grayscale-erasing", "Val Loss": "1.2096"}, {"Idx": "01", "LFW Blufr1-Rank1": "55.90%", "LFW Blufr2-FAR 0.1%": "86.07%", "Val Acc": "85.24%", "LFW": "97.50%", "Method": "flip-crop30", "Val Loss": "1.1083"}, {"Idx": "02", "LFW Blufr1-Rank1": "51.85%", "LFW Blufr2-FAR 0.1%": "82.37%", "Val Acc": "84.94%", "LFW": "97.21%", "Method": "flip-resize05_pad10", "Val Loss": "1.1251"}, {"Idx": "03", "LFW Blufr1-Rank1": "58.17%", "LFW Blufr2-FAR 0.1%": "84.80%", "Val Acc": "84.70%", "LFW": "97.23%", "Method": "flip-landmark_05", "Val Loss": "1.1556"}, {"Idx": "04", "LFW Blufr1-Rank1": "56.53%", "LFW Blufr2-FAR 0.1%": "82.17%", "Val Acc": "85.58%", "LFW": "97.28%", "Method": "landmark_05-crop20", "Val Loss": "1.132"}, {"Idx": "05", "LFW Blufr1-Rank1": "55.79%", "LFW Blufr2-FAR 0.1%": "82.52%", "Val Acc": "84.85%", "LFW": "97.41%", "Method": "landmark_05-resize_05_pad10", "Val Loss": "1.1694"}, {"Idx": "06", "LFW Blufr1-Rank1": "56.73%", "LFW Blufr2-FAR 0.1%": "85.12%", "Val Acc": "86.31%", "LFW": "97.33%", "Method": "flip-landmark_05-crop20", "Val Loss": "1.0478"}, {"Idx": "07", "LFW Blufr1-Rank1": "56.11%", "LFW Blufr2-FAR 0.1%": "85.36%", "Val Acc": "86.27%", "LFW": "97.65%", "Method": "flip-landmark_05-crop20-grayscale", "Val Loss": "1.0583"}, {"Idx": "08", "LFW Blufr1-Rank1": "54.86%", "LFW Blufr2-FAR 0.1%": "85.02%", "Val Acc": "87.51%", "LFW": "97.39%", "Method": "flip-landmark_05-crop20-mixup_02", "Val Loss": "0.9822"}, {"Idx": "09", "LFW Blufr1-Rank1": "55.99%", "LFW Blufr2-FAR 0.1%": "84.50%", "Val Acc": "87.15%", "LFW": "97.53%", "Method": "flip-landmark_05-crop20-erase_08", "Val Loss": "1.005"}, {"Idx": "10", "LFW Blufr1-Rank1": "64.72%", "LFW Blufr2-FAR 0.1%": "90.58%", "Val Acc": "88.82%", "LFW": "98.53%", "Method": "flip-landmark_05-crop20-linear_dropout_05", "Val Loss": "0.92"}, {"Idx": "11", "LFW Blufr1-Rank1": "67.14%", "LFW Blufr2-FAR 0.1%": "91.30%", "Val Acc": "89.20%", "LFW": "98.19%", "Method": "flip-landmark_05-linear_dropout_05", "Val Loss": "0.9065"}, {"Idx": "12", "LFW Blufr1-Rank1": "65.74%", "LFW Blufr2-FAR 0.1%": "91.12%", "Val Acc": "88.47%", "LFW": "98%", "Method": "flip-crop20-linear_dropout_05", "Val Loss": "0.9381"}, {"Idx": "13", "LFW Blufr1-Rank1": "61.08%", "LFW Blufr2-FAR 0.1%": "89.86%", "Val Acc": "88.05%", "LFW": "97.98%", "Method": "flip-resize05_pad10-linear_dropout_05", "Val Loss": "0.9673"},{"Idx": "14", "LFW Blufr1-Rank1": "64.39%", "LFW Blufr2-FAR 0.1%": "89.11%", "Val Acc": "86.9%", "LFW": "97.76%", "Method": "flip-linear_dropout_05", "Val Loss": "1.02"}]
+};
+</script>
+
+<table id="merge" class="customers">
+  <caption> Multiple DA technique Results</caption>
+  <tr>
+    <th onclick="w3.sortHTML('#merge', '.item', 'td:nth-child(1)')" style="cursor:pointer">Idx</th>
+    <th onclick="w3.sortHTML('#merge', '.item', 'td:nth-child(2)')" style="cursor:pointer">Method</th>
+    <th onclick="w3.sortHTML('#merge', '.item', 'td:nth-child(3)')" style="cursor:pointer">Val Loss</th>
+    <th onclick="w3.sortHTML('#merge', '.item', 'td:nth-child(4)')" style="cursor:pointer">Val Acc</th>
+    <th onclick="w3.sortHTML('#merge', '.item', 'td:nth-child(5)')" style="cursor:pointer">LFW</th>
+    <th onclick="w3.sortHTML('#merge', '.item', 'td:nth-child(6)')" style="cursor:pointer">LFW Blufr1-Rank1</th>
+    <th onclick="w3.sortHTML('#merge', '.item', 'td:nth-child(7)')" style="cursor:pointer">LFW Blufr2-FAR 0.1%</th>
+  </tr>
+   <tr w3-repeat="customers_data" class="item">
+    <td>{{Idx}}</td>
+    <td>{{Method}}</td>
+    <td>{{Val Loss}}</td>
+    <td>{{Val Acc}}</td>
+    <td>{{LFW}}</td>
+    <td>{{LFW Blufr1-Rank1}}</td>
+    <td>{{LFW Blufr2-FAR 0.1%}}</td>
+  </tr>
+</table>
+<script>
+    w3.displayObject("merge", merge_da);
+</script>
+
+
+<iframe width="754" height="466" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQQZNy4_JojNRXGknOCpT6EUHW3LQ8DJXW-unlhYzY1NM9gJvbXImRN5_gPMlwWaJ1SMi8eIcfatn-a/pubchart?oid=413561002&amp;format=interactive"></iframe>
+<h5 id="flipgrayscaleerasingidx0">Flip-grayscale-erasing (Idx: 0)</h5>
+<p>This was our test which tied to combine <code>average</code> DA technique to create more powerful method. And results are disappoints, despite having nice <code>Validation</code> results, <code>LFW</code> benchmarks showed that features are even worse form the case of using just <code>Flip</code>. Maybe this is because of erasing?</p>
+<h5 id="combinationof2affinemethodidx15">Combination of 2 Affine method (Idx: 1-5)</h5>
+<p>Our next idea was just combining the best DA technique and see if they work even better or are redundant. And look like that combining them works pretty nice. <code>Flip</code> boost accuracy of 'Cropping<code>and</code>Landmark-Perturbation' (currently two best methods), in the other hand 'ResizeCrop<code>got comparable results in 'Validation</code> and much worse in <code>LFW</code> protocol. In case of testing <code>Landmark-Perturbation</code> with 'Cropping<code>and 'ResizeCrop</code>, both of them get just some of boost. As we said earlier, <code>Landmark-Perturbation</code> already contain multiple  <code>Affine</code> technique, so maybe this collaboration is redundant.</p>
+<h5 id="getbestpossiblemodelidx69">Get best possible model (Idx: 6-9)</h5>
+<p>Here we decided to use base method <code>Flip-landmark_05-crop20</code> with pretty decent results and some non-redundant methods, exactly: <code>Mixup</code>, <code>Random-Erase</code> and <code>GrayScale</code>. And all the method get comparable or better <code>Validation</code> results than our <code>baseline</code> model (idx:14). Unfortunately in <code>LFW BLUFR</code> protocol there is huge gap between results. This just bring us again to thought about meaningful of feature representation, how we should measure it correctly as again and again <code>Validation Loss</code> doesn't give pure indication about that.</p>
+<h5 id="modelswithdropoutidx1014">Models with DropOut (Idx: 10-14)</h5>
+<p>Look like <code>DropOut</code> technique would stay with us as the regularization applied by Data Augmentation have the different effect on final feature representation. So we just tried several option, however this time we use <code>FaceResNet-DropOut</code>. And we have new kind, <code>Flip-landmark_05-linear_dropout_05</code>! This model is our currently best model overall, it even beat much more complicated models like SphereFace. Here are results from <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Klare_Pushing_the_Frontiers_2015_CVPR_paper.pdf">IJBA</a> and <a href="http://megaface.cs.washington.edu/">MegaFace</a> benchmarks, compared to our best model using same architecture.</p>
+
+
+<script>
+var ijba= {"ijba_data":[{"TAR@FAR 0.01%": "53.04±5.37", "TAR@FAR 0.1%": "71.90±3.02", "TAR@FAR 1%": "84.45±1.42", "TAR@FAR 10%": "93.14±0.77", "Method": "Flip-linear_dropout", "Rank-1": "91.37±0.95", "Rank-5": "95.71±0.62"}, {"TAR@FAR 0.01%": "56.02±8.99", "TAR@FAR 0.1%": "73.81±4.34", "TAR@FAR 1%": "86.73±1.48", "TAR@FAR 10%": "95.23±0.67", "Method": "Flip-landmark-linear_dropout", "Rank-1": "92.24±1.10", "Rank-5": "96.56±0.56"}]
+};
+</script>
+
+<table id="ijba" class="customers">
+    <caption> IJBA-A Results</caption>
+  <tr>
+    <th onclick="w3.sortHTML('#ijba', '.item', 'td:nth-child(1)')" style="cursor:pointer">Method</th>
+    <th onclick="w3.sortHTML('#ijba', '.item', 'td:nth-child(2)')" style="cursor:pointer">TAR@FAR 0.01%</th>
+    <th onclick="w3.sortHTML('#ijba', '.item', 'td:nth-child(3)')" style="cursor:pointer">TAR@FAR 0.1%</th>
+    <th onclick="w3.sortHTML('#ijba', '.item', 'td:nth-child(4)')" style="cursor:pointer">TAR@FAR 1%</th>
+    <th onclick="w3.sortHTML('#ijba', '.item', 'td:nth-child(5)')" style="cursor:pointer">TAR@FAR 10%</th>
+    <th onclick="w3.sortHTML('#ijba', '.item', 'td:nth-child(6)')" style="cursor:pointer">Rank-1</th>
+    <th onclick="w3.sortHTML('#ijba', '.item', 'td:nth-child(7)')" style="cursor:pointer">Rank-5</th>
+  </tr>
+   <tr w3-repeat="ijba_data" class="item">
+    <td>{{Method}}</td>
+    <td>{{TAR@FAR 0.01%}}</td>
+    <td>{{TAR@FAR 0.1%}}</td>
+    <td>{{TAR@FAR 1%}}</td>
+    <td>{{TAR@FAR 10%}}</td>
+    <td>{{Rank-1}}</td>
+    <td>{{Rank-5}}</td>
+  </tr>
+</table>
+<script>
+    w3.displayObject("ijba", ijba);
+</script>
+
+
+<br>
+
+
+<script>
+var megaface= {"megaface_data":[{"Method": "Flip-linear_dropout", "Rank-1": "53.55%", "VR@FAR=10−6": "61.80%"}, {"Method": "Flip-landmark-linear_dropout", "Rank-1": "55.27%", "VR@FAR=10−6": "61.42%"}]
+};
+</script>
+
+<table id="megaface" class="customers">
+   <caption> MegaFace Results</caption>
+  <tr>
+    <th onclick="w3.sortHTML('#megaface', '.item', 'td:nth-child(1)')" style="cursor:pointer">Method</th>
+    <th onclick="w3.sortHTML('#megaface', '.item', 'td:nth-child(2)')" style="cursor:pointer">Rank-1</th>
+    <th onclick="w3.sortHTML('#megaface', '.item', 'td:nth-child(3)')" style="cursor:pointer">VR@FAR=10−6</th>
+  </tr>
+   <tr w3-repeat="megaface_data" class="item">
+    <td>{{Method}}</td>
+    <td>{{Rank-1}}</td>
+    <td>{{VR@FAR=10−6}}</td>
+  </tr>
+</table>
+<script>
+    w3.displayObject("megaface", megaface);
+</script>
+
+
+<br>
+<h2 id="summaryofdataaugmentation">Summary of Data-Augmentation</h2>
+<p>Here are all the tests we have done. There are a lot of information here, we will try to summarize them by mainly looking into <code>Validation</code> results. We would order them by usefulness in general Computer Vision tasks:</p>
+<ol>
+<li>Affine Image transformation are really powerful method, it is recommended to try <code>Cropping, Scaling, Rotating</code> or all at once at every task you have.</li>
+<li>Coarse-Dropout/Random-Erasing are powerful technique, which really can help you creating best-possible model.</li>
+<li>Mixing images intensities is very strong regulator. In general, it can help you to get better model, only if your model is really powerful (as stated in original <a href="https://arxiv.org/abs/1710.09412">paper</a>).</li>
+<li>Color Transformation doesn't provide huge boost, but this doesn't preclude them for using. Just doesn't expect huge boost.</li>
+<li>Merging: merging couple of different/same type of technique provide better results, however it need to be treat as hyper-parameter.</li>
+</ol>
+<p>Also, Data-Augmentation regularization shouldn't discourage using other technique like DropOut or Weight-Decay, so you try them also.</p>
+<h2 id="noteaboutfeaturerepresentation">Note about Feature-Representation</h2>
+<p>Our last topic in this blog post will be some notes about <code>Feature-Representation</code>. Generally, most of the researcher agreed with argument that: <code>The Better Accuracy you achieved in database, the better representation is learned by model</code>. Then, creating better models/learning methods for achieving better accuracy score should also provide better representation. We have also problem with such formulation if we would take a look of idea of testing <code>Face-Recognition</code> technology. Let's just look into idea how we are testing the real performance of model.</p>
+<p align="center">
+<img alt="Testing Face Recognition model" src="../../../../content/images/2018/02/last_layer.jpg" width="500" height="380">
+</p>
+<p>Optimizing the final accuracy, we are doesn't care us much about <code>pre-final-layer</code>, it is optimized in similar fashion like other layer despite the fast it is most importart part of all model. This is why currenty is visible trend in <code>Face Recognition, Image Retrival</code> technology to create task related loss functions, like mentioned several time <a href="https://ydwen.github.io/papers/WenECCV16.pdf">CenterLoss</a> or <a href="http://yann.lecun.com/exdb/publis/pdf/chopra-05.pdf">Contrastive loss</a>, because they directly interact with final representation of model. We will more about this topic in future blog-post, but we just want to give brief overview of our doubts in general arguments, which we already know.</p>
+<p>However, the main topic of this section should be the new findings from series of experiments. Generally, in contrast to our <a href="http://blcv.pl/static/2017/11/08/demystifying-face-recognition-ii-baseline/">baselie experiments</a>, where more powerfull structure provide better Accuray and Representation, in our experiments is was not always the truth. Generally, the biggest problem occur with using Mixing/Dropping technology, which was providing deformed face to models. From our experiments here better final Accuracy doesn't mean always better Representation. Let's analyse relation between <code>Validation Accuracy</code> and <code>LFW</code> score.</p>
+<p align="center">
+<img alt="Trend Validation Accuracy vs LFW" src="../../../../content/images/2018/02/blog5-feature-depend.png" width="500" height="500">
+</p>
+<br>
+<table id="corr" class="customers">
+  <tr>
+    <th style="cursor:pointer">Affine</th>
+    <th style="cursor:pointer">Color</th>
+    <th style="cursor:pointer">Mix-drop</th>
+    <th style="cursor:pointer">Landmark</th>
+    <th style="cursor:pointer">Merge</th>
+  </tr>
+   <tr class="item">
+    <td>0.79</td>
+    <td>0.57</td>
+    <td>0.67</td>
+    <td>0.79</td>
+    <td>0.86</td>
+  </tr>
+   <caption> Table Correlation Val Acc vs LFW</caption>
+</table>
+<p>Looking into chart, there is general trend of having higher <code>LFW</code> score with higher <code>Validation Accuracy</code>. In the other hand when we look closer into chart categories and also correlation values, something unusual can be spotted: <code>Color</code> and <code>Mix/Drop</code> transformation have weaker effect on <code>LFW</code> score than other kind of transformation. So we can deduce, that <code>Feature Representation</code> is also less powerful compared to <code>Affine</code> technique having same <code>Validation Accuracy</code>. What does it mean? We are not able to make any clear statement, however look like using distorted/unnatural input image like a training example makes features of normal images less representative. But what if we would test such method in much harder environment, like video-input, as <code>LFW</code> images are really nice. In contrast, <code>IJBA-A</code> also use frames from video for testing. This is why we conduct several experiment to see if maybe this benchmark show us different <code>trendline</code> for our dubious quality methods. We use <code>Flip-landmark_05-crop20</code> as a baseline.</p>
+
+
+<script>
+var ijba_feat= {"ijba_feat_data":[{"TAR@FAR 0.01%": "51.68±6.61", "TAR@FAR 0.1%": "66.64±4.94", "TAR@FAR 1%": "82.56±1.78", "TAR@FAR 10%": "94.15±0.71", "Method": "Baseline", "Rank-1": "90.03±1.11", "Rank-5": "95.80±0.72"}, {"TAR@FAR 0.01%": "52.97±10.75", "TAR@FAR 0.1%": "72.66±5.34", "TAR@FAR 1%": "87.33±1.18", "TAR@FAR 10%": "95.92±0.63", "Method": "+linear_dropout", "Rank-1": "92.44±1.47", "Rank-5": "96.79±0.66"}, 
+ {"TAR@FAR 0.01%": "47.02±9.98", "TAR@FAR 0.1%": "65.07±4.48", "TAR@FAR 1%": "82.17±1.74", "TAR@FAR 10%": "94.02±0.83", "Method": "+erasing", "Rank-1": "90.48±1.32", "Rank-5": "96.07±0.65"},
+  {"TAR@FAR 0.01%": "36.10±10.91", "TAR@FAR 0.1%": "56.36±6.76", "TAR@FAR 1%": "86.73±1.48", "TAR@FAR 10%": "95.23±0.67", "Method": "+mixup", "Rank-1": "92.24±1.10", "Rank-5": "96.56±0.56"},
+  {"TAR@FAR 0.01%": "41.92±10.69", "TAR@FAR 0.1%": "64.19±4.39", "TAR@FAR 1%": "82.32±1.52", "TAR@FAR 10%": "94.00±0.68", "Method": "+grayscale", "Rank-1": "90.16±1.21", "Rank-5": "95.62±0.74"}
+    ]
+};
+</script>
+
+<table id="ijba_feat" class="customers">
+    <caption> IJBA-A Results</caption>
+  <tr>
+    <th onclick="w3.sortHTML('#ijba_feat', '.item', 'td:nth-child(1)')" style="cursor:pointer">Method</th>
+    <th onclick="w3.sortHTML('#ijba_feat', '.item', 'td:nth-child(2)')" style="cursor:pointer">TAR@FAR 0.01%</th>
+    <th onclick="w3.sortHTML('#ijba_feat', '.item', 'td:nth-child(3)')" style="cursor:pointer">TAR@FAR 0.1%</th>
+    <th onclick="w3.sortHTML('#ijba_feat', '.item', 'td:nth-child(4)')" style="cursor:pointer">TAR@FAR 1%</th>
+    <th onclick="w3.sortHTML('#ijba_feat', '.item', 'td:nth-child(5)')" style="cursor:pointer">TAR@FAR 10%</th>
+    <th onclick="w3.sortHTML('#ijba_feat', '.item', 'td:nth-child(6)')" style="cursor:pointer">Rank-1</th>
+    <th onclick="w3.sortHTML('#ijba_feat', '.item', 'td:nth-child(7)')" style="cursor:pointer">Rank-5</th>
+  </tr>
+   <tr w3-repeat="ijba_feat_data" class="item">
+    <td>{{Method}}</td>
+    <td>{{TAR@FAR 0.01%}}</td>
+    <td>{{TAR@FAR 0.1%}}</td>
+    <td>{{TAR@FAR 1%}}</td>
+    <td>{{TAR@FAR 10%}}</td>
+    <td>{{Rank-1}}</td>
+    <td>{{Rank-5}}</td>
+  </tr>
+</table>
+<script>
+    w3.displayObject("ijba_feat", ijba_feat);
+</script>
+
+
+<br>
+<p>This experiment has helped to see a wider perspective of analysed situation. Using Non-Affine transformation enable to get better <code>Identification</code> score and worse <code>Verification</code> score. Ex. <code>MixUp</code> is second best in <code>Identification</code> and the worst (with very big gap) in <code>Verification</code>. We have meet similar situation in the past, at <a href="http://blcv.pl/static/2017/11/08/demystifying-face-recognition-ii-baseline/">Blog-1-Baseline</a>,  <a href="http://www.yugangjiang.info/publication/icmr17-face.pdf">Fudan Architecture</a> have similar situation. We thought that it is because <code>Batch Normalization</code>, but maybe there is other reason? We would like to explain this phenomenon, but currently we are lack of ideas. We need to find the difference coming from testing. The <code>Identification</code> protocol is based on <code>kNN</code> algorithm, find the closest <code>Face</code> in dataset. <code>Verification</code> protocol is based on finding best Threshold for given rules (best Accuracy or False-Accept rate value). So, imagining that we need best possible Face-Recognition system, we need high <code>Identification</code> (for recognizing) and <code>Verification</code> (for saying: <code>Not Recognized</code>) accuracy.<br>
+Here we would like to mention about last topic related to measurement of <code>Quality of Representation of features</code>. From our perspective, this topic is not widely studied, some of the measurements come from testing Accuracy. However, we see currently a trend of changing it. Even <code>CenterLoss</code> is somehow the measure compactness of features. Recently, the authors of <a href="https://arxiv.org/abs/1704.08063">SphereFace</a> presented their method of measuring the quality of features (<code>Angular Fisher score</code>), which we see as extension of Center idea but with added interaction between classes. We think that it is great idea and we are thinking about adding such measurement for out comparison. More about <code>Quality of Features</code> we will talk analysing the available Loss function, because they are currently the main influencer of final accuracy,</p>
+<p>Thanks for reading, any feedback is welcome!</p>
+</div>
+                </section>
+
+                <footer class="post-footer">
+                    <section class="share">
+                        <p>Share this post: <br>
+                            <a class="share-icon icon-twitter" href="https://twitter.com/intent/tweet?text=Demystifying%20Face%20Recognition%20V%3A%20Data%20Augmentation&amp;url=blcv.pl/static//2018/02/27/demystifying-face-recognition-v-data-augmentation/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                            <a class="share-icon icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=blcv.pl/static//2018/02/27/demystifying-face-recognition-v-data-augmentation/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                            <a class="share-icon icon-google-plus" href="https://plus.google.com/share?url=blcv.pl/static//2018/02/27/demystifying-face-recognition-v-data-augmentation/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                                <i class="fa fa-google-plus"></i>
+                            </a>
+                            <a class="share-icon icon-reddit" href="https://www.reddit.com/submit?url=blcv.pl/static//2018/02/27/demystifying-face-recognition-v-data-augmentation/" onclick="window.open(this.href, 'reddit-share', 'width=850,height=530');return false;">
+                                <i class="fa fa-reddit-alien"></i>
+                            </a>
+                        </p>
+                    </section>
+
+                </footer>
+
+            </article>
+
+
+            <aside class="read-next row">
+
+                <div class="medium-6 columns text-left">
+                    <a class="read-prev-story" href="../../../../2017/12/28/demystifying-face-recognition-iii-face-preprocessing/">Demystifying Face Recognition IV: Face-Alignment</a>
+                    <a href="../../../../2017/12/28/demystifying-face-recognition-iii-face-preprocessing/"><span class="arrow arrow-left"><i class="fa fa-chevron-left" aria-hidden="true"></i></span></a>
+                </div>
+
+             </aside>
+
+            <h3>Comments:</h3>
+
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://localhost:2368/2018/02/27/demystifying-face-recognition-v-data-augmentation/';  // Replace PAGE_URL with your page's canonical URL variable
+                    this.page.identifier = '5a8affd970d6352181f0afe0'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.async = true;
+                    s.src = 'https://blcv-github-io.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+        </main>
+
+        <aside class="sidebar medium-4 large-3 columns show-for-medium">
+            <div class="widget">
+    <h4 class="widget-title">Featured Posts</h4>
+    <div class="widget-content">
+            <ul id="featured-posts" class="no-bullet">
+        <li class="clearfix">
+            <div class="clearfix">
+                 <div class="featured-image">
+                     <a href="index.html" class="thumbnail"><img src="../../../../content/images/2018/02/blog_5_mixup-1.jpg?w=80&amp;q=50"></a>
+                 </div>
+                <div class="featured-title">
+                    <a href="index.html">Demystifying Face Recognition V: Data Augmentation</a>
+
+                    <div class="featured-meta">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <time class="featured-time" datetime="2018-02-27">February 27 2018</time>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="clearfix">
+            <div class="clearfix">
+                 <div class="featured-image">
+                     <a href="../../../../2017/12/28/demystifying-face-recognition-iii-face-preprocessing/" class="thumbnail"><img src="../../../../content/images/2017/11/deepface_logo-1.png?w=80&amp;q=50"></a>
+                 </div>
+                <div class="featured-title">
+                    <a href="../../../../2017/12/28/demystifying-face-recognition-iii-face-preprocessing/">Demystifying Face Recognition IV: Face-Alignment</a>
+
+                    <div class="featured-meta">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <time class="featured-time" datetime="2017-12-28">December 28 2017</time>
+                    </div>
+                </div>
+            </div>
+        </li>
+</ul>    </div>
+</div>
+
+<div class="widget">
+    <h4 class="widget-title">Tags</h4>
+    <div class="widget-content">
+        <ul class="menu" id="tag-list">
+                    <li><a class="tag" href="../../../../tag/face-recogition/">face-recogition</a></li>
+        </ul>
+    </div>
+</div>
+
+    <div class="widget">
+        <h4 class="widget-title">Subscribe</h4>
+        <div class="widget-content widget-subscribe">
+            <p>Get the latest posts delivered right to your inbox.</p>
+            <form method="post" action="http://localhost:2368/subscribe/" class="subscribe-form">
+    <input class="confirm" type="hidden" name="confirm"><input class="location" type="hidden" name="location"><input class="referrer" type="hidden" name="referrer">
+
+    <div class="">
+        <input class="subscribe-email" type="email" name="email" placeholder="Your email address">
+        <button class="button expanded subscribe-btn" type="submit">Subscribe</button>
+    </div>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+
+            <p>or subscribe <a href="http://cloud.feedly.com/#subscription/feed/blcv.pl/static//rss/"> <strong>via RSS</strong>
+            </a> with Feedly!</p>
+        </div>
+    </div>
+        </aside>
+    </div>
+
+
+            </div>
+
+            <footer class="footer clearfix">
+    <section class="copyright"><a href="../../../../">BLCV - Bartosz Ludwiczuk Computer Vision</a> © 2018</section>
+    <section class="poweredby">Proudly published with <a href="https://ghost.org">Ghost</a></section>
+</footer>        </div>
+
+        
+    </div>
+
+    <div class="reveal" id="reveal-search">
+    <div id="results"></div>
+</div>
+    <script src="../../../../assets/js/vendors.min.js?v=48a2bf87a9"></script>
+    <script src="../../../../assets/js/main.min.js?v=48a2bf87a9"></script>
+
+        <script src="../../../../assets/js/prism.min.js?v=48a2bf87a9"></script>
+
+
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-108816291-2', 'auto');
+    ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+</body>

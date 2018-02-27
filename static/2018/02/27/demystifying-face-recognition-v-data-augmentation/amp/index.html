@@ -1,0 +1,449 @@
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Demystifying Face Recognition V: Data Augmentation</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+    <link rel="shortcut icon" href="../../../../../favicon.png">
+
+    <meta name="description" content="What are best Data-Augmentation technique which can be used for Face-Recognition?">
+    <link rel="shortcut icon" href="../../../../../favicon.png" type="image/png">
+    <link rel="canonical" href="../index.html">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta property="og:site_name" content="BLCV - Bartosz Ludwiczuk Computer Vision">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Demystifying Face Recognition V: Data Augmentation">
+    <meta property="og:description" content="What are best Data-Augmentation technique which can be used for Face-Recognition?">
+    <meta property="og:url" content="http://localhost:2368/2018/02/27/demystifying-face-recognition-v-data-augmentation/">
+    <meta property="og:image" content="http://localhost:2368/content/images/2018/02/baidu-1.png">
+    <meta property="article:published_time" content="2018-02-27T16:56:00.000Z">
+    <meta property="article:modified_time" content="2018-02-27T18:31:34.000Z">
+    <meta property="article:tag" content="face-recogition">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Demystifying Face Recognition V: Data Augmentation">
+    <meta name="twitter:description" content="What are best Data-Augmentation technique which can be used for Face-Recognition?">
+    <meta name="twitter:url" content="http://localhost:2368/2018/02/27/demystifying-face-recognition-v-data-augmentation/">
+    <meta name="twitter:image" content="http://localhost:2368/content/images/2018/02/blog_5_mixup-1.jpg">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Bartosz Ludwiczuk">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="face-recogition">
+    <meta property="og:image:width" content="686">
+    <meta property="og:image:height" content="872">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "BLCV - Bartosz Ludwiczuk Computer Vision",
+        "logo": "http://localhost:2368/content/images/2017/11/logo.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Bartosz Ludwiczuk",
+        "url": "http://localhost:2368/author/bartosz/",
+        "sameAs": []
+    },
+    "headline": "Demystifying Face Recognition V: Data Augmentation",
+    "url": "http://localhost:2368/2018/02/27/demystifying-face-recognition-v-data-augmentation/",
+    "datePublished": "2018-02-27T16:56:00.000Z",
+    "dateModified": "2018-02-27T18:31:34.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:2368/content/images/2018/02/blog_5_mixup-1.jpg",
+        "width": 895,
+        "height": 659
+    },
+    "keywords": "face-recogition",
+    "description": "Data Augmentation for Face Recognition",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 1.15">
+    <link rel="alternate" type="application/rss+xml" title="BLCV - Bartosz Ludwiczuk Computer Vision" href="../../../../../rss/index.html">
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic%7COpen+Sans:700,600,400">
+    <style amp-custom>html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}h1{margin:0.67em 0;font-size:2em}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{position:relative;vertical-align:baseline;font-size:75%;line-height:0}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}amp-img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace, monospace;font-size:1em}button,input,optgroup,select,textarea{margin:0;color:inherit;font:inherit}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{cursor:pointer;-webkit-appearance:button}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-appearance:textfield}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}fieldset{margin:0 2px;padding:0.35em 0.625em 0.75em;border:1px solid #c0c0c0}legend{padding:0;border:0}textarea{overflow:auto}optgroup{font-weight:bold}table{border-spacing:0;border-collapse:collapse}td,th{padding:0}html{max-height:100%;height:100%;font-size:62.5%;-webkit-tap-highlight-color:rgba(0, 0, 0, 0)}body{max-height:100%;height:100%;color:#3a4145;background:#f4f8fb;letter-spacing:0.01rem;font-family:"Merriweather", serif;font-size:1.8rem;line-height:1.75em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"kern" 1;-moz-font-feature-settings:"kern" 1;-o-font-feature-settings:"kern" 1}::-moz-selection{background:#d6edff}::selection{background:#d6edff}h1,h2,h3,h4,h5,h6{margin:0 0 0.3em 0;color:#2e2e2e;font-family:"Open Sans", sans-serif;line-height:1.15em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-moz-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-o-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1}h1{text-indent:-2px;letter-spacing:-1px;font-size:2.6rem}h2{letter-spacing:0;font-size:2.4rem}h3{letter-spacing:-0.6px;font-size:2.1rem}h4{font-size:1.9rem}h5{font-size:1.8rem}h6{font-size:1.8rem}a{color:#4a4a4a}a:hover{color:#111}p,ul,ol,dl{margin:0 0 2.5rem 0;font-size:1.5rem;text-rendering:geometricPrecision;-webkit-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-moz-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-o-font-feature-settings:"liga" 1, "onum" 1, "kern" 1}ol,ul{padding-left:2em}ol ol,ul ul,ul ol,ol ul{margin:0 0 0.4em 0;padding-left:2em}dl dt{float:left;clear:left;overflow:hidden;margin-bottom:1em;width:180px;text-align:right;text-overflow:ellipsis;white-space:nowrap;font-weight:700}dl dd{margin-bottom:1em;margin-left:200px}li{margin:0.4em 0}li li{margin:0}hr{display:block;margin:1.75em 0;padding:0;height:1px;border:0;border-top:#efefef 1px solid}blockquote{box-sizing:border-box;margin:1.75em 0 1.75em 0;padding:0 0 0 1.75em;border-left:#4a4a4a 0.4em solid;-moz-box-sizing:border-box}blockquote p{margin:0.8em 0;font-style:italic}blockquote small{display:inline-block;margin:0.8em 0 0.8em 1.5em;color:#ccc;font-size:0.9em}blockquote small:before{content:"\2014 \00A0"}blockquote cite{font-weight:700}blockquote cite a{font-weight:normal}mark{background-color:#fdffb6}code,tt{padding:1px 3px;border:#e3edf3 1px solid;background:#f7fafb;border-radius:2px;white-space:pre-wrap;font-family:Inconsolata, monospace, sans-serif;font-size:0.85em;font-feature-settings:"liga" 0;-webkit-font-feature-settings:"liga" 0;-moz-font-feature-settings:"liga" 0}pre{overflow:auto;box-sizing:border-box;margin:0 0 1.75em 0;padding:10px;width:100%;border:#e3edf3 1px solid;background:#f7fafb;border-radius:3px;white-space:pre;font-family:Inconsolata, monospace, sans-serif;font-size:0.9em;-moz-box-sizing:border-box}pre code,pre tt{padding:0;border:none;background:transparent;white-space:pre-wrap;font-size:inherit}kbd{display:inline-block;margin-bottom:0.4em;padding:1px 8px;border:#ccc 1px solid;background:#f4f4f4;border-radius:4px;box-shadow:0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 #fff inset;color:#666;text-shadow:#fff 0 1px 0;font-size:0.9em;font-weight:700}table{box-sizing:border-box;margin:1.75em 0;max-width:100%;width:100%;background-color:transparent;-moz-box-sizing:border-box}table th,table td{padding:8px;border-top:#efefef 1px solid;vertical-align:top;text-align:left;line-height:20px}table th{color:#000}table caption + thead tr:first-child th,table caption + thead tr:first-child td,table colgroup + thead tr:first-child th,table colgroup + thead tr:first-child td,table thead:first-child tr:first-child th,table thead:first-child tr:first-child td{border-top:0}table tbody + tbody{border-top:#efefef 2px solid}table table table{background-color:#fff}table tbody > tr:nth-child(odd) > td,table tbody > tr:nth-child(odd) > th{background-color:#f6f6f6}table.plain tbody > tr:nth-child(odd) > td,table.plain tbody > tr:nth-child(odd) > th{background:transparent}iframe,amp-iframe,.fluid-width-video-wrapper{display:block;margin:1.75em 0}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper amp-iframe{margin:0}textarea,select,input{margin:0 0 5px 0;padding:6px 9px;width:260px;outline:0;border:#e7eef2 1px solid;background:#fff;border-radius:4px;box-shadow:none;font-family:"Open Sans", sans-serif;font-size:1.6rem;line-height:1.4em;font-weight:100;-webkit-appearance:none}textarea{min-width:250px;min-height:80px;max-width:340px;width:100%;height:auto}input[type="text"]:focus,input[type="email"]:focus,input[type="search"]:focus,input[type="tel"]:focus,input[type="url"]:focus,input[type="password"]:focus,input[type="number"]:focus,input[type="date"]:focus,input[type="month"]:focus,input[type="week"]:focus,input[type="time"]:focus,input[type="datetime"]:focus,input[type="datetime-local"]:focus,textarea:focus{outline:none;outline-width:0;border:#bbc7cc 1px solid;background:#fff}select{width:270px;height:30px;line-height:30px}.clearfix:before,.clearfix:after{content:" ";display:table}.clearfix:after{clear:both}.clearfix{zoom:1}.main-header{position:relative;display:table;overflow:hidden;box-sizing:border-box;width:100%;height:50px;background:#5ba4e5 no-repeat center center;background-size:cover;text-align:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box}.content{background:#fff;padding-top:15px}.blog-title,.content{margin:auto;max-width:600px}.blog-title a{display:block;padding-right:16px;padding-left:16px;height:50px;color:#fff;text-decoration:none;font-family:"Open Sans", sans-serif;font-size:16px;line-height:50px;font-weight:600}.post{position:relative;margin-top:0;margin-right:16px;margin-left:16px;padding-bottom:0;max-width:100%;border-bottom:#ebf2f6 1px solid;word-wrap:break-word;font-size:0.95em;line-height:1.65em}.post-header{margin-bottom:1rem}.post-title{margin-bottom:0}.post-title a{text-decoration:none}.post-meta{display:block;margin:3px 0 0 0;color:#9eabb3;font-family:"Open Sans", sans-serif;font-size:1.3rem;line-height:2.2rem}.post-meta a{color:#9eabb3;text-decoration:none}.post-meta a:hover{text-decoration:underline}.post-meta .author{margin:0;font-size:1.3rem;line-height:1.3em}.post-date{display:inline-block;text-transform:uppercase;white-space:nowrap;font-size:1.2rem;line-height:1.2em}.post-image{margin:0;padding-top:3rem;padding-bottom:30px;border-top:1px #E8E8E8 solid}.post-content amp-img,.post-content amp-anim{position:relative;left:50%;display:block;padding:0;min-width:0;max-width:112%;width:calc(100% + 32px);height:auto;transform:translateX(-50%);-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%)}.footnotes{font-size:1.3rem;line-height:1.6em;font-style:italic}.footnotes li{margin:0.6rem 0}.footnotes p{margin:0}.footnotes p a:last-child{text-decoration:none}.site-footer{position:relative;margin:0 auto 20px auto;padding:1rem 15px;max-width:600px;color:rgba(0,0,0,0.5);font-family:"Open Sans", sans-serif;font-size:1.1rem;line-height:1.75em}.site-footer a{color:rgba(0,0,0,0.5);text-decoration:none;font-weight:bold}.site-footer a:hover{border-bottom:#bbc7cc 1px solid}.poweredby{display:block;float:right;width:45%;text-align:right}.copyright{display:block;float:left;width:45%}</style>
+
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+
+    <script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>
+
+</head>
+
+<body class="amp-template">
+    <header class="main-header">
+        <nav class="blog-title">
+            <a href="../../../../../">BLCV - Bartosz Ludwiczuk Computer Vision</a>
+        </nav>
+    </header>
+
+    <main class="content" role="main">
+        <article class="post">
+
+            <header class="post-header">
+                <h1 class="post-title">Demystifying Face Recognition V: Data Augmentation</h1>
+                <section class="post-meta">
+                    <p class="author">by <a href="../../../../../author/bartosz/">Bartosz Ludwiczuk</a></p>
+                    <time class="post-date" datetime="2018-02-27">2018-02-27</time>
+                </section>
+            </header>
+            <figure class="post-image">
+                <amp-img src="http://localhost:2368/content/images/2018/02/blog_5_mixup-1.jpg" width="600" height="400" layout="responsive"></amp-img>
+            </figure>
+            <section class="post-content">
+
+                <div class="kg-card-markdown"><p>From the beginning of creation of Neural Network, one of the biggest problem was overfitting, what means weak generalization in dataset not seen during draining (it is often named as <code>Generalization Gap</code>). Mainly it was caused by many parameters (ex. AlexNet have 60M, VGG-Net have 230M). In Machine Learning there exist a theorem that the number of parameters should be lower than number of training example, what is normally not the case when using Deep Learning. So what are the main method which enable Deep Learning achieve superior results? By using different technique to reduce overfitting, where 3 of them have the biggest impact:</p>
+<ul>
+<li>Weight-decay: preventing weight from achieving very high values, what can cause remembering training examples</li>
+<li>DropOut: preventing co-adaptation of features by randomly removing them</li>
+<li>Data Augmentation: technique for generating new training examples by sampling original images with modification</li>
+</ul>
+<p>If you want to know more about first two, I advice to watch this video from <a href="https://www.youtube.com/playlist?list=PLC1qU-LWwrF64f4QKQT-Vg5Wr4qEE1Zxk">Stanford University</a>, they should clarify you how and why they can work. In this blog-post we will focus of the third one. But firstly some of the historical information. As most of you know, the real breakthrough in Computer Vision was caused by winning entry from Geoffrey Hinton team in ImageNet, which learn Deep Convolutional Network having 60M parameters. How they manage to do so? By preventing overfitting using DropOut and Data Augmentation. Exactly, they use Random-Crop (very powerful technique  according to many papers),  flipping image Right-Left and Random Lighting Perturbation (changing the intensities of images).  So what they do exactly? In fact, they make their dataset many times bigger what cause that network does not see same image many times. Also, it was in line with beliefs Hinton about <code>How does the brain works?</code>, as he believed that brain are making image transformation. Referring to statement <code>Father of Deep Learning</code>, did you see fanny video which animate his story (it was presented at NIPS conference)? If not, it is worth watching:</p>
+<amp-iframe width="560" height="315" src="https://www.youtube.com/embed/mlXzufEk-2E?rel=0" frameborder="0" allowfullscreen sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe>
+<br>
+<p>In next year’s the more powerful networks was designed, which also need a more powerful technique for preventing overfitting. <a href="https://arxiv.org/abs/1409.4842">GoogLeNet</a> does exactly that by adding Random-Scale-Crop technique (it does scale image by making it smaller or bigger with changed aspect ratio followed by Random-Crop).  As you can suppose, this is not end as researcher found this as a easy and fulfilling expectations method for getting better model. A very extreme way of checking it was done by researcher from <a href="https://arxiv.org/abs/1501.02876">Baidu</a>, which make use from a  large number of Data-Augmentation technique achieving best results of that time. Most of their technique include extending image perturbation by changing intensities values, but they not settle down in Deep Learning community.</p>
+<p align="center">
+
+</p>
+<p>In summary, the following general Image Transformation was introduced:</p>
+<ul>
+<li>Random-Crop</li>
+<li>Random-Flipping</li>
+<li>Random-Scale</li>
+<li>Random-Perspective-Transformation</li>
+<li>Random-Image-Lighting-Perturbation</li>
+<li>Random-Image-Color-Perturbation</li>
+</ul>
+<p>There are some papers/blogs which benchmark this technique on general Image problem, like</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1708.06020v1">Improving Deep Learning using Generic Data Augmentation</a></li>
+<li><a href="https://gombru.github.io/2017/09/14/data_augmentation/">Data augmentation benchmarking on CNN training</a></li>
+</ul>
+<p>We said, that there are so many advantages of Data Augmentation technique. Are there any <code>Dark Side</code> of them? It’s said that there are two of them. First disadvantage is possibility of model underfitting to data because of too heavy regularization method (ex. When we use weight-decay, DropOut and several DA technique). Then  we have two options: making regularization less aggravating or trying the bigger model. At a research stage we recommend taking the first option and then gradually adding another regularization method. The second disadvantage is difference between distribution of training set and test set. Using Data-Augmentation make images look much different from their original counterpart then our network may not work nice at test set, so generalization gap may be bigger than we except. For such situation many researcher propose to learn the network without any DA technique for couple of epoch after out network does not improve. We think that there could be the third disadvantage also, we will explain it later.</p>
+<p>But what about the Face Recognition? Here story is different as the aim is different. First of all, in contrast to general image problem, object (exactly face) which need to be recognized is already detected. Also, most of time the face is aligned to have always the same position to make learning easier. This is why most of the time Face-Recognition are using just Random-Horizontal-Flipping (as it does not change the position of face). Rarely Random-Crop is used, but it look like it also may work. There is one nice paper which already benchmarked many available technique, I advice to go through it, <a href="https://www.sciencedirect.com/science/article/pii/S0925231216315016">Data Augmentation for Face Recognition</a>. Also there are several new Data Augmentation technique which are not widely tested, maybe they will we working for our case? So, our questions which we will asking and trying to answer will be:</p>
+<ol>
+<li><strong>What are best Data-Augmentation technique which can be used for Face-Recognition?</strong></li>
+<li><strong>What combination of Technique Works best?</strong></li>
+<li><strong>Can we beat model with DropOut</strong></li>
+</ol>
+<br>
+<h2 id="baseexperiments">Base Experiments</h2>
+<p>So what exactly technique we will be using? Here is the image with all base technique which we will be using. Most of them are basic one, but we also include many technique from fantastic Image-Augmentation library <a href="http://imgaug.readthedocs.io/en/latest/#">imgaug</a>. If you want to read more about them, look <a href="http://imgaug.readthedocs.io/en/latest/source/augmenters.html">here</a> . Other are just base technique from <a href="http://pytorch.org/">PyTorch</a> (library we used for experiments). Also I have used some open-source implementation, which we found at GitHub.<br>
+Enough of introduction, let’s make experiments to check the influence of each model. As stated at <a href="http://blcv.pl/static/2017/11/08/demystifying-face-recognition-ii-baseline/">blog-post-1</a>, here we will be using <code>Baseline</code> model without <code>DropOut</code>, because we want to see even small difference in performance. Also, for <code>Random-Crop</code> and <code>Random-Sized-Crop</code> we will be using 3-different input image size with different value of padding (the bigger padding the bigger input samples space). Here are the results, where the first part of table is Affine transformation and second one Color/Lighting.</p>
+<p align="center">
+
+</p>
+
+
+
+
+<table id="simple" class="customers">
+  <caption> General DA technique Results</caption>
+  <tr>
+    <th>Idx</th>
+    <th>Method</th>
+    <th>Val Loss</th>
+    <th>Val Acc</th>
+    <th>LFW</th>
+    <th>LFW Blufr1-Rank1</th>
+    <th>LFW Blufr2-FAR 0.1%</th>
+  </tr>
+   <tr class="item">
+    <td>{{Idx}}</td>
+    <td>{{Method}}</td>
+    <td>{{Val Loss}}</td>
+    <td>{{Val Acc}}</td>
+    <td>{{LFW}}</td>
+    <td>{{LFW Blufr1-Rank1}}</td>
+    <td>{{LFW Blufr2-FAR 0.1%}}</td>
+  </tr>
+</table>
+
+
+
+<amp-iframe width="860" height="532" frameborder="0" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQQZNy4_JojNRXGknOCpT6EUHW3LQ8DJXW-unlhYzY1NM9gJvbXImRN5_gPMlwWaJ1SMi8eIcfatn-a/pubchart?oid=798449295&amp;format=interactive" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe>
+<br>
+<p>The above results are pretty intriguing. Firstly let's talk about <code>Affine Transformation</code>. Look like using any of them provide better results than doing nothing (so good news, DA doesn't hurt model). However looks like there are very sensitive to hyperparameters (like Padding or MinScale). If we would just take random parameters, we could even get worse model than our baseline. It is also worth mentioning that simple <code>Horizontal-Flip</code> is really powerful technique, we didn't expect that! The best <code>Affine model</code> is <code>Random-Resized-Crop</code> with Pad = 10 and MinScale = 0.5.<br>
+The story about <code>Color Perturbation</code> is completely different. Here hardly any technique get much better results than <code>No Data Augmentation</code>. The only one is <code>Grayscale</code>. We are not sure if our test are correctly carried out, however even some hyper-parameter search doesn't improve performance.</p>
+<br>
+<h2 id="recentlyintroducetechnique">Recently Introduce Technique</h2>
+<p>In 2017 the two new data-based regularization technique was introduced:</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1708.04552">RandomErasing</a> or <a href="https://arxiv.org/abs/1708.04552">CutOut</a>: removing the random rectangular area from image</li>
+<li><a href="https://arxiv.org/abs/1710.09412">MixUp</a> or <a href="https://arxiv.org/abs/1801.02929">Image-Pairing</a>: mixing values two images (and targets in MixUp) with each other</li>
+</ul>
+<br>
+Removing the values from input image was a popular method in the begging of Deep Learning, it was done by using DropOut as a first layer (it was introduced at Denoising AutoEncoder). But when using convolution layers, it does not work well. It is believed that it is because of Kernel-Idea in CNN, so removing the single values of area does not make a big impact of the final output. When removing the bigger area than kernels then it would make a much bigger influence in final model. This is exact idea behind `RandomErasing`. We also included technique from imgaug library, `DropOut` and `CorseDropOut` (which is sth like `Random Erasing`) with Channel-dependent and independent version.
+<p align="center">
+<amp-img alt="Denoising AutoEncoders (Ref: https://www.doc.ic.ac.uk/~js4416/163/website/autoencoders/denoising.html)" height="140" width="420" src="https://www.doc.ic.ac.uk/~js4416/163/website/img/autoencoders/denoising-example.png" layout="responsive"></amp-img>
+</p>
+<p>In the other hand, <code>Mixup</code> is  novel idea in which many researcher does not believe it would work. How does mixing the image intensities and target can regularize the model? How does model can learn that this image is 80% of Leonardo DiCaprio and 20% Tom Hanks? For us it is really intriguing, but it may be connected with prediction distribution, act like a regulizer. Just look at the example images from ImageNet created using this technique, could you classify them correctly.</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Here are a couple of Imagenet photos with different blending ratios. They are harder to categorize but it is not impossible! cc <a href="https://twitter.com/ogrisel?ref_src=twsrc%5Etfw">@ogrisel</a> <a href="https://t.co/cqqBVUC0qG">pic.twitter.com/cqqBVUC0qG</a></p>— Xavier Gastaldi (@xavier_gastaldi) <a href="https://twitter.com/xavier_gastaldi/status/925952887016099840?ref_src=twsrc%5Etfw">2 listopada 2017</a></blockquote>
+
+<p>This idea remind us two technique which was developed to make labels noise: Label-Smoothing (<a href="https://arxiv.org/abs/1512.00567">Rethinking the Inception Architecture for Computer Vision</a>) and Label-corruption. Also blending the data is not a new idea, <a href="https://www.jair.org/media/953/live-953-2037-jair.pdf">SMOTE</a>  algorithm was doing exactly the same situation, but it was rather designed for oversampling the minority classes, so was just merging examples (even more than 2) of the same class (what based on the author of mixup paper, does not work well). It look like that mixup is sth like creating Multi-class SMOTE with Label Smoothing. Image-Pairing, in contrast to MixUp, does not merge labels information, just image intensities. In this technique is single hyper-parameter, alpha, which is float number in range &lt;0,1&gt; indicating proportion of intersities taken from both images. If you would like to understand deeper this technique, we recommend great blog by <a href="http://www.inference.vc/mixup-data-dependent-data-augmentation/">inFERENCe</a>. How it works with Faces?</p>
+<p align="center">
+<amp-img alt="SMOTE algorithm (Ref: https://www.researchgate.net/figure/The-schematic-of-NRSBoundary-SMOTE-algorithm_fig1_287601878)" height="973" width="850" src="https://www.researchgate.net/publication/287601878/figure/fig1/AS:316826589384744@1452548753581/The-schematic-of-NRSBoundary-SMOTE-algorithm.png" layout="responsive"></amp-img>
+</p>
+<p align="center">
+
+</p>
+<p align="center">
+
+</p>
+<p>Before making the experiments, sets clarify hyper-parameters of methods. In case of <code>RandomErasing</code>, we will be make several experiments making probability of using it different and also choosing the maximum size of removed area. Using <code>Mixup</code> only just need to set a range of ratio between two training examples. Here are results.</p>
+
+
+
+
+<table id="mix" class="customers">
+   <caption> Mixing/Dropping technique Results</caption>
+  <tr>
+    <th>Idx</th>
+    <th>Method</th>
+    <th>Val Loss</th>
+    <th>Val Acc</th>
+    <th>LFW</th>
+    <th>LFW Blufr1-Rank1</th>
+    <th>LFW Blufr2-FAR 0.1%</th>
+  </tr>
+   <tr class="item">
+    <td>{{Idx}}</td>
+    <td>{{Method}}</td>
+    <td>{{Val Loss}}</td>
+    <td>{{Val Acc}}</td>
+    <td>{{LFW}}</td>
+    <td>{{LFW Blufr1-Rank1}}</td>
+    <td>{{LFW Blufr2-FAR 0.1%}}</td>
+  </tr>
+</table>
+
+
+
+<amp-iframe width="789.5" height="488.1741666666667" frameborder="0" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQQZNy4_JojNRXGknOCpT6EUHW3LQ8DJXW-unlhYzY1NM9gJvbXImRN5_gPMlwWaJ1SMi8eIcfatn-a/pubchart?oid=824193697&amp;format=interactive" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe>
+<p>Before making any summary about results, we would like to point out our problems during making the experiments of <code>Image Pairing</code> idea. According to their paper and <code>inFERENCe</code> blog post, there is no need of smoothing the labels, input data is enough. According to some theoretical analyse, it is true. But our finding are different when the training procedure is exactly the same for <code>MixUp</code> and <code>Image-Pairing</code>. The main difference in training procedure in <code>Image-Pairing</code> is turning on/off it during training (ex. first 3 epoch off, then 5 on, 3 off etc.). With such setting is converge to similar results like <code>MixUp</code>, but without such methodology it diverge. So we advice to use <code>MixUp</code> in any time you want check this kind of technique.</p>
+<p>Ok, but how good are this technique in Face-Recognition? Many of them works really well compared to baseline model. They even achieve better validation score than <code>Random-Flip</code>. However, the situation at <code>LFW-BLUFR</code> test is different. Their results are much lower even they obtain lower <code>Validation Loss</code> (<code>Random-Erasing with p = 1.0</code> vs <code>Random-Erasing with p = 1.0</code>). What does it mean? Look like features representation from network learned with <code>missing data</code> are not so good (or maybe it is wrong conclusion?). This is one of the problem of Face-Recognition, measure for <code>quality of features</code> different than just accuracy in some benchmarks (we will talk about this later).</p>
+<h2 id="facespecificdataaugmentationtechnique">Face-Specific Data-Augmentation technique</h2>
+<p>Look like that we are able to get a nice boost using general Data Augmentation technique. But this is not the end. In many years of developing Face-Recognition technique, there are also proposed Face-Specific method, which could work only with them. We know two of them:</p>
+<ul>
+<li>Landmark perturbation: this cause that image alignment is not perfect</li>
+<li>Face-Rendering: rendering the novel views of Face with different Pose</li>
+</ul>
+<p>First of all, our earlier experiment in <a href="http://blcv.pl/static/2017/11/08/demystifying-face-recognition-ii-baseline/">Face-Align</a>, show that accuracy of landmark location didn’t influence the final accuracy. But what if Face Alignment would be not perfect/different every time the model see the image? Having such technique would be equivalent to rotation-resizing-cropping at once, but with much smaller range of values. Just look into below images.</p>
+<p align="center">
+
+</p>
+<p>Face-Rendering is much harder topic. In it connected with estimating the 3D-pose of head and generating the new views of face. Based on paper <a href="https://arxiv.org/abs/1708.07517">FacePoseNet</a>, it works really well, when 3D pose is estimated very well (using landmarks provide much lower accuracy). However, we have issues with this technique, so we would not conduct extensive experiments using it now (planed it future).</p>
+
+
+
+
+<table id="land" class="customers">
+   <caption> Landmark-Perturbation technique Results</caption> 
+  <tr>
+    <th>Idx</th>
+    <th>Method</th>
+    <th>Val Loss</th>
+    <th>Val Acc</th>
+    <th>LFW</th>
+    <th>LFW Blufr1-Rank1</th>
+    <th>LFW Blufr2-FAR 0.1%</th>
+  </tr>
+   <tr class="item">
+    <td>{{Idx}}</td>
+    <td>{{Method}}</td>
+    <td>{{Val Loss}}</td>
+    <td>{{Val Acc}}</td>
+    <td>{{LFW}}</td>
+    <td>{{LFW Blufr1-Rank1}}</td>
+    <td>{{LFW Blufr2-FAR 0.1%}}</td>
+  </tr>
+</table>
+
+
+
+<amp-iframe width="799.5" height="494.3575000000001" frameborder="0" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQQZNy4_JojNRXGknOCpT6EUHW3LQ8DJXW-unlhYzY1NM9gJvbXImRN5_gPMlwWaJ1SMi8eIcfatn-a/pubchart?oid=1918168880&amp;format=interactive" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe>
+<p>Really nice results! There are comparable to best <code>Affine</code> technique already tested.</p>
+<h2 id="combinationoftechnique">Combination of technique</h2>
+<p>As we know how each single technique works, let's now combine them into more complicated form. The chosen hyperparameter (like type of combination) are just our intuition, there are maybe not best choose. However we wanted to test wide-range of possibilities, where our main aim was creating the best possible model.</p>
+
+
+
+
+<table id="merge" class="customers">
+  <caption> Multiple DA technique Results</caption>
+  <tr>
+    <th>Idx</th>
+    <th>Method</th>
+    <th>Val Loss</th>
+    <th>Val Acc</th>
+    <th>LFW</th>
+    <th>LFW Blufr1-Rank1</th>
+    <th>LFW Blufr2-FAR 0.1%</th>
+  </tr>
+   <tr class="item">
+    <td>{{Idx}}</td>
+    <td>{{Method}}</td>
+    <td>{{Val Loss}}</td>
+    <td>{{Val Acc}}</td>
+    <td>{{LFW}}</td>
+    <td>{{LFW Blufr1-Rank1}}</td>
+    <td>{{LFW Blufr2-FAR 0.1%}}</td>
+  </tr>
+</table>
+
+
+
+<amp-iframe width="754" height="466" frameborder="0" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQQZNy4_JojNRXGknOCpT6EUHW3LQ8DJXW-unlhYzY1NM9gJvbXImRN5_gPMlwWaJ1SMi8eIcfatn-a/pubchart?oid=413561002&amp;format=interactive" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe>
+<h5 id="flipgrayscaleerasingidx0">Flip-grayscale-erasing (Idx: 0)</h5>
+<p>This was our test which tied to combine <code>average</code> DA technique to create more powerful method. And results are disappoints, despite having nice <code>Validation</code> results, <code>LFW</code> benchmarks showed that features are even worse form the case of using just <code>Flip</code>. Maybe this is because of erasing?</p>
+<h5 id="combinationof2affinemethodidx15">Combination of 2 Affine method (Idx: 1-5)</h5>
+<p>Our next idea was just combining the best DA technique and see if they work even better or are redundant. And look like that combining them works pretty nice. <code>Flip</code> boost accuracy of 'Cropping<code>and</code>Landmark-Perturbation' (currently two best methods), in the other hand 'ResizeCrop<code>got comparable results in 'Validation</code> and much worse in <code>LFW</code> protocol. In case of testing <code>Landmark-Perturbation</code> with 'Cropping<code>and 'ResizeCrop</code>, both of them get just some of boost. As we said earlier, <code>Landmark-Perturbation</code> already contain multiple  <code>Affine</code> technique, so maybe this collaboration is redundant.</p>
+<h5 id="getbestpossiblemodelidx69">Get best possible model (Idx: 6-9)</h5>
+<p>Here we decided to use base method <code>Flip-landmark_05-crop20</code> with pretty decent results and some non-redundant methods, exactly: <code>Mixup</code>, <code>Random-Erase</code> and <code>GrayScale</code>. And all the method get comparable or better <code>Validation</code> results than our <code>baseline</code> model (idx:14). Unfortunately in <code>LFW BLUFR</code> protocol there is huge gap between results. This just bring us again to thought about meaningful of feature representation, how we should measure it correctly as again and again <code>Validation Loss</code> doesn't give pure indication about that.</p>
+<h5 id="modelswithdropoutidx1014">Models with DropOut (Idx: 10-14)</h5>
+<p>Look like <code>DropOut</code> technique would stay with us as the regularization applied by Data Augmentation have the different effect on final feature representation. So we just tried several option, however this time we use <code>FaceResNet-DropOut</code>. And we have new kind, <code>Flip-landmark_05-linear_dropout_05</code>! This model is our currently best model overall, it even beat much more complicated models like SphereFace. Here are results from <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Klare_Pushing_the_Frontiers_2015_CVPR_paper.pdf">IJBA</a> and <a href="http://megaface.cs.washington.edu/">MegaFace</a> benchmarks, compared to our best model using same architecture.</p>
+
+
+
+
+<table id="ijba" class="customers">
+    <caption> IJBA-A Results</caption>
+  <tr>
+    <th>Method</th>
+    <th>TAR@FAR 0.01%</th>
+    <th>TAR@FAR 0.1%</th>
+    <th>TAR@FAR 1%</th>
+    <th>TAR@FAR 10%</th>
+    <th>Rank-1</th>
+    <th>Rank-5</th>
+  </tr>
+   <tr class="item">
+    <td>{{Method}}</td>
+    <td>{{TAR@FAR 0.01%}}</td>
+    <td>{{TAR@FAR 0.1%}}</td>
+    <td>{{TAR@FAR 1%}}</td>
+    <td>{{TAR@FAR 10%}}</td>
+    <td>{{Rank-1}}</td>
+    <td>{{Rank-5}}</td>
+  </tr>
+</table>
+
+
+
+<br>
+
+
+
+
+<table id="megaface" class="customers">
+   <caption> MegaFace Results</caption>
+  <tr>
+    <th>Method</th>
+    <th>Rank-1</th>
+    <th>VR@FAR=10−6</th>
+  </tr>
+   <tr class="item">
+    <td>{{Method}}</td>
+    <td>{{Rank-1}}</td>
+    <td>{{VR@FAR=10−6}}</td>
+  </tr>
+</table>
+
+
+
+<br>
+<h2 id="summaryofdataaugmentation">Summary of Data-Augmentation</h2>
+<p>Here are all the tests we have done. There are a lot of information here, we will try to summarize them by mainly looking into <code>Validation</code> results. We would order them by usefulness in general Computer Vision tasks:</p>
+<ol>
+<li>Affine Image transformation are really powerful method, it is recommended to try <code>Cropping, Scaling, Rotating</code> or all at once at every task you have.</li>
+<li>Coarse-Dropout/Random-Erasing are powerful technique, which really can help you creating best-possible model.</li>
+<li>Mixing images intensities is very strong regulator. In general, it can help you to get better model, only if your model is really powerful (as stated in original <a href="https://arxiv.org/abs/1710.09412">paper</a>).</li>
+<li>Color Transformation doesn't provide huge boost, but this doesn't preclude them for using. Just doesn't expect huge boost.</li>
+<li>Merging: merging couple of different/same type of technique provide better results, however it need to be treat as hyper-parameter.</li>
+</ol>
+<p>Also, Data-Augmentation regularization shouldn't discourage using other technique like DropOut or Weight-Decay, so you try them also.</p>
+<h2 id="noteaboutfeaturerepresentation">Note about Feature-Representation</h2>
+<p>Our last topic in this blog post will be some notes about <code>Feature-Representation</code>. Generally, most of the researcher agreed with argument that: <code>The Better Accuracy you achieved in database, the better representation is learned by model</code>. Then, creating better models/learning methods for achieving better accuracy score should also provide better representation. We have also problem with such formulation if we would take a look of idea of testing <code>Face-Recognition</code> technology. Let's just look into idea how we are testing the real performance of model.</p>
+<p align="center">
+
+</p>
+<p>Optimizing the final accuracy, we are doesn't care us much about <code>pre-final-layer</code>, it is optimized in similar fashion like other layer despite the fast it is most importart part of all model. This is why currenty is visible trend in <code>Face Recognition, Image Retrival</code> technology to create task related loss functions, like mentioned several time <a href="https://ydwen.github.io/papers/WenECCV16.pdf">CenterLoss</a> or <a href="http://yann.lecun.com/exdb/publis/pdf/chopra-05.pdf">Contrastive loss</a>, because they directly interact with final representation of model. We will more about this topic in future blog-post, but we just want to give brief overview of our doubts in general arguments, which we already know.</p>
+<p>However, the main topic of this section should be the new findings from series of experiments. Generally, in contrast to our <a href="http://blcv.pl/static/2017/11/08/demystifying-face-recognition-ii-baseline/">baselie experiments</a>, where more powerfull structure provide better Accuray and Representation, in our experiments is was not always the truth. Generally, the biggest problem occur with using Mixing/Dropping technology, which was providing deformed face to models. From our experiments here better final Accuracy doesn't mean always better Representation. Let's analyse relation between <code>Validation Accuracy</code> and <code>LFW</code> score.</p>
+<p align="center">
+
+</p>
+<br>
+<table id="corr" class="customers">
+  <tr>
+    <th>Affine</th>
+    <th>Color</th>
+    <th>Mix-drop</th>
+    <th>Landmark</th>
+    <th>Merge</th>
+  </tr>
+   <tr class="item">
+    <td>0.79</td>
+    <td>0.57</td>
+    <td>0.67</td>
+    <td>0.79</td>
+    <td>0.86</td>
+  </tr>
+   <caption> Table Correlation Val Acc vs LFW</caption>
+</table>
+<p>Looking into chart, there is general trend of having higher <code>LFW</code> score with higher <code>Validation Accuracy</code>. In the other hand when we look closer into chart categories and also correlation values, something unusual can be spotted: <code>Color</code> and <code>Mix/Drop</code> transformation have weaker effect on <code>LFW</code> score than other kind of transformation. So we can deduce, that <code>Feature Representation</code> is also less powerful compared to <code>Affine</code> technique having same <code>Validation Accuracy</code>. What does it mean? We are not able to make any clear statement, however look like using distorted/unnatural input image like a training example makes features of normal images less representative. But what if we would test such method in much harder environment, like video-input, as <code>LFW</code> images are really nice. In contrast, <code>IJBA-A</code> also use frames from video for testing. This is why we conduct several experiment to see if maybe this benchmark show us different <code>trendline</code> for our dubious quality methods. We use <code>Flip-landmark_05-crop20</code> as a baseline.</p>
+
+
+
+
+<table id="ijba_feat" class="customers">
+    <caption> IJBA-A Results</caption>
+  <tr>
+    <th>Method</th>
+    <th>TAR@FAR 0.01%</th>
+    <th>TAR@FAR 0.1%</th>
+    <th>TAR@FAR 1%</th>
+    <th>TAR@FAR 10%</th>
+    <th>Rank-1</th>
+    <th>Rank-5</th>
+  </tr>
+   <tr class="item">
+    <td>{{Method}}</td>
+    <td>{{TAR@FAR 0.01%}}</td>
+    <td>{{TAR@FAR 0.1%}}</td>
+    <td>{{TAR@FAR 1%}}</td>
+    <td>{{TAR@FAR 10%}}</td>
+    <td>{{Rank-1}}</td>
+    <td>{{Rank-5}}</td>
+  </tr>
+</table>
+
+
+
+<br>
+<p>This experiment has helped to see a wider perspective of analysed situation. Using Non-Affine transformation enable to get better <code>Identification</code> score and worse <code>Verification</code> score. Ex. <code>MixUp</code> is second best in <code>Identification</code> and the worst (with very big gap) in <code>Verification</code>. We have meet similar situation in the past, at <a href="http://blcv.pl/static/2017/11/08/demystifying-face-recognition-ii-baseline/">Blog-1-Baseline</a>,  <a href="http://www.yugangjiang.info/publication/icmr17-face.pdf">Fudan Architecture</a> have similar situation. We thought that it is because <code>Batch Normalization</code>, but maybe there is other reason? We would like to explain this phenomenon, but currently we are lack of ideas. We need to find the difference coming from testing. The <code>Identification</code> protocol is based on <code>kNN</code> algorithm, find the closest <code>Face</code> in dataset. <code>Verification</code> protocol is based on finding best Threshold for given rules (best Accuracy or False-Accept rate value). So, imagining that we need best possible Face-Recognition system, we need high <code>Identification</code> (for recognizing) and <code>Verification</code> (for saying: <code>Not Recognized</code>) accuracy.<br>
+Here we would like to mention about last topic related to measurement of <code>Quality of Representation of features</code>. From our perspective, this topic is not widely studied, some of the measurements come from testing Accuracy. However, we see currently a trend of changing it. Even <code>CenterLoss</code> is somehow the measure compactness of features. Recently, the authors of <a href="https://arxiv.org/abs/1704.08063">SphereFace</a> presented their method of measuring the quality of features (<code>Angular Fisher score</code>), which we see as extension of Center idea but with added interaction between classes. We think that it is great idea and we are thinking about adding such measurement for out comparison. More about <code>Quality of Features</code> we will talk analysing the available Loss function, because they are currently the main influencer of final accuracy,</p>
+<p>Thanks for reading, any feedback is welcome!</p>
+</div>
+
+            </section>
+
+        </article>
+    </main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="../../../../../">BLCV - Bartosz Ludwiczuk Computer Vision</a> © 2018</section>
+        <section class="poweredby">Proudly published with <a href="https://ghost.org">Ghost</a></section>
+    </footer>
+</body>
