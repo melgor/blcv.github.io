@@ -1,4 +1,4 @@
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>BLCV - Bartosz Ludwiczuk Computer Vision</title><description>Computer Vision Blog and Consulting</description><link>http://localhost:2368/</link><image><url>http://localhost:2368/favicon.png</url><title>BLCV - Bartosz Ludwiczuk Computer Vision</title><link>http://localhost:2368/</link></image><generator>Ghost 1.15</generator><lastBuildDate>Tue, 27 Feb 2018 18:33:43 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Demystifying Face Recognition V: Data Augmentation</title><description>What are best Data-Augmentation technique which can be used for Face-Recognition?</description><link>http://localhost:2368/2018/02/27/demystifying-face-recognition-v-data-augmentation/</link><guid isPermaLink="false">5a8affd970d6352181f0afe0</guid><category>face-recogition</category><dc:creator>Bartosz Ludwiczuk</dc:creator><pubDate>Tue, 27 Feb 2018 16:56:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2018/02/blog_5_mixup-1.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2018/02/blog_5_mixup-1.jpg" alt="Demystifying Face Recognition V: Data Augmentation"&gt;&lt;p&gt;From the beginning of creation of Neural Network, one of the biggest problem was overfitting, what means weak generalization in dataset not seen during draining (it is often named as &lt;code&gt;Generalization Gap&lt;/code&gt;). Mainly it was caused by many parameters (ex. AlexNet have 60M, VGG-Net have 230M). In Machine Learning there exist a theorem that the number of parameters should be lower than number of training example, what is normally not the case when using Deep Learning. So what are the main method which enable Deep Learning achieve superior results? By using different technique to reduce overfitting, where 3 of them have the biggest impact:&lt;/p&gt;
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>BLCV - Bartosz Ludwiczuk Computer Vision</title><description>Computer Vision Blog and Consulting</description><link>http://localhost:2368/</link><image><url>http://localhost:2368/favicon.png</url><title>BLCV - Bartosz Ludwiczuk Computer Vision</title><link>http://localhost:2368/</link></image><generator>Ghost 1.15</generator><lastBuildDate>Wed, 28 Feb 2018 06:40:08 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Demystifying Face Recognition V: Data Augmentation</title><description>What are best Data-Augmentation technique which can be used for Face-Recognition?</description><link>http://localhost:2368/2018/02/27/demystifying-face-recognition-v-data-augmentation/</link><guid isPermaLink="false">5a8affd970d6352181f0afe0</guid><category>face-recogition</category><dc:creator>Bartosz Ludwiczuk</dc:creator><pubDate>Tue, 27 Feb 2018 16:56:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2018/02/data_aug_erase-1.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2018/02/data_aug_erase-1.jpg" alt="Demystifying Face Recognition V: Data Augmentation"&gt;&lt;p&gt;From the beginning of creation of Neural Network, one of the biggest problem was overfitting, what means weak generalization in dataset not seen during draining (it is often named as &lt;code&gt;Generalization Gap&lt;/code&gt;). Mainly it was caused by many parameters (ex. AlexNet have 60M, VGG-Net have 230M). In Machine Learning there exist a theorem that the number of parameters should be lower than number of training example, what is normally not the case when using Deep Learning. So what are the main method which enable Deep Learning achieve superior results? By using different technique to reduce overfitting, where 3 of them have the biggest impact:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Weight-decay: preventing weight from achieving very high values, what can cause remembering training examples&lt;/li&gt;
 &lt;li&gt;DropOut: preventing co-adaptation of features by randomly removing them&lt;/li&gt;
@@ -7,7 +7,7 @@
 &lt;p&gt;If you want to know more about first two, I advice to watch this video from &lt;a href="https://www.youtube.com/playlist?list=PLC1qU-LWwrF64f4QKQT-Vg5Wr4qEE1Zxk"&gt;Stanford University&lt;/a&gt;, they should clarify you how and why they can work. In this blog-post we will focus of the third one. But firstly some of the historical information. As most of you know, the real breakthrough in Computer Vision was caused by winning entry from Geoffrey Hinton team in ImageNet, which learn Deep Convolutional Network having 60M parameters. How they manage to do so? By preventing overfitting using DropOut and Data Augmentation. Exactly, they use Random-Crop (very powerful technique  according to many papers),  flipping image Right-Left and Random Lighting Perturbation (changing the intensities of images).  So what they do exactly? In fact, they make their dataset many times bigger what cause that network does not see same image many times. Also, it was in line with beliefs Hinton about &lt;code&gt;How does the brain works?&lt;/code&gt;, as he believed that brain are making image transformation. Referring to statement &lt;code&gt;Father of Deep Learning&lt;/code&gt;, did you see fanny video which animate his story (it was presented at NIPS conference)? If not, it is worth watching:&lt;/p&gt;
 &lt;iframe width="560" height="315" src="https://www.youtube.com/embed/mlXzufEk-2E?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen&gt;&lt;/iframe&gt;
 &lt;br&gt;
-&lt;p&gt;In next year’s the more powerful networks was designed, which also need a more powerful technique for preventing overfitting. &lt;a href="https://arxiv.org/abs/1409.4842"&gt;GoogLeNet&lt;/a&gt; does exactly that by adding Random-Scale-Crop technique (it does scale image by making it smaller or bigger with changed aspect ratio followed by Random-Crop).  As you can suppose, this is not end as researcher found this as a easy and fulfilling expectations method for getting better model. A very extreme way of checking it was done by researcher from &lt;a href="https://arxiv.org/abs/1501.02876"&gt;Baidu&lt;/a&gt;, which make use from a  large number of Data-Augmentation technique achieving best results of that time. Most of their technique include extending image perturbation by changing intensities values, but they not settle down in Deep Learning community.&lt;/p&gt;
+&lt;p&gt;In next year’s the more powerful networks was designed, which also need a more powerful technique for preventing overfitting. &lt;a href="https://arxiv.org/abs/1409.4842"&gt;GoogLeNet&lt;/a&gt; does exactly that by adding Random-Resized-Crop technique (it does scale image by making it smaller or bigger with changed aspect ratio followed by Random-Crop).  As you can suppose, this is not end as researcher found this as a easy and fulfilling expectations method for getting better model. A very extreme way of checking it was done by researcher from &lt;a href="https://arxiv.org/abs/1501.02876"&gt;Baidu&lt;/a&gt;, which make use from a  large number of Data-Augmentation technique achieving best results of that time. Most of their technique include extending image perturbation by changing intensities values, but they not settle down in Deep Learning community.&lt;/p&gt;
 &lt;p align="center"&gt;
 &lt;img alt="Demystifying Face Recognition V: Data Augmentation" src="http://localhost:2368/content/images/2018/02/baidu.png"&gt;
 &lt;/p&gt;
@@ -15,7 +15,7 @@
 &lt;ul&gt;
 &lt;li&gt;Random-Crop&lt;/li&gt;
 &lt;li&gt;Random-Flipping&lt;/li&gt;
-&lt;li&gt;Random-Scale&lt;/li&gt;
+&lt;li&gt;Random-Resized-Crop&lt;/li&gt;
 &lt;li&gt;Random-Perspective-Transformation&lt;/li&gt;
 &lt;li&gt;Random-Image-Lighting-Perturbation&lt;/li&gt;
 &lt;li&gt;Random-Image-Color-Perturbation&lt;/li&gt;
@@ -47,7 +47,7 @@ var simple= {"simple_data":[{"Idx": "00", "LFW Blufr1-Rank1": "46.39%", "LFW Blu
 &lt;/script&gt;
 &lt;body&gt;
 &lt;table id="simple" class="customers"&gt;
-  &lt;caption&gt; General DA technique Results&lt;/caption&gt;
+  &lt;caption&gt; Table 1 General DA technique Results&lt;/caption&gt;
   &lt;tr&gt;
     &lt;th onclick="w3.sortHTML('#simple', '.item', 'td:nth-child(1)')" style="cursor:pointer"&gt;Idx&lt;/th&gt;
     &lt;th onclick="w3.sortHTML('#simple', '.item', 'td:nth-child(2)')" style="cursor:pointer"&gt;Method&lt;/th&gt;
@@ -80,7 +80,7 @@ The story about &lt;code&gt;Color Perturbation&lt;/code&gt; is completely differ
 &lt;h2 id="recentlyintroducetechnique"&gt;Recently Introduce Technique&lt;/h2&gt;
 &lt;p&gt;In 2017 the two new data-based regularization technique was introduced:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://arxiv.org/abs/1708.04552"&gt;RandomErasing&lt;/a&gt; or &lt;a href="https://arxiv.org/abs/1708.04552"&gt;CutOut&lt;/a&gt;: removing the random rectangular area from image&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/abs/1708.04896"&gt;Random-Erasing&lt;/a&gt; or &lt;a href="https://arxiv.org/abs/1708.04552"&gt;CutOut&lt;/a&gt;: removing the random rectangular area from image&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://arxiv.org/abs/1710.09412"&gt;MixUp&lt;/a&gt; or &lt;a href="https://arxiv.org/abs/1801.02929"&gt;Image-Pairing&lt;/a&gt;: mixing values two images (and targets in MixUp) with each other&lt;/li&gt;
 &lt;/ul&gt;
 &lt;br&gt;
@@ -110,7 +110,7 @@ var mix= {"mix_data":[{"Idx": "00", "LFW Blufr1-Rank1": "47.55%", "LFW Blufr2-FA
 &lt;/script&gt;
 &lt;body&gt;
 &lt;table id="mix" class="customers"&gt;
-   &lt;caption&gt; Mixing/Dropping technique Results&lt;/caption&gt;
+   &lt;caption&gt; Table 2 Mixing/Dropping technique Results&lt;/caption&gt;
   &lt;tr&gt;
     &lt;th onclick="w3.sortHTML('#mix', '.item', 'td:nth-child(1)')" style="cursor:pointer"&gt;Idx&lt;/th&gt;
     &lt;th onclick="w3.sortHTML('#mix', '.item', 'td:nth-child(2)')" style="cursor:pointer"&gt;Method&lt;/th&gt;
@@ -157,7 +157,7 @@ var land= {"land_data":[{"Idx": "00", "LFW Blufr1-Rank1": "54.22%", "LFW Blufr2-
 &lt;/script&gt;
 &lt;body&gt;
 &lt;table id="land" class="customers"&gt;
-   &lt;caption&gt; Landmark-Perturbation technique Results&lt;/caption&gt; 
+   &lt;caption&gt; Table 3 Landmark-Perturbation technique Results&lt;/caption&gt; 
   &lt;tr&gt;
     &lt;th onclick="w3.sortHTML('#land', '.item', 'td:nth-child(1)')" style="cursor:pointer"&gt;Idx&lt;/th&gt;
     &lt;th onclick="w3.sortHTML('#land', '.item', 'td:nth-child(2)')" style="cursor:pointer"&gt;Method&lt;/th&gt;
@@ -194,7 +194,7 @@ var merge_da= {"customers_data":[{"Idx": "00", "LFW Blufr1-Rank1": "50.59%", "LF
 &lt;/script&gt;
 &lt;body&gt;
 &lt;table id="merge" class="customers"&gt;
-  &lt;caption&gt; Multiple DA technique Results&lt;/caption&gt;
+  &lt;caption&gt; Table 4 Multiple DA technique&lt;/caption&gt;
   &lt;tr&gt;
     &lt;th onclick="w3.sortHTML('#merge', '.item', 'td:nth-child(1)')" style="cursor:pointer"&gt;Idx&lt;/th&gt;
     &lt;th onclick="w3.sortHTML('#merge', '.item', 'td:nth-child(2)')" style="cursor:pointer"&gt;Method&lt;/th&gt;
@@ -236,7 +236,7 @@ var ijba= {"ijba_data":[{"TAR@FAR 0.01%": "53.04±5.37", "TAR@FAR 0.1%": "71.90�
 &lt;/script&gt;
 &lt;body&gt;
 &lt;table id="ijba" class="customers"&gt;
-    &lt;caption&gt; IJBA-A Results&lt;/caption&gt;
+    &lt;caption&gt; Table 5 IJBA-A Results&lt;/caption&gt;
   &lt;tr&gt;
     &lt;th onclick="w3.sortHTML('#ijba', '.item', 'td:nth-child(1)')" style="cursor:pointer"&gt;Method&lt;/th&gt;
     &lt;th onclick="w3.sortHTML('#ijba', '.item', 'td:nth-child(2)')" style="cursor:pointer"&gt;TAR@FAR 0.01%&lt;/th&gt;
@@ -270,7 +270,7 @@ var megaface= {"megaface_data":[{"Method": "Flip-linear_dropout", "Rank-1": "53.
 &lt;/script&gt;
 &lt;body&gt;
 &lt;table id="megaface" class="customers"&gt;
-   &lt;caption&gt; MegaFace Results&lt;/caption&gt;
+   &lt;caption&gt; Table 6 MegaFace Results&lt;/caption&gt;
   &lt;tr&gt;
     &lt;th onclick="w3.sortHTML('#megaface', '.item', 'td:nth-child(1)')" style="cursor:pointer"&gt;Method&lt;/th&gt;
     &lt;th onclick="w3.sortHTML('#megaface', '.item', 'td:nth-child(2)')" style="cursor:pointer"&gt;Rank-1&lt;/th&gt;
@@ -304,7 +304,7 @@ var megaface= {"megaface_data":[{"Method": "Flip-linear_dropout", "Rank-1": "53.
 &lt;img alt="Demystifying Face Recognition V: Data Augmentation" src="http://localhost:2368/content/images/2018/02/last_layer.jpg" width="500" height="380"&gt;
 &lt;/p&gt;
 &lt;p&gt;Optimizing the final accuracy, we are doesn't care us much about &lt;code&gt;pre-final-layer&lt;/code&gt;, it is optimized in similar fashion like other layer despite the fast it is most importart part of all model. This is why currenty is visible trend in &lt;code&gt;Face Recognition, Image Retrival&lt;/code&gt; technology to create task related loss functions, like mentioned several time &lt;a href="https://ydwen.github.io/papers/WenECCV16.pdf"&gt;CenterLoss&lt;/a&gt; or &lt;a href="http://yann.lecun.com/exdb/publis/pdf/chopra-05.pdf"&gt;Contrastive loss&lt;/a&gt;, because they directly interact with final representation of model. We will more about this topic in future blog-post, but we just want to give brief overview of our doubts in general arguments, which we already know.&lt;/p&gt;
-&lt;p&gt;However, the main topic of this section should be the new findings from series of experiments. Generally, in contrast to our &lt;a href="http://blcv.pl/static/2017/11/08/demystifying-face-recognition-ii-baseline/"&gt;baselie experiments&lt;/a&gt;, where more powerfull structure provide better Accuray and Representation, in our experiments is was not always the truth. Generally, the biggest problem occur with using Mixing/Dropping technology, which was providing deformed face to models. From our experiments here better final Accuracy doesn't mean always better Representation. Let's analyse relation between &lt;code&gt;Validation Accuracy&lt;/code&gt; and &lt;code&gt;LFW&lt;/code&gt; score.&lt;/p&gt;
+&lt;p&gt;However, the main topic of this section should be the new findings from series of experiments. Generally, in contrast to our &lt;a href="http://blcv.pl/static/2017/11/08/demystifying-face-recognition-ii-baseline/"&gt;baseline experiments&lt;/a&gt;, where more powerfull structure provide better Accuray and Representation, in our experiments is was not always the truth. Generally, the biggest problem occur with using Mixing/Dropping technology, which was providing deformed face to models. From our experiments here better final Accuracy doesn't mean always better Representation. Let's analyse relation between &lt;code&gt;Validation Accuracy&lt;/code&gt; and &lt;code&gt;LFW&lt;/code&gt; score.&lt;/p&gt;
 &lt;p align="center"&gt;
 &lt;img alt="Demystifying Face Recognition V: Data Augmentation" src="http://localhost:2368/content/images/2018/02/blog5-feature-depend.png" width="500" height="500"&gt;
 &lt;/p&gt;
@@ -324,7 +324,7 @@ var megaface= {"megaface_data":[{"Method": "Flip-linear_dropout", "Rank-1": "53.
     &lt;td&gt;0.79&lt;/td&gt;
     &lt;td&gt;0.86&lt;/td&gt;
   &lt;/tr&gt;
-   &lt;caption&gt; Table Correlation Val Acc vs LFW&lt;/caption&gt;
+   &lt;caption&gt; Table 7 Correlation Val Acc vs LFW&lt;/caption&gt;
 &lt;/table&gt;
 &lt;p&gt;Looking into chart, there is general trend of having higher &lt;code&gt;LFW&lt;/code&gt; score with higher &lt;code&gt;Validation Accuracy&lt;/code&gt;. In the other hand when we look closer into chart categories and also correlation values, something unusual can be spotted: &lt;code&gt;Color&lt;/code&gt; and &lt;code&gt;Mix/Drop&lt;/code&gt; transformation have weaker effect on &lt;code&gt;LFW&lt;/code&gt; score than other kind of transformation. So we can deduce, that &lt;code&gt;Feature Representation&lt;/code&gt; is also less powerful compared to &lt;code&gt;Affine&lt;/code&gt; technique having same &lt;code&gt;Validation Accuracy&lt;/code&gt;. What does it mean? We are not able to make any clear statement, however look like using distorted/unnatural input image like a training example makes features of normal images less representative. But what if we would test such method in much harder environment, like video-input, as &lt;code&gt;LFW&lt;/code&gt; images are really nice. In contrast, &lt;code&gt;IJBA-A&lt;/code&gt; also use frames from video for testing. This is why we conduct several experiment to see if maybe this benchmark show us different &lt;code&gt;trendline&lt;/code&gt; for our dubious quality methods. We use &lt;code&gt;Flip-landmark_05-crop20&lt;/code&gt; as a baseline.&lt;/p&gt;
 &lt;!DOCTYPE html&gt;
@@ -339,7 +339,7 @@ var ijba_feat= {"ijba_feat_data":[{"TAR@FAR 0.01%": "51.68±6.61", "TAR@FAR 0.1%
 &lt;/script&gt;
 &lt;body&gt;
 &lt;table id="ijba_feat" class="customers"&gt;
-    &lt;caption&gt; IJBA-A Results&lt;/caption&gt;
+    &lt;caption&gt; Table 8 IJBA-A Results&lt;/caption&gt;
   &lt;tr&gt;
     &lt;th onclick="w3.sortHTML('#ijba_feat', '.item', 'td:nth-child(1)')" style="cursor:pointer"&gt;Method&lt;/th&gt;
     &lt;th onclick="w3.sortHTML('#ijba_feat', '.item', 'td:nth-child(2)')" style="cursor:pointer"&gt;TAR@FAR 0.01%&lt;/th&gt;

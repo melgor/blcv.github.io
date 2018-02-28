@@ -7,8 +7,8 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" type="text/css" href="../../../../assets/css/styles.min.css?v=48a2bf87a9">
-    <link rel="stylesheet" type="text/css" href="../../../../assets/css/vendors.min.css?v=48a2bf87a9">
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/styles.min.css?v=88e37dc47c">
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/vendors.min.css?v=88e37dc47c">
 
     
 
@@ -29,14 +29,14 @@
     <meta property="og:url" content="http://localhost:2368/2018/02/27/demystifying-face-recognition-v-data-augmentation/">
     <meta property="og:image" content="http://localhost:2368/content/images/2018/02/baidu-1.png">
     <meta property="article:published_time" content="2018-02-27T16:56:00.000Z">
-    <meta property="article:modified_time" content="2018-02-27T18:31:34.000Z">
+    <meta property="article:modified_time" content="2018-02-28T06:39:22.000Z">
     <meta property="article:tag" content="face-recogition">
     
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Demystifying Face Recognition V: Data Augmentation">
     <meta name="twitter:description" content="What are best Data-Augmentation technique which can be used for Face-Recognition?">
     <meta name="twitter:url" content="http://localhost:2368/2018/02/27/demystifying-face-recognition-v-data-augmentation/">
-    <meta name="twitter:image" content="http://localhost:2368/content/images/2018/02/blog_5_mixup-1.jpg">
+    <meta name="twitter:image" content="http://localhost:2368/content/images/2018/02/data_aug_erase-1.jpg">
     <meta name="twitter:label1" content="Written by">
     <meta name="twitter:data1" content="Bartosz Ludwiczuk">
     <meta name="twitter:label2" content="Filed under">
@@ -62,12 +62,12 @@
     "headline": "Demystifying Face Recognition V: Data Augmentation",
     "url": "http://localhost:2368/2018/02/27/demystifying-face-recognition-v-data-augmentation/",
     "datePublished": "2018-02-27T16:56:00.000Z",
-    "dateModified": "2018-02-27T18:31:34.000Z",
+    "dateModified": "2018-02-28T06:39:22.000Z",
     "image": {
         "@type": "ImageObject",
-        "url": "http://localhost:2368/content/images/2018/02/blog_5_mixup-1.jpg",
-        "width": 895,
-        "height": 659
+        "url": "http://localhost:2368/content/images/2018/02/data_aug_erase-1.jpg",
+        "width": 1266,
+        "height": 948
     },
     "keywords": "face-recogition",
     "description": "Data Augmentation for Face Recognition",
@@ -78,7 +78,7 @@
 }
     </script>
 
-    <script type="text/javascript" src="../../../../public/ghost-sdk.js?v=48a2bf87a9"></script>
+    <script type="text/javascript" src="../../../../public/ghost-sdk.js?v=88e37dc47c"></script>
 <script type="text/javascript">
 ghost.init({
 	clientId: "ghost-frontend",
@@ -258,7 +258,7 @@ td {
             <article class="post tag-face-recogition featured">
 
                 <header class="post-header">
-                        <figure class="image-feature"><img src="../../../../content/images/2018/02/blog_5_mixup-1.jpg"></figure>
+                        <figure class="image-feature"><img src="../../../../content/images/2018/02/data_aug_erase-1.jpg"></figure>
 
                     <div class="post-heading">
                         <h1 class="post-title">Demystifying Face Recognition V: Data Augmentation</h1>
@@ -278,7 +278,7 @@ td {
 <p>If you want to know more about first two, I advice to watch this video from <a href="https://www.youtube.com/playlist?list=PLC1qU-LWwrF64f4QKQT-Vg5Wr4qEE1Zxk">Stanford University</a>, they should clarify you how and why they can work. In this blog-post we will focus of the third one. But firstly some of the historical information. As most of you know, the real breakthrough in Computer Vision was caused by winning entry from Geoffrey Hinton team in ImageNet, which learn Deep Convolutional Network having 60M parameters. How they manage to do so? By preventing overfitting using DropOut and Data Augmentation. Exactly, they use Random-Crop (very powerful technique  according to many papers),  flipping image Right-Left and Random Lighting Perturbation (changing the intensities of images).  So what they do exactly? In fact, they make their dataset many times bigger what cause that network does not see same image many times. Also, it was in line with beliefs Hinton about <code>How does the brain works?</code>, as he believed that brain are making image transformation. Referring to statement <code>Father of Deep Learning</code>, did you see fanny video which animate his story (it was presented at NIPS conference)? If not, it is worth watching:</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/mlXzufEk-2E?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 <br>
-<p>In next year’s the more powerful networks was designed, which also need a more powerful technique for preventing overfitting. <a href="https://arxiv.org/abs/1409.4842">GoogLeNet</a> does exactly that by adding Random-Scale-Crop technique (it does scale image by making it smaller or bigger with changed aspect ratio followed by Random-Crop).  As you can suppose, this is not end as researcher found this as a easy and fulfilling expectations method for getting better model. A very extreme way of checking it was done by researcher from <a href="https://arxiv.org/abs/1501.02876">Baidu</a>, which make use from a  large number of Data-Augmentation technique achieving best results of that time. Most of their technique include extending image perturbation by changing intensities values, but they not settle down in Deep Learning community.</p>
+<p>In next year’s the more powerful networks was designed, which also need a more powerful technique for preventing overfitting. <a href="https://arxiv.org/abs/1409.4842">GoogLeNet</a> does exactly that by adding Random-Resized-Crop technique (it does scale image by making it smaller or bigger with changed aspect ratio followed by Random-Crop).  As you can suppose, this is not end as researcher found this as a easy and fulfilling expectations method for getting better model. A very extreme way of checking it was done by researcher from <a href="https://arxiv.org/abs/1501.02876">Baidu</a>, which make use from a  large number of Data-Augmentation technique achieving best results of that time. Most of their technique include extending image perturbation by changing intensities values, but they not settle down in Deep Learning community.</p>
 <p align="center">
 <img alt="Baidu Transformation, Deep Image: Scaling up Image Recognition" src="../../../../content/images/2018/02/baidu.png">
 </p>
@@ -286,7 +286,7 @@ td {
 <ul>
 <li>Random-Crop</li>
 <li>Random-Flipping</li>
-<li>Random-Scale</li>
+<li>Random-Resized-Crop</li>
 <li>Random-Perspective-Transformation</li>
 <li>Random-Image-Lighting-Perturbation</li>
 <li>Random-Image-Color-Perturbation</li>
@@ -318,7 +318,7 @@ var simple= {"simple_data":[{"Idx": "00", "LFW Blufr1-Rank1": "46.39%", "LFW Blu
 </script>
 
 <table id="simple" class="customers">
-  <caption> General DA technique Results</caption>
+  <caption> Table 1 General DA technique Results</caption>
   <tr>
     <th onclick="w3.sortHTML('#simple', '.item', 'td:nth-child(1)')" style="cursor:pointer">Idx</th>
     <th onclick="w3.sortHTML('#simple', '.item', 'td:nth-child(2)')" style="cursor:pointer">Method</th>
@@ -351,7 +351,7 @@ The story about <code>Color Perturbation</code> is completely different. Here ha
 <h2 id="recentlyintroducetechnique">Recently Introduce Technique</h2>
 <p>In 2017 the two new data-based regularization technique was introduced:</p>
 <ul>
-<li><a href="https://arxiv.org/abs/1708.04552">RandomErasing</a> or <a href="https://arxiv.org/abs/1708.04552">CutOut</a>: removing the random rectangular area from image</li>
+<li><a href="https://arxiv.org/abs/1708.04896">Random-Erasing</a> or <a href="https://arxiv.org/abs/1708.04552">CutOut</a>: removing the random rectangular area from image</li>
 <li><a href="https://arxiv.org/abs/1710.09412">MixUp</a> or <a href="https://arxiv.org/abs/1801.02929">Image-Pairing</a>: mixing values two images (and targets in MixUp) with each other</li>
 </ul>
 <br>
@@ -381,7 +381,7 @@ var mix= {"mix_data":[{"Idx": "00", "LFW Blufr1-Rank1": "47.55%", "LFW Blufr2-FA
 </script>
 
 <table id="mix" class="customers">
-   <caption> Mixing/Dropping technique Results</caption>
+   <caption> Table 2 Mixing/Dropping technique Results</caption>
   <tr>
     <th onclick="w3.sortHTML('#mix', '.item', 'td:nth-child(1)')" style="cursor:pointer">Idx</th>
     <th onclick="w3.sortHTML('#mix', '.item', 'td:nth-child(2)')" style="cursor:pointer">Method</th>
@@ -428,7 +428,7 @@ var land= {"land_data":[{"Idx": "00", "LFW Blufr1-Rank1": "54.22%", "LFW Blufr2-
 </script>
 
 <table id="land" class="customers">
-   <caption> Landmark-Perturbation technique Results</caption> 
+   <caption> Table 3 Landmark-Perturbation technique Results</caption> 
   <tr>
     <th onclick="w3.sortHTML('#land', '.item', 'td:nth-child(1)')" style="cursor:pointer">Idx</th>
     <th onclick="w3.sortHTML('#land', '.item', 'td:nth-child(2)')" style="cursor:pointer">Method</th>
@@ -465,7 +465,7 @@ var merge_da= {"customers_data":[{"Idx": "00", "LFW Blufr1-Rank1": "50.59%", "LF
 </script>
 
 <table id="merge" class="customers">
-  <caption> Multiple DA technique Results</caption>
+  <caption> Table 4 Multiple DA technique</caption>
   <tr>
     <th onclick="w3.sortHTML('#merge', '.item', 'td:nth-child(1)')" style="cursor:pointer">Idx</th>
     <th onclick="w3.sortHTML('#merge', '.item', 'td:nth-child(2)')" style="cursor:pointer">Method</th>
@@ -507,7 +507,7 @@ var ijba= {"ijba_data":[{"TAR@FAR 0.01%": "53.04±5.37", "TAR@FAR 0.1%": "71.90�
 </script>
 
 <table id="ijba" class="customers">
-    <caption> IJBA-A Results</caption>
+    <caption> Table 5 IJBA-A Results</caption>
   <tr>
     <th onclick="w3.sortHTML('#ijba', '.item', 'td:nth-child(1)')" style="cursor:pointer">Method</th>
     <th onclick="w3.sortHTML('#ijba', '.item', 'td:nth-child(2)')" style="cursor:pointer">TAR@FAR 0.01%</th>
@@ -541,7 +541,7 @@ var megaface= {"megaface_data":[{"Method": "Flip-linear_dropout", "Rank-1": "53.
 </script>
 
 <table id="megaface" class="customers">
-   <caption> MegaFace Results</caption>
+   <caption> Table 6 MegaFace Results</caption>
   <tr>
     <th onclick="w3.sortHTML('#megaface', '.item', 'td:nth-child(1)')" style="cursor:pointer">Method</th>
     <th onclick="w3.sortHTML('#megaface', '.item', 'td:nth-child(2)')" style="cursor:pointer">Rank-1</th>
@@ -575,7 +575,7 @@ var megaface= {"megaface_data":[{"Method": "Flip-linear_dropout", "Rank-1": "53.
 <img alt="Testing Face Recognition model" src="../../../../content/images/2018/02/last_layer.jpg" width="500" height="380">
 </p>
 <p>Optimizing the final accuracy, we are doesn't care us much about <code>pre-final-layer</code>, it is optimized in similar fashion like other layer despite the fast it is most importart part of all model. This is why currenty is visible trend in <code>Face Recognition, Image Retrival</code> technology to create task related loss functions, like mentioned several time <a href="https://ydwen.github.io/papers/WenECCV16.pdf">CenterLoss</a> or <a href="http://yann.lecun.com/exdb/publis/pdf/chopra-05.pdf">Contrastive loss</a>, because they directly interact with final representation of model. We will more about this topic in future blog-post, but we just want to give brief overview of our doubts in general arguments, which we already know.</p>
-<p>However, the main topic of this section should be the new findings from series of experiments. Generally, in contrast to our <a href="http://blcv.pl/static/2017/11/08/demystifying-face-recognition-ii-baseline/">baselie experiments</a>, where more powerfull structure provide better Accuray and Representation, in our experiments is was not always the truth. Generally, the biggest problem occur with using Mixing/Dropping technology, which was providing deformed face to models. From our experiments here better final Accuracy doesn't mean always better Representation. Let's analyse relation between <code>Validation Accuracy</code> and <code>LFW</code> score.</p>
+<p>However, the main topic of this section should be the new findings from series of experiments. Generally, in contrast to our <a href="http://blcv.pl/static/2017/11/08/demystifying-face-recognition-ii-baseline/">baseline experiments</a>, where more powerfull structure provide better Accuray and Representation, in our experiments is was not always the truth. Generally, the biggest problem occur with using Mixing/Dropping technology, which was providing deformed face to models. From our experiments here better final Accuracy doesn't mean always better Representation. Let's analyse relation between <code>Validation Accuracy</code> and <code>LFW</code> score.</p>
 <p align="center">
 <img alt="Trend Validation Accuracy vs LFW" src="../../../../content/images/2018/02/blog5-feature-depend.png" width="500" height="500">
 </p>
@@ -595,7 +595,7 @@ var megaface= {"megaface_data":[{"Method": "Flip-linear_dropout", "Rank-1": "53.
     <td>0.79</td>
     <td>0.86</td>
   </tr>
-   <caption> Table Correlation Val Acc vs LFW</caption>
+   <caption> Table 7 Correlation Val Acc vs LFW</caption>
 </table>
 <p>Looking into chart, there is general trend of having higher <code>LFW</code> score with higher <code>Validation Accuracy</code>. In the other hand when we look closer into chart categories and also correlation values, something unusual can be spotted: <code>Color</code> and <code>Mix/Drop</code> transformation have weaker effect on <code>LFW</code> score than other kind of transformation. So we can deduce, that <code>Feature Representation</code> is also less powerful compared to <code>Affine</code> technique having same <code>Validation Accuracy</code>. What does it mean? We are not able to make any clear statement, however look like using distorted/unnatural input image like a training example makes features of normal images less representative. But what if we would test such method in much harder environment, like video-input, as <code>LFW</code> images are really nice. In contrast, <code>IJBA-A</code> also use frames from video for testing. This is why we conduct several experiment to see if maybe this benchmark show us different <code>trendline</code> for our dubious quality methods. We use <code>Flip-landmark_05-crop20</code> as a baseline.</p>
 
@@ -610,7 +610,7 @@ var ijba_feat= {"ijba_feat_data":[{"TAR@FAR 0.01%": "51.68±6.61", "TAR@FAR 0.1%
 </script>
 
 <table id="ijba_feat" class="customers">
-    <caption> IJBA-A Results</caption>
+    <caption> Table 8 IJBA-A Results</caption>
   <tr>
     <th onclick="w3.sortHTML('#ijba_feat', '.item', 'td:nth-child(1)')" style="cursor:pointer">Method</th>
     <th onclick="w3.sortHTML('#ijba_feat', '.item', 'td:nth-child(2)')" style="cursor:pointer">TAR@FAR 0.01%</th>
@@ -703,7 +703,7 @@ Here we would like to mention about last topic related to measurement of <code>Q
         <li class="clearfix">
             <div class="clearfix">
                  <div class="featured-image">
-                     <a href="index.html" class="thumbnail"><img src="../../../../content/images/2018/02/blog_5_mixup-1.jpg?w=80&amp;q=50"></a>
+                     <a href="index.html" class="thumbnail"><img src="../../../../content/images/2018/02/data_aug_erase-1.jpg?w=80&amp;q=50"></a>
                  </div>
                 <div class="featured-title">
                     <a href="index.html">Demystifying Face Recognition V: Data Augmentation</a>
@@ -778,10 +778,10 @@ Here we would like to mention about last topic related to measurement of <code>Q
     <div class="reveal" id="reveal-search">
     <div id="results"></div>
 </div>
-    <script src="../../../../assets/js/vendors.min.js?v=48a2bf87a9"></script>
-    <script src="../../../../assets/js/main.min.js?v=48a2bf87a9"></script>
+    <script src="../../../../assets/js/vendors.min.js?v=88e37dc47c"></script>
+    <script src="../../../../assets/js/main.min.js?v=88e37dc47c"></script>
 
-        <script src="../../../../assets/js/prism.min.js?v=48a2bf87a9"></script>
+        <script src="../../../../assets/js/prism.min.js?v=88e37dc47c"></script>
 
 
     <script>
